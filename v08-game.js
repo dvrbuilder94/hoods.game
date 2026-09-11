@@ -1,64 +1,22 @@
-// Hoods v0.8.2 PURE migration scene — richer classic MMORPG town composition.
+// Hoods v0.8.4 — character animation pass on the pure art migration.
 (() => {
 class V08Scene extends Phaser.Scene{
-  constructor(){super('V08Scene');this.touch={up:false,down:false,left:false,right:false};this.dir='down';this.phase=0}
-  preload(){
-    const a='assets/v08/';
-    this.load.svg('grass',a+'tile-grass.svg');this.load.svg('cobble',a+'tile-cobble.svg');
-    ['tree','fountain','lamp','banner','barrel'].forEach(k=>this.load.svg(k,a+`prop-${k}.svg`));
-    this.load.svg('bank',a+'building-bank.svg');this.load.svg('inn',a+'building-inn.svg');this.load.svg('shop',a+'building-shop.svg');
-    ['down','up','left','right'].forEach(d=>this.load.svg('hood-'+d,a+'hood-'+d+'.svg'));
-  }
-  create(){
-    const W=1280,H=960;this.physics.world.setBounds(0,0,W,H);this.cameras.main.setBounds(0,0,W,H);this.cameras.main.setBackgroundColor('#24341f');
-    for(let y=0;y<H;y+=32)for(let x=0;x<W;x+=32)this.add.image(x+16,y+16,'grass').setDepth(0);
-    const tile=(x0,y0,x1,y1)=>{for(let y=y0;y<y1;y+=32)for(let x=x0;x<x1;x+=32)this.add.image(x+16,y+16,'cobble').setDepth(.2)};
-    tile(470,0,810,960);tile(0,360,1280,650);tile(320,240,960,780);
-
-    // Water channels + docks give the town a real place identity.
-    const water=this.add.graphics().setDepth(.12);water.fillStyle(0x2b6282,1);water.fillRoundedRect(0,760,310,200,12);water.fillRoundedRect(970,760,310,200,12);water.lineStyle(2,0x5797b4,.7);
-    for(let y=778;y<950;y+=24){water.beginPath();water.moveTo(0,y);water.lineTo(310,y+6);water.strokePath();water.beginPath();water.moveTo(970,y+5);water.lineTo(1280,y);water.strokePath()}
-    const bridge=(x,y)=>{const g=this.add.graphics().setDepth(y/10+8);g.fillStyle(0x5a402b,1).fillRect(x-58,y-24,116,48);for(let i=-48;i<=48;i+=16)g.fillStyle(i%32?0x7d5838:0x6b492f,1).fillRect(x+i,y-22,12,44);g.lineStyle(3,0x30241c,1).strokeRect(x-58,y-24,116,48)};
-    bridge(245,805);bridge(1035,805);
-
-    // Buildings ring the square.
-    this.add.image(250,325,'inn').setOrigin(.5,1).setDepth(32).setScale(1.1);
-    this.add.image(640,250,'bank').setOrigin(.5,1).setDepth(30).setScale(1.12);
-    this.add.image(1030,325,'shop').setOrigin(.5,1).setDepth(32).setScale(1.1);
-
-    // Central fountain and garden beds.
-    this.add.image(640,545,'fountain').setDepth(56).setScale(1.08);
-    const garden=(x,y,w,h)=>{const g=this.add.graphics().setDepth(y/10);g.fillStyle(0x395c31,1).fillRoundedRect(x,y,w,h,8);g.lineStyle(3,0x6a6250,1).strokeRoundedRect(x,y,w,h,8);for(let yy=y+9;yy<y+h-5;yy+=16)for(let xx=x+10;xx<x+w-5;xx+=18){const cols=[0xd46a58,0xe0bd58,0xb982b8,0xf2dfb2];g.fillStyle(cols[(xx+yy)%4],1).fillCircle(xx,yy,2.5)}};
-    garden(485,470,90,42);garden(705,470,90,42);garden(485,625,90,36);garden(705,625,90,36);
-
-    // Dense greenery and town dressing.
-    [[95,175],[1185,175],[105,790],[1175,790],[340,155],[940,155],[300,820],[980,820],[165,500],[1115,500],[430,745],[850,745]].forEach(([x,y])=>this.add.image(x,y,'tree').setOrigin(.5,.88).setDepth(y/10));
-    [[455,402],[825,402],[455,675],[825,675],[365,300],[915,300]].forEach(([x,y])=>this.add.image(x,y,'lamp').setOrigin(.5,1).setDepth(y/10+12));
-    [[410,330],[870,330]].forEach(([x,y])=>this.add.image(x,y,'banner').setOrigin(.5,1).setDepth(y/10+9));
-    [[335,690],[930,690],[180,690],[1085,690],[315,355],[965,355]].forEach(([x,y])=>this.add.image(x,y,'barrel').setOrigin(.5,1).setDepth(y/10+8));
-
-    // Market corner.
-    const stall=this.add.graphics().setDepth(54);stall.fillStyle(0x60442f,1).fillRect(130,560,150,70);for(let i=0;i<5;i++)stall.fillStyle(i%2?0xe8dfc5:0x5573a0,1).fillRect(130+i*30,540,30,22);stall.lineStyle(3,0x34261d,1).strokeRect(130,560,150,70);
-    this.add.text(205,572,'MARKET',{fontFamily:'Georgia,serif',fontSize:'13px',color:'#f0d79d',fontStyle:'bold',stroke:'#2c2119',strokeThickness:3}).setOrigin(.5).setDepth(60);
-
-    // NPCs around the square with varied silhouettes/colors.
-    this.npc(255,380,'Sara',0x8f6c56,'#e4b08f');this.npc(640,315,'Thorn',0x53675f,'#c18a68');this.npc(1030,385,'Bram',0x6b4c39,'#b87552');this.npc(930,615,'Mara',0x5d3e3b,'#c58a67',true);this.npc(390,485,'Guard',0x334f75,'#d3a17b');this.npc(830,425,'Trader',0x765c3c,'#c9966d');this.npc(205,635,'Merchant',0x4d6c45,'#d0a17b');
-
-    // Player.
-    this.player=this.physics.add.sprite(640,690,'hood-down').setDepth(70).setScale(.95).setCollideWorldBounds(true);this.player.body.setSize(24,32).setOffset(12,24);
-    this.name=this.add.text(640,643,'Hoods',{fontFamily:'Georgia,serif',fontSize:'13px',color:'#b9ef5a',fontStyle:'bold',stroke:'#162016',strokeThickness:3}).setOrigin(.5).setDepth(200);
-    this.cameras.main.startFollow(this.player,true,.08,.08);this.setCameraZoom();this.cameras.main.setRoundPixels(true);this.scale.on('resize',()=>this.setCameraZoom());
-    this.keys=this.input.keyboard.addKeys('W,A,S,D');this.cursors=this.input.keyboard.createCursorKeys();this.bindTouch();
-
-    // Minimal in-game HUD closer to an RPG, not a prototype label.
-    this.add.text(14,14,'Hoods',{fontFamily:'Georgia,serif',fontSize:'21px',color:'#f1d89e',fontStyle:'bold',stroke:'#111',strokeThickness:4}).setScrollFactor(0).setDepth(500);
-    this.add.text(14,46,'HP 125 / 125',{fontFamily:'monospace',fontSize:'10px',color:'#fff',backgroundColor:'#6a211f',padding:{x:7,y:4}}).setScrollFactor(0).setDepth(500);
-    this.add.text(14,70,'HOODS TOWN · v0.8.2',{fontFamily:'monospace',fontSize:'9px',color:'#b9ef5a',backgroundColor:'#11140dcc',padding:{x:6,y:4}}).setScrollFactor(0).setDepth(500);
-  }
-  setCameraZoom(){const w=this.scale.width;this.cameras.main.setZoom(w<500?.66:w<800?.78:1.0)}
-  npc(x,y,label,color,skin,quest=false){const c=this.add.container(x,y).setDepth(y/10+25);c.add(this.add.ellipse(0,18,24,7,0x111111,.27));c.add(this.add.rectangle(0,6,20,29,color).setStrokeStyle(2,0x2a241f));c.add(this.add.rectangle(-8,6,5,20,color).setStrokeStyle(1,0x2a241f));c.add(this.add.rectangle(8,6,5,20,color).setStrokeStyle(1,0x2a241f));c.add(this.add.circle(0,-12,8,Phaser.Display.Color.HexStringToColor(skin).color).setStrokeStyle(2,0x2a241f));c.add(this.add.rectangle(0,-19,17,5,0x392d26));c.add(this.add.text(0,-36,label,{fontFamily:'Georgia,serif',fontSize:'11px',color:'#f0dfb8',fontStyle:'bold',stroke:'#181818',strokeThickness:3}).setOrigin(.5));if(quest)c.add(this.add.text(0,-56,'!',{fontFamily:'Georgia,serif',fontSize:'23px',color:'#ffd447',fontStyle:'bold',stroke:'#36250a',strokeThickness:3}).setOrigin(.5));return c}
-  bindTouch(){document.querySelectorAll('[data-move]').forEach(btn=>{const d=btn.dataset.move,on=e=>{e.preventDefault();e.stopPropagation();this.touch[d]=true;btn.classList.add('active')},off=e=>{e.preventDefault();e.stopPropagation();this.touch[d]=false;btn.classList.remove('active')};btn.addEventListener('pointerdown',on);['pointerup','pointercancel','pointerleave'].forEach(ev=>btn.addEventListener(ev,off))});window.addEventListener('blur',()=>Object.keys(this.touch).forEach(k=>this.touch[k]=false))}
-  update(_,delta){let dx=0,dy=0;if(this.cursors.left.isDown||this.keys.A.isDown||this.touch.left)dx--;if(this.cursors.right.isDown||this.keys.D.isDown||this.touch.right)dx++;if(this.cursors.up.isDown||this.keys.W.isDown||this.touch.up)dy--;if(this.cursors.down.isDown||this.keys.S.isDown||this.touch.down)dy++;if(dx||dy){const l=Math.hypot(dx,dy);dx/=l;dy/=l;if(Math.abs(dx)>Math.abs(dy))this.dir=dx<0?'left':'right';else this.dir=dy<0?'up':'down'}const sp=170;this.player.setVelocity(dx*sp,dy*sp);this.player.setTexture('hood-'+this.dir);if(dx||dy){this.phase+=delta/1000*11;this.player.setScale(.95,.95+Math.sin(this.phase)*.02)}else this.player.setScale(.95);this.player.setDepth(this.player.y/10+35);this.name.setPosition(this.player.x,this.player.y-43).setDepth(this.player.depth+1)}
+ constructor(){super('V08Scene');this.touch={up:false,down:false,left:false,right:false};this.dir='down';this.phase=0;this.walkFrame=0;this.lastFrame=0}
+ preload(){const a='assets/v08/';this.load.svg('grass',a+'tile-grass.svg');this.load.svg('cobble',a+'tile-cobble.svg');['tree','fountain','lamp','banner','barrel'].forEach(k=>this.load.svg(k,a+`prop-${k}.svg`));this.load.svg('bank',a+'building-bank.svg');this.load.svg('inn',a+'building-inn.svg');this.load.svg('shop',a+'building-shop.svg');['down','up','left','right'].forEach(d=>this.load.svg('hood-'+d,a+'hood-'+d+'.svg'))}
+ create(){const W=1280,H=960;this.physics.world.setBounds(0,0,W,H);this.cameras.main.setBounds(0,0,W,H);this.cameras.main.setBackgroundColor('#24341f');for(let y=0;y<H;y+=32)for(let x=0;x<W;x+=32)this.add.image(x+16,y+16,'grass').setDepth(0);const tile=(x0,y0,x1,y1)=>{for(let y=y0;y<y1;y+=32)for(let x=x0;x<x1;x+=32)this.add.image(x+16,y+16,'cobble').setDepth(.2)};tile(470,0,810,960);tile(0,360,1280,650);tile(320,240,960,780);
+ const water=this.add.graphics().setDepth(.12);water.fillStyle(0x2b6282,1).fillRoundedRect(0,760,310,200,12).fillRoundedRect(970,760,310,200,12);water.lineStyle(2,0x5797b4,.7);for(let y=778;y<950;y+=24){water.beginPath();water.moveTo(0,y);water.lineTo(310,y+6);water.strokePath();water.beginPath();water.moveTo(970,y+5);water.lineTo(1280,y);water.strokePath()}const bridge=(x,y)=>{const g=this.add.graphics().setDepth(y/10+8);g.fillStyle(0x5a402b,1).fillRect(x-58,y-24,116,48);for(let i=-48;i<=48;i+=16)g.fillStyle(i%32?0x7d5838:0x6b492f,1).fillRect(x+i,y-22,12,44);g.lineStyle(3,0x30241c,1).strokeRect(x-58,y-24,116,48)};bridge(245,805);bridge(1035,805);
+ this.add.image(250,325,'inn').setOrigin(.5,1).setDepth(32).setScale(1.1);this.add.image(640,250,'bank').setOrigin(.5,1).setDepth(30).setScale(1.12);this.add.image(1030,325,'shop').setOrigin(.5,1).setDepth(32).setScale(1.1);this.add.image(640,545,'fountain').setDepth(56).setScale(1.08);
+ const garden=(x,y,w,h)=>{const g=this.add.graphics().setDepth(y/10);g.fillStyle(0x395c31,1).fillRoundedRect(x,y,w,h,8);g.lineStyle(3,0x6a6250,1).strokeRoundedRect(x,y,w,h,8);for(let yy=y+9;yy<y+h-5;yy+=16)for(let xx=x+10;xx<x+w-5;xx+=18){const cols=[0xd46a58,0xe0bd58,0xb982b8,0xf2dfb2];g.fillStyle(cols[(xx+yy)%4],1).fillCircle(xx,yy,2.5)}};garden(485,470,90,42);garden(705,470,90,42);garden(485,625,90,36);garden(705,625,90,36);
+ [[95,175],[1185,175],[105,790],[1175,790],[340,155],[940,155],[300,820],[980,820],[165,500],[1115,500],[430,745],[850,745]].forEach(([x,y])=>this.add.image(x,y,'tree').setOrigin(.5,.88).setDepth(y/10));[[455,402],[825,402],[455,675],[825,675],[365,300],[915,300]].forEach(([x,y])=>this.add.image(x,y,'lamp').setOrigin(.5,1).setDepth(y/10+12));[[410,330],[870,330]].forEach(([x,y])=>this.add.image(x,y,'banner').setOrigin(.5,1).setDepth(y/10+9));[[335,690],[930,690],[180,690],[1085,690],[315,355],[965,355]].forEach(([x,y])=>this.add.image(x,y,'barrel').setOrigin(.5,1).setDepth(y/10+8));
+ const stall=this.add.graphics().setDepth(54);stall.fillStyle(0x60442f,1).fillRect(130,560,150,70);for(let i=0;i<5;i++)stall.fillStyle(i%2?0xe8dfc5:0x5573a0,1).fillRect(130+i*30,540,30,22);stall.lineStyle(3,0x34261d,1).strokeRect(130,560,150,70);this.add.text(205,572,'MARKET',{fontFamily:'Georgia,serif',fontSize:'13px',color:'#f0d79d',fontStyle:'bold',stroke:'#2c2119',strokeThickness:3}).setOrigin(.5).setDepth(60);
+ this.npc(255,380,'Sara',0x8f6c56,'#e4b08f');this.npc(640,315,'Thorn',0x53675f,'#c18a68');this.npc(1030,385,'Bram',0x6b4c39,'#b87552');this.npc(930,615,'Mara',0x5d3e3b,'#c58a67',true);this.npc(390,485,'Guard',0x334f75,'#d3a17b');this.npc(830,425,'Trader',0x765c3c,'#c9966d');this.npc(205,635,'Merchant',0x4d6c45,'#d0a17b');
+ // Character rig: sprite + separate shadow + name. Walk uses discrete pixel steps instead of stretching the sprite.
+ this.shadow=this.add.ellipse(640,718,30,9,0x0b0d09,.38).setDepth(69);this.player=this.physics.add.sprite(640,690,'hood-down').setDepth(70).setScale(1.02).setCollideWorldBounds(true);this.player.body.setSize(24,30).setOffset(12,28);this.name=this.add.text(640,641,'Hoods',{fontFamily:'Georgia,serif',fontSize:'13px',color:'#b9ef5a',fontStyle:'bold',stroke:'#162016',strokeThickness:3}).setOrigin(.5).setDepth(200);
+ this.cameras.main.startFollow(this.player,true,.08,.08);this.setCameraZoom();this.cameras.main.setRoundPixels(true);this.scale.on('resize',()=>this.setCameraZoom());this.keys=this.input.keyboard.addKeys('W,A,S,D');this.cursors=this.input.keyboard.createCursorKeys();this.bindTouch();this.add.text(14,14,'Hoods',{fontFamily:'Georgia,serif',fontSize:'21px',color:'#f1d89e',fontStyle:'bold',stroke:'#111',strokeThickness:4}).setScrollFactor(0).setDepth(500);this.add.text(14,46,'HP 125 / 125',{fontFamily:'monospace',fontSize:'10px',color:'#fff',backgroundColor:'#6a211f',padding:{x:7,y:4}}).setScrollFactor(0).setDepth(500);this.add.text(14,70,'HOODS TOWN · v0.8.4',{fontFamily:'monospace',fontSize:'9px',color:'#b9ef5a',backgroundColor:'#11140dcc',padding:{x:6,y:4}}).setScrollFactor(0).setDepth(500)}
+ setCameraZoom(){const w=this.scale.width;this.cameras.main.setZoom(w<500?.66:w<800?.78:1)}
+ npc(x,y,label,color,skin,quest=false){const c=this.add.container(x,y).setDepth(y/10+25);c.add(this.add.ellipse(0,18,24,7,0x111111,.27));c.add(this.add.rectangle(0,6,20,29,color).setStrokeStyle(2,0x2a241f));c.add(this.add.rectangle(-8,6,5,20,color));c.add(this.add.rectangle(8,6,5,20,color));c.add(this.add.circle(0,-12,8,Phaser.Display.Color.HexStringToColor(skin).color).setStrokeStyle(2,0x2a241f));c.add(this.add.rectangle(0,-19,17,5,0x392d26));c.add(this.add.text(0,-36,label,{fontFamily:'Georgia,serif',fontSize:'11px',color:'#f0dfb8',fontStyle:'bold',stroke:'#181818',strokeThickness:3}).setOrigin(.5));if(quest)c.add(this.add.text(0,-56,'!',{fontFamily:'Georgia,serif',fontSize:'23px',color:'#ffd447',fontStyle:'bold',stroke:'#36250a',strokeThickness:3}).setOrigin(.5));return c}
+ bindTouch(){document.querySelectorAll('[data-move]').forEach(btn=>{const d=btn.dataset.move,on=e=>{e.preventDefault();e.stopPropagation();this.touch[d]=true;btn.classList.add('active')},off=e=>{e.preventDefault();e.stopPropagation();this.touch[d]=false;btn.classList.remove('active')};btn.addEventListener('pointerdown',on);['pointerup','pointercancel','pointerleave'].forEach(ev=>btn.addEventListener(ev,off))});window.addEventListener('blur',()=>Object.keys(this.touch).forEach(k=>this.touch[k]=false))}
+ update(time,delta){let dx=0,dy=0;if(this.cursors.left.isDown||this.keys.A.isDown||this.touch.left)dx--;if(this.cursors.right.isDown||this.keys.D.isDown||this.touch.right)dx++;if(this.cursors.up.isDown||this.keys.W.isDown||this.touch.up)dy--;if(this.cursors.down.isDown||this.keys.S.isDown||this.touch.down)dy++;const moving=!!(dx||dy);if(moving){const l=Math.hypot(dx,dy);dx/=l;dy/=l;if(Math.abs(dx)>Math.abs(dy))this.dir=dx<0?'left':'right';else this.dir=dy<0?'up':'down'}this.player.setVelocity(dx*170,dy*170).setTexture('hood-'+this.dir);if(moving&&time-this.lastFrame>105){this.walkFrame=(this.walkFrame+1)%4;this.lastFrame=time}if(!moving)this.walkFrame=0;const steps=[0,1,0,-1],side=[0,1,0,-1],bob=steps[this.walkFrame],sway=side[this.walkFrame];this.player.setPosition(Math.round(this.player.x),Math.round(this.player.y));this.player.setScale(1.02);this.player.setAngle(moving?sway*.8:0);this.player.setOrigin(.5,.5+bob*.006);this.shadow.setPosition(this.player.x,this.player.y+28).setScale(moving?1-.05*Math.abs(bob):1,1);this.player.setDepth(this.player.y/10+35);this.shadow.setDepth(this.player.depth-1);this.name.setPosition(this.player.x,this.player.y-49-bob).setDepth(this.player.depth+1)}
 }
 new Phaser.Game({type:Phaser.AUTO,parent:'game',backgroundColor:'#26351f',pixelArt:true,roundPixels:true,physics:{default:'arcade',arcade:{debug:false}},scale:{mode:Phaser.Scale.RESIZE,autoCenter:Phaser.Scale.CENTER_BOTH,width:window.innerWidth,height:window.innerHeight},scene:V08Scene});
 })();
