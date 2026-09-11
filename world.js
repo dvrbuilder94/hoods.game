@@ -80,6 +80,7 @@ window.addEventListener("keydown",e=>{
   if(k==="e"&&distanceToMara()<=95){e.preventDefault();openDialogue();}
   if(e.key==="Escape")closeDialogue();
 });
+document.getElementById("interactButton")?.addEventListener("click",()=>{if(distanceToMara()<=95)openDialogue();});
 
 // Preserve earlier quest hooks and add Road East progress.
 window.hoodsHooks=window.hoodsHooks||{};
@@ -118,7 +119,6 @@ function drawMara(){
 
 function drawAshwood(){
   const gateX=sx(ashwoodGate.x),gateY=sy(ashwoodGate.y);
-  // Eastern terrain tint.
   const zoneX=sx(ASHWOOD_X);if(zoneX<W){ctx.fillStyle="rgba(88,72,42,.22)";ctx.fillRect(Math.max(0,zoneX),0,W-Math.max(0,zoneX),H);}
   px(gateX,gateY,18,ashwoodGate.h,"#493724");px(gateX+28,gateY,18,ashwoodGate.h,"#493724");
   if(!worldState.ashwoodUnlocked){for(let y=gateY+18;y<gateY+ashwoodGate.h-12;y+=26)px(gateX+5,y,36,8,"#6f4d2e");}
