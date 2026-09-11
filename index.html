@@ -14,12 +14,12 @@
         <a class="brand" href="#" aria-label="Hoods home">
           <span class="brand-mark">H</span>
           <span>HOODS</span>
-          <small>TOWN v0.1</small>
+          <small>TOWN v0.2</small>
         </a>
         <div class="status-row">
           <span><b id="coins">120</b> COINS</span>
           <span><b id="location">TOWN SQUARE</b></span>
-          <button id="walletButton" type="button">WALLET LATER</button>
+          <button id="inventoryButton" type="button">INVENTORY [I]</button>
         </div>
       </header>
 
@@ -31,7 +31,7 @@
             <div class="health"><i id="healthBar"></i></div>
             <span id="healthText">100 HP</span>
           </div>
-          <div class="instructions"><kbd>WASD</kbd> MOVE <span>•</span> WALK TO THE SHOP <span>•</span> <kbd>E</kbd> INTERACT</div>
+          <div class="instructions"><kbd>WASD</kbd> MOVE <span>•</span> <kbd>E</kbd> INTERACT <span>•</span> <kbd>I</kbd> INVENTORY</div>
           <div class="mobile-controls" aria-label="Touch controls">
             <div class="dpad">
               <button data-key="up" aria-label="Move up">▲</button>
@@ -39,20 +39,32 @@
               <button data-key="down" aria-label="Move down">▼</button>
               <button data-key="right" aria-label="Move right">▶</button>
             </div>
-            <button class="fire" id="interactButton" aria-label="Interact">E</button>
+            <div class="mobile-actions">
+              <button id="inventoryMobile" aria-label="Inventory">I</button>
+              <button class="fire" id="interactButton" aria-label="Interact">E</button>
+            </div>
           </div>
+
           <div class="shop-modal" id="shopModal" hidden>
             <div class="shop-card">
               <div class="shop-title"><div><small>NPC SHOP</small><h2>Old Bram's Gear</h2></div><button id="closeShop" type="button">×</button></div>
-              <p class="shop-note">Beta inventory. Buy with test Coins and equip instantly.</p>
+              <p class="shop-note">Buy with test Coins. Items are saved locally and can be equipped from Inventory.</p>
               <div id="shopItems" class="shop-items"></div>
+            </div>
+          </div>
+
+          <div class="shop-modal" id="inventoryModal" hidden>
+            <div class="shop-card inventory-card">
+              <div class="shop-title"><div><small>YOUR BAG</small><h2>Inventory</h2></div><button id="closeInventory" type="button">×</button></div>
+              <p class="shop-note">Equip or unequip owned gear. Progress is saved on this device.</p>
+              <div id="inventoryItems" class="inventory-items"></div>
             </div>
           </div>
         </div>
 
         <aside class="armory">
           <div class="section-heading">
-            <div><p>YOUR HOOD</p><h1>Unequipped adventurer</h1></div>
+            <div><p>YOUR HOOD</p><h1 id="hoodTitle">Unequipped adventurer</h1></div>
             <span>LEVEL 1</span>
           </div>
 
@@ -67,19 +79,27 @@
             </div>
           </div>
 
+          <div class="stats-card">
+            <div><span>HP</span><b id="statHp">100</b></div>
+            <div><span>ATTACK</span><b id="statAttack">5</b></div>
+            <div><span>DEFENSE</span><b id="statDefense">3</b></div>
+            <div><span>SPEED</span><b id="statSpeed">5</b></div>
+            <div><span>LUCK</span><b id="statLuck">1</b></div>
+          </div>
+
           <div class="founder-card">
             <span>FIRST LOOP</span>
             <strong>LIVE</strong>
-            <div class="drop-progress"><i style="width:28%"></i></div>
-            <p>Walk around Hoods Town, find the shop, buy test gear, and equip it. No wallet or token required yet.</p>
+            <div class="drop-progress"><i style="width:45%"></i></div>
+            <p>Buy gear, open Inventory, equip it and watch your stats change. Next milestone: The Wilds and first enemy.</p>
           </div>
 
           <div class="roadmap">
             <p>TOWN LANDMARKS</p>
             <div><b>01</b><span><strong>TOWN SQUARE</strong><small>Your spawn point</small></span><em>LIVE</em></div>
             <div><b>02</b><span><strong>OLD BRAM'S SHOP</strong><small>Starter equipment</small></span><em>LIVE</em></div>
-            <div><b>03</b><span><strong>THE WILDS</strong><small>Beyond the north gate</small></span><em>LOCKED</em></div>
-            <div><b>04</b><span><strong>DUNGEONS</strong><small>Season 1</small></span><em>LOCKED</em></div>
+            <div><b>03</b><span><strong>INVENTORY + STATS</strong><small>Saved locally</small></span><em>LIVE</em></div>
+            <div><b>04</b><span><strong>THE WILDS</strong><small>First combat zone</small></span><em>NEXT</em></div>
           </div>
         </aside>
       </section>
