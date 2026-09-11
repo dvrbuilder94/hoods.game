@@ -21,10 +21,11 @@ function saveQuest(){try{localStorage.setItem(QUEST_SAVE_KEY,JSON.stringify(ques
 loadQuest();
 
 const reinforcedArmor={id:"reinforced-leather",name:"Reinforced Leather Armor",slot:"armor",price:0,rarity:"UNCOMMON",stats:{hp:18,defense:5}};
-if(!items.some(i=>i.id===reinforcedArmor.id)) items.push(reinforcedArmor);
+function ensureReinforcedArmor(){if(!items.some(i=>i.id===reinforcedArmor.id))items.push(reinforcedArmor);}
 if(questState.crafted){
+  ensureReinforcedArmor();
   state.owned.add(reinforcedArmor.id);
-  if(!state.equipped.armor) state.equipped.armor=reinforcedArmor.id;
+  if(!state.equipped.armor)state.equipped.armor=reinforcedArmor.id;
   saveGame();
 }
 
@@ -51,15 +52,11 @@ const claimQuest=document.getElementById("claimQuest");
 const forgePanel=document.getElementById("forgePanel");
 
 function questReady(){return Object.values(questState.kills).every(v=>v>=1);}
-function recipeReady(){return progression.loot["Rat Tail"]>=2&&progression.loot["Slime Core"]>=1&&state.coins>=15;}
+function recipeReady(){return (progression.loot["Rat Tail"]||0)>=2&&(progression.loot["Slime Core"]||0)>=1&&state.coins>=15;}
 
 function renderQuest(){
   if(questObjectives){
-    const rows=[
-      ["Bog Rat",questState.kills.rat],
-      ["Mire Slime",questState.kills.slime],
-      ["Wild Thug",questState.kills.thug]
-    ];
+    const rows=[["Bog Rat",questState.kills.rat],["Mire Slime",questState.kills.slime],["Wild Thug",questState.kills.thug]];
     questObjectives.innerHTML=rows.map(([name,count])=>`<div><span>${name}</span><b>${Math.min(1,count)}/1 ${count>=1?"✓":""}</b></div>`).join("");
   }
   if(claimQuest){
@@ -93,6 +90,7 @@ function craftArmor(){
   progression.loot["Slime Core"]-=1;
   state.coins-=15;
   questState.crafted=true;
+  ensureReinforcedArmor();
   state.owned.add(reinforcedArmor.id);
   state.equipped.armor=reinforcedArmor.id;
   state.player.hp=Math.min(getStats().hp,state.player.hp+8);
@@ -114,8 +112,5 @@ window.addEventListener("keydown",e=>{
   if((e.key||"").toLowerCase()==="q"){e.preventDefault();state.questOpen?closeQuest():openQuest();}
   if(e.key==="Escape")closeQuest();
 });
-
-const questBaseRenderInventory=renderInventory;
-renderInventory=function(){questBaseRenderInventory();};
 
 updateUI();renderInventory();renderShop();renderQuest();syncPlayerHealth();
