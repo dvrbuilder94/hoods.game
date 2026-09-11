@@ -3,34 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A playable pre-alpha for an ETH-native hooded adventurer world." />
-    <title>Project Hoods — Pre-alpha</title>
+    <meta name="description" content="Hoods Town — playable pre-alpha RPG prototype." />
+    <title>Hoods Town — Pre-alpha</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="shell">
       <header class="topbar">
-        <a class="brand" href="#" aria-label="Project Hoods home">
+        <a class="brand" href="#" aria-label="Hoods home">
           <span class="brand-mark">H</span>
-          <span>PROJECT HOODS</span>
-          <small>PRE-ALPHA</small>
+          <span>HOODS</span>
+          <small>TOWN v0.1</small>
         </a>
-        <div class="status-row" aria-label="Game status">
-          <span><b id="score">0</b> SCORE</span>
-          <span><b id="wave">1</b> WAVE</span>
-          <button id="walletButton" type="button">CONNECT WALLET</button>
+        <div class="status-row">
+          <span><b id="coins">120</b> COINS</span>
+          <span><b id="location">TOWN SQUARE</b></span>
+          <button id="walletButton" type="button">WALLET LATER</button>
         </div>
       </header>
 
       <section class="game-layout">
         <div class="arena-wrap">
-          <canvas id="game" width="960" height="600" aria-label="Playable Project Hoods arena"></canvas>
+          <canvas id="game" width="960" height="600" aria-label="Playable Hoods Town"></canvas>
           <div class="arena-hud">
-            <div class="health" aria-label="Player health"><i id="healthBar"></i></div>
+            <span>HOOD</span>
+            <div class="health"><i id="healthBar"></i></div>
             <span id="healthText">100 HP</span>
           </div>
-          <div class="instructions"><kbd>WASD</kbd> MOVE <span>•</span> <kbd>CLICK</kbd> SHOOT</div>
+          <div class="instructions"><kbd>WASD</kbd> MOVE <span>•</span> WALK TO THE SHOP <span>•</span> <kbd>E</kbd> INTERACT</div>
           <div class="mobile-controls" aria-label="Touch controls">
             <div class="dpad">
               <button data-key="up" aria-label="Move up">▲</button>
@@ -38,62 +39,52 @@
               <button data-key="down" aria-label="Move down">▼</button>
               <button data-key="right" aria-label="Move right">▶</button>
             </div>
-            <button class="fire" id="fireButton" aria-label="Shoot nearest enemy">FIRE</button>
+            <button class="fire" id="interactButton" aria-label="Interact">E</button>
           </div>
-          <div class="game-over" id="gameOver" hidden>
-            <p>THE WOODS TOOK YOU</p>
-            <strong id="finalScore">0</strong>
-            <button id="restartButton" type="button">RUN AGAIN</button>
+          <div class="shop-modal" id="shopModal" hidden>
+            <div class="shop-card">
+              <div class="shop-title"><div><small>NPC SHOP</small><h2>Old Bram's Gear</h2></div><button id="closeShop" type="button">×</button></div>
+              <p class="shop-note">Beta inventory. Buy with test Coins and equip instantly.</p>
+              <div id="shopItems" class="shop-items"></div>
+            </div>
           </div>
         </div>
 
         <aside class="armory">
           <div class="section-heading">
-            <div>
-              <p>THE ARMORY</p>
-              <h1>Choose your Hood</h1>
-            </div>
-            <span>3 GENESIS</span>
+            <div><p>YOUR HOOD</p><h1>Unequipped adventurer</h1></div>
+            <span>LEVEL 1</span>
           </div>
 
-          <div class="skin-list" id="skinList">
-            <button class="skin active" data-skin="0" type="button">
-              <span class="skin-image skin-green"></span>
-              <span class="skin-copy"><b>FOREST SCOUT</b><small>Genesis common</small></span>
-              <span class="skin-price">FREE<small>EQUIPPED</small></span>
-            </button>
-            <button class="skin" data-skin="1" type="button">
-              <span class="skin-image skin-red"></span>
-              <span class="skin-copy"><b>EMBER RANGER</b><small>Genesis rare</small></span>
-              <span class="skin-price">0.003 ETH<small>PREVIEW</small></span>
-            </button>
-            <button class="skin" data-skin="2" type="button">
-              <span class="skin-image skin-blue"></span>
-              <span class="skin-copy"><b>MOON HUNTER</b><small>Genesis mythic</small></span>
-              <span class="skin-price">0.006 ETH<small>PREVIEW</small></span>
-            </button>
+          <div class="paperdoll">
+            <div class="paperdoll-character" aria-hidden="true"><span class="head"></span><span class="body"></span><span class="legs"></span></div>
+            <div class="equipment-list">
+              <div><span>HEAD</span><b id="slotHelmet">Empty</b></div>
+              <div><span>ARMOR</span><b id="slotArmor">Empty</b></div>
+              <div><span>WEAPON</span><b id="slotWeapon">Empty</b></div>
+              <div><span>SHIELD</span><b id="slotShield">Empty</b></div>
+              <div><span>BOOTS</span><b id="slotBoots">Basic Boots</b></div>
+            </div>
           </div>
 
           <div class="founder-card">
-            <span>GENESIS DROP</span>
-            <strong>0 / 850</strong>
-            <div class="drop-progress"><i></i></div>
-            <p>Skin ownership and ETH checkout arrive after the playable testnet build.</p>
+            <span>FIRST LOOP</span>
+            <strong>LIVE</strong>
+            <div class="drop-progress"><i style="width:28%"></i></div>
+            <p>Walk around Hoods Town, find the shop, buy test gear, and equip it. No wallet or token required yet.</p>
           </div>
 
           <div class="roadmap">
-            <p>WORLD UNLOCKS</p>
-            <div><b>01</b><span><strong>THE CLEARING</strong><small>Playable now</small></span><em>LIVE</em></div>
-            <div><b>02</b><span><strong>THE CRYPT</strong><small>Unlocks at 150 Hoods</small></span><em>LOCKED</em></div>
-            <div><b>03</b><span><strong>THE ARENA</strong><small>Unlocks at 500 Hoods</small></span><em>LOCKED</em></div>
+            <p>TOWN LANDMARKS</p>
+            <div><b>01</b><span><strong>TOWN SQUARE</strong><small>Your spawn point</small></span><em>LIVE</em></div>
+            <div><b>02</b><span><strong>OLD BRAM'S SHOP</strong><small>Starter equipment</small></span><em>LIVE</em></div>
+            <div><b>03</b><span><strong>THE WILDS</strong><small>Beyond the north gate</small></span><em>LOCKED</em></div>
+            <div><b>04</b><span><strong>DUNGEONS</strong><small>Season 1</small></span><em>LOCKED</em></div>
           </div>
         </aside>
       </section>
 
-      <footer>
-        <span>ORIGINAL INDEPENDENT GAME CONCEPT</span>
-        <span>NO TOKEN DEPLOYED · NO SALE ACTIVE</span>
-      </footer>
+      <footer><span>HOODS TOWN PRE-ALPHA</span><span>NO TOKEN DEPLOYED · NO SALE ACTIVE</span></footer>
     </main>
     <script src="game.js"></script>
   </body>
