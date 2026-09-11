@@ -1,0 +1,16 @@
+.quest-objectives { display:grid; gap:8px; margin:14px 0; }
+.quest-objectives>div { display:flex; justify-content:space-between; gap:12px; padding:10px 12px; border:1px solid #333c2f; background:#151b12; }
+.quest-objectives span { color:#b7bda9; font-size:.76rem; }
+.quest-objectives b { color:var(--acid); font-size:.72rem; }
+.quest-action { width:100%; margin-top:10px; padding:11px 12px; border:1px solid #566649; background:#1a2316; color:var(--acid); font-size:.7rem; font-weight:900; letter-spacing:.08em; cursor:pointer; }
+.quest-action:hover:not(:disabled) { border-color:var(--acid); background:#202b1b; }
+.quest-action:disabled { cursor:default; opacity:.45; }
+.forge-panel { margin-top:16px; padding-top:14px; border-top:1px solid #30372c; }
+.forge-panel>small { color:#c99f62; font-weight:900; letter-spacing:.12em; }
+.forge-panel h3 { margin:6px 0 4px; font:700 1rem Georgia,serif; }
+.forge-panel p { margin:5px 0; color:#9aa18f; font-size:.73rem; }
+.forge-panel .recipe { color:#d3c49b; }
+.dialogue-copy { margin:16px 0; color:#c1c7b6; line-height:1.6; font-size:.8rem; }
+.dialogue-reward { margin:12px 0; padding:10px 12px; border:1px solid #4c5d3f; background:#172014; color:var(--acid); font-size:.7rem; font-weight:900; letter-spacing:.08em; }
+.roadmap div:nth-of-type(-n+6) em { color:var(--acid); }
+@media (max-width:640px){ .dialogue-card,.quest-card{max-height:76vh} }
