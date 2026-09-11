@@ -107,7 +107,11 @@ function rollDrop(mob){
 }
 
 function playerAttack(){
-  if(modalOpen() || !inWilds()) return;
+  if(modalOpen()) return;
+  if(!inWilds()){
+    window.hoodsHooks?.onAttackOutsideWilds?.();
+    return;
+  }
   const now=performance.now();
   if(now<wilds.playerAttackAt) return;
   wilds.playerAttackAt=now+430;
