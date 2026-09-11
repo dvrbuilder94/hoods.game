@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hoods Phaser migration preview." />
+  <title>Hoods — Phaser Preview</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <style>
+    :root{color-scheme:dark;--ink:#f3efd9;--muted:#8c927f;--line:#343a2f;--acid:#b9ef5a}
+    *{box-sizing:border-box}body{margin:0;background:#090b08;color:var(--ink);font-family:Inter,system-ui,sans-serif}.shell{max-width:1280px;margin:0 auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px}.brand{font-weight:900;letter-spacing:.09em}.brand small{margin-left:10px;padding:4px 7px;border:1px solid #4f5941;color:var(--acid)}.actions{display:flex;gap:8px;align-items:center}.actions a{color:var(--ink);text-decoration:none;border:1px solid #4f5941;padding:8px 10px;font-size:.75rem}.stage{position:relative;border:1px solid #394134;background:#11160e;min-height:600px;overflow:hidden}.hud{position:absolute;z-index:5;top:14px;left:14px;display:flex;gap:10px;align-items:center;padding:8px 10px;background:rgba(8,10,7,.8);border:1px solid #3a4235;font-size:.72rem}.hud b{color:var(--acid)}#phaser-root{width:100%;height:600px}.note{margin-top:12px;color:var(--muted);font-size:.78rem;line-height:1.5}.note b{color:var(--ink)}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand">HOODS <small>PHASER MIGRATION v0.1</small></div>
+      <div class="actions"><a href="index.html">← Legacy playable</a></div>
+    </header>
+    <section class="stage">
+      <div class="hud"><span>ENGINE <b>PHASER 3</b></span><span id="phaserLocation">TOWN SQUARE</span><span id="phaserCoins">120 COINS</span></div>
+      <div id="phaser-root"></div>
+    </section>
+    <p class="note"><b>Migration slice:</b> world bounds, camera, movement, collisions, Town buildings, North Gate, Old Bram, Mara and layered procedural character. Existing v0.7 remains untouched while systems move over one by one.</p>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <script src="phaser-game.js"></script>
+</body>
+</html>
