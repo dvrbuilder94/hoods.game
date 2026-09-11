@@ -100,6 +100,7 @@ function rollDrop(mob){
     progression.loot[mob.drop]=(progression.loot[mob.drop]||0)+1;
     saveProgression();
     renderInventory();
+    window.hoodsHooks?.onLoot?.(mob.drop, progression.loot[mob.drop]);
     return mob.drop;
   }
   return null;
@@ -125,6 +126,7 @@ function playerAttack(){
     progression.kills++;
     const drop=rollDrop(mob);
     saveGame(); saveProgression(); updateUI(); updateProgressionUI();
+    window.hoodsHooks?.onMobDefeated?.(mob, drop);
     const reward=`+${mob.coins} Coins · +${mob.xp} XP${drop?` · ${drop}`:""}`;
     showCombatMessage(`${mob.name} defeated · ${reward}`,2000);
     addXp(mob.xp);
@@ -132,7 +134,6 @@ function playerAttack(){
 }
 
 function respawnMob(mob){ mob.alive=true;mob.hp=mob.maxHp;mob.x=mob.spawnX;mob.y=mob.spawnY;mob.attackAt=0; }
-
 function resetWildsMobs(){ wilds.mobs.forEach(respawnMob); }
 
 function updateMobs(dt){
