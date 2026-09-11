@@ -14,7 +14,7 @@
         <a class="brand" href="#" aria-label="Hoods home">
           <span class="brand-mark">H</span>
           <span>HOODS</span>
-          <small>TOWN v0.2</small>
+          <small>TOWN v0.3</small>
         </a>
         <div class="status-row">
           <span><b id="coins">120</b> COINS</span>
@@ -56,7 +56,7 @@
           <div class="shop-modal" id="inventoryModal" hidden>
             <div class="shop-card inventory-card">
               <div class="shop-title"><div><small>YOUR BAG</small><h2>Inventory</h2></div><button id="closeInventory" type="button">×</button></div>
-              <p class="shop-note">Equip or unequip owned gear. Progress is saved on this device.</p>
+              <p class="shop-note">Equip gear and keep materials dropped by enemies in The Wilds. Progress is saved on this device.</p>
               <div id="inventoryItems" class="inventory-items"></div>
             </div>
           </div>
@@ -65,7 +65,7 @@
         <aside class="armory">
           <div class="section-heading">
             <div><p>YOUR HOOD</p><h1 id="hoodTitle">Unequipped adventurer</h1></div>
-            <span>LEVEL 1</span>
+            <span id="levelBadge">LEVEL 1</span>
           </div>
 
           <div class="paperdoll">
@@ -85,13 +85,15 @@
             <div><span>DEFENSE</span><b id="statDefense">3</b></div>
             <div><span>SPEED</span><b id="statSpeed">5</b></div>
             <div><span>LUCK</span><b id="statLuck">1</b></div>
+            <div><span>XP</span><b id="statXp">0/40</b></div>
+            <div><span>KILLS</span><b id="statKills">0</b></div>
           </div>
 
           <div class="founder-card">
-            <span>FIRST COMBAT LOOP</span>
+            <span>COMBAT + PROGRESSION</span>
             <strong>LIVE</strong>
-            <div class="drop-progress"><i style="width:62%"></i></div>
-            <p>Gear up, walk north through the open gate, defeat the Bog Rat and earn Coins. Better Attack and Defense now matter in combat.</p>
+            <div class="drop-progress"><i style="width:76%"></i></div>
+            <p>Fight three enemy types in The Wilds, earn Coins and XP, level up, and collect persistent material drops in your Inventory.</p>
           </div>
 
           <div class="roadmap">
@@ -99,7 +101,7 @@
             <div><b>01</b><span><strong>TOWN SQUARE</strong><small>Your spawn point</small></span><em>LIVE</em></div>
             <div><b>02</b><span><strong>OLD BRAM'S SHOP</strong><small>Starter equipment</small></span><em>LIVE</em></div>
             <div><b>03</b><span><strong>INVENTORY + STATS</strong><small>Saved locally</small></span><em>LIVE</em></div>
-            <div><b>04</b><span><strong>THE WILDS</strong><small>Bog Rat · combat · Coins</small></span><em>LIVE</em></div>
+            <div><b>04</b><span><strong>THE WILDS</strong><small>3 mobs · XP · loot · Coins</small></span><em>LIVE</em></div>
           </div>
         </aside>
       </section>
