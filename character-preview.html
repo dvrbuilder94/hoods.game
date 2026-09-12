@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Hoods Character Preview</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0e0a;--panel:#121812;--line:#344033;--text:#efe8d2;--acid:#b9ef5a}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}body{display:grid;place-items:center;padding:24px 14px 40px}.wrap{width:min(100%,520px)}h1{font-size:18px;margin:0 0 6px}.sub{color:#9aa394;font-size:13px;margin:0 0 18px}.stage{display:grid;place-items:center;min-height:390px;border:1px solid var(--line);background:linear-gradient(#1b2419,#141b13);border-radius:18px;overflow:hidden}.ground{width:320px;height:320px;display:grid;place-items:center;background:repeating-linear-gradient(0deg,#627748 0 32px,#687e4c 32px 64px),repeating-linear-gradient(90deg,transparent 0 32px,#0001 32px 33px);box-shadow:inset 0 0 80px #0008}.frame{position:relative;width:192px;height:256px;overflow:hidden;image-rendering:pixelated;filter:drop-shadow(0 10px 6px #0006)}.atlas{position:absolute;left:0;top:0;width:576px;height:4096px;max-width:none;image-rendering:pixelated;transform-origin:0 0}.name{text-align:center;font:800 13px ui-monospace,monospace;margin-top:-42px;position:relative;text-shadow:0 2px 2px #000}.controls{display:grid;gap:10px;margin-top:14px}.row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.row.outfits{grid-template-columns:repeat(2,1fr)}button{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:12px 8px;border-radius:10px;font-weight:800}button.active{border-color:var(--acid);color:var(--acid);background:#1d281a}.note{font-size:12px;color:#8f998a;line-height:1.45;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Hoods · Character v1 preview</h1>
+  <p class="sub">Single-frame crop + walk animation. This is the view to judge, not the full atlas sheet.</p>
+  <div class="stage">
+    <div class="ground">
+      <div>
+        <div class="frame"><img id="atlas" class="atlas" alt="Hoods outfit" src="https://raw.githubusercontent.com/dvrbuilder94/hoods.game/feat/character-outfits-v1/assets/characters/v1/humans-v1.svg"></div>
+        <div id="name" class="name">WANDERER</div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="row outfits">
+      <button data-outfit="0" class="active">WANDERER</button><button data-outfit="1">RANGER</button>
+      <button data-outfit="2">WARDEN</button><button data-outfit="3">MERCHANT</button>
+    </div>
+    <div class="row">
+      <button data-dir="3">↑ UP</button><button data-dir="1">← LEFT</button><button data-dir="0" class="active">↓ DOWN</button><button data-dir="2">→ RIGHT</button>
+    </div>
+    <button id="walk" class="active">WALKING: ON</button>
+  </div>
+  <p class="note">48×64 logical frames, shown at 4× nearest-neighbor scale. Equipment is intentionally not layered onto the body.</p>
+</div>
+<script>
+const atlas=document.getElementById('atlas'),name=document.getElementById('name');
+const names=['WANDERER','RANGER','WARDEN','MERCHANT'];let outfit=0,dir=0,step=1,walking=true,timer;
+function paint(){const x=step*192,y=(outfit*4+dir)*256;atlas.style.transform=`translate(${-x}px,${-y}px)`;name.textContent=names[outfit]}
+function run(){clearInterval(timer);if(walking){let i=0,seq=[0,1,2,1];timer=setInterval(()=>{step=seq[i++%seq.length];paint()},135)}else{step=1;paint()}}
+document.querySelectorAll('[data-outfit]').forEach(b=>b.onclick=()=>{outfit=+b.dataset.outfit;document.querySelectorAll('[data-outfit]').forEach(x=>x.classList.toggle('active',x===b));paint()});
+document.querySelectorAll('[data-dir]').forEach(b=>b.onclick=()=>{dir=+b.dataset.dir;document.querySelectorAll('[data-dir]').forEach(x=>x.classList.toggle('active',x===b));paint()});
+document.getElementById('walk').onclick=e=>{walking=!walking;e.currentTarget.textContent=`WALKING: ${walking?'ON':'OFF'}`;e.currentTarget.classList.toggle('active',walking);run()};
+paint();run();
+</script>
+</body>
+</html>
