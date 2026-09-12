@@ -9,7 +9,6 @@
     {id:"thug-knife",name:"Thug Knife",slot:"weapon",category:"gear",price:0,shop:false,rarity:"UNCOMMON",stats:{attack:4,luck:1},source:"Wild Thug"},
     {id:"thornhide-boots",name:"Thornhide Boots",slot:"boots",category:"gear",price:0,shop:false,rarity:"RARE",stats:{defense:2,speed:2},source:"Thorn Wolf"},
     {id:"ashwood-leggings",name:"Ashwood Leggings",slot:"legs",category:"gear",price:0,shop:false,rarity:"RARE",stats:{defense:4,speed:1},source:"Ash Bandit"},
-    {id:"ember-hood",name:"Ember Hood",slot:"outfit",category:"cosmetic",price:0,shop:false,rarity:"RARE",stats:{luck:1},source:"Cinder Imp"},
     {id:"bone-guard",name:"Bone Guard",slot:"shield",category:"gear",price:0,shop:false,rarity:"RARE",stats:{defense:5,hp:8},source:"Bone Sentry"}
   ];
 
@@ -24,7 +23,6 @@
     thug:[{id:"thug-knife",chance:.065}],
     wolf:[{id:"thornhide-boots",chance:.055}],
     bandit:[{id:"ashwood-leggings",chance:.045}],
-    imp:[{id:"ember-hood",chance:.04}],
     sentry:[{id:"bone-guard",chance:.035}]
   };
 
