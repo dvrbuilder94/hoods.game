@@ -1,0 +1,508 @@
+{
+  "meta": {
+    "app": "Hoods",
+    "version": "2.3.0",
+    "image": "hood-wanderer-v23.svg",
+    "format": "RGBA8888",
+    "size": {
+      "w": 432,
+      "h": 256
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 48,
+      "h": 64
+    },
+    "directions": [
+      "down",
+      "left",
+      "right",
+      "up"
+    ],
+    "actions": {
+      "idle": {
+        "frames": 1,
+        "repeat": -1
+      },
+      "walk": {
+        "frames": 4,
+        "repeat": -1
+      },
+      "attack": {
+        "frames": 4,
+        "repeat": 0
+      }
+    },
+    "notes": "Original Hoods art. Use nearest-neighbor sampling. Coordinates are zero-based pixels."
+  },
+  "frames": {
+    "wanderer.idle.down.0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 800
+    },
+    "wanderer.walk.down.0": {
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.down.1": {
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.down.2": {
+      "frame": {
+        "x": 144,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.down.3": {
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.attack.down.0": {
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.down.1": {
+      "frame": {
+        "x": 288,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.down.2": {
+      "frame": {
+        "x": 336,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 90
+    },
+    "wanderer.attack.down.3": {
+      "frame": {
+        "x": 384,
+        "y": 0,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.idle.left.0": {
+      "frame": {
+        "x": 0,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 800
+    },
+    "wanderer.walk.left.0": {
+      "frame": {
+        "x": 48,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.left.1": {
+      "frame": {
+        "x": 96,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.left.2": {
+      "frame": {
+        "x": 144,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.left.3": {
+      "frame": {
+        "x": 192,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.attack.left.0": {
+      "frame": {
+        "x": 240,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.left.1": {
+      "frame": {
+        "x": 288,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.left.2": {
+      "frame": {
+        "x": 336,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 90
+    },
+    "wanderer.attack.left.3": {
+      "frame": {
+        "x": 384,
+        "y": 64,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.idle.right.0": {
+      "frame": {
+        "x": 0,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 800
+    },
+    "wanderer.walk.right.0": {
+      "frame": {
+        "x": 48,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.right.1": {
+      "frame": {
+        "x": 96,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.right.2": {
+      "frame": {
+        "x": 144,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.right.3": {
+      "frame": {
+        "x": 192,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.attack.right.0": {
+      "frame": {
+        "x": 240,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.right.1": {
+      "frame": {
+        "x": 288,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.right.2": {
+      "frame": {
+        "x": 336,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 90
+    },
+    "wanderer.attack.right.3": {
+      "frame": {
+        "x": 384,
+        "y": 128,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.idle.up.0": {
+      "frame": {
+        "x": 0,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 800
+    },
+    "wanderer.walk.up.0": {
+      "frame": {
+        "x": 48,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.up.1": {
+      "frame": {
+        "x": 96,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.up.2": {
+      "frame": {
+        "x": 144,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.walk.up.3": {
+      "frame": {
+        "x": 192,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    },
+    "wanderer.attack.up.0": {
+      "frame": {
+        "x": 240,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.up.1": {
+      "frame": {
+        "x": 288,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 70
+    },
+    "wanderer.attack.up.2": {
+      "frame": {
+        "x": 336,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 90
+    },
+    "wanderer.attack.up.3": {
+      "frame": {
+        "x": 384,
+        "y": 192,
+        "w": 48,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "duration": 110
+    }
+  }
+}
