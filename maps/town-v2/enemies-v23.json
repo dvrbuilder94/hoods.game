@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "zoneId": "town-v2",
+  "zLevel": 0,
+  "note": "Spawn data for V2.3 demon/dragon. Keep out of stair/NPC tiles.",
+  "enemies": [
+    {
+      "id": "demon",
+      "name": "Ash Demon",
+      "atlas": "assets/characters/v23/demon-v23.svg?v=23.1",
+      "frameSize": 80,
+      "x": 1008,
+      "y": 610,
+      "scale": 1,
+      "hp": 70,
+      "attack": 11,
+      "speed": 48,
+      "coins": 22,
+      "xp": 20,
+      "drop": "Ember Claw",
+      "chance": 0.35,
+      "range": 78,
+      "aggro": 220,
+      "body": { "w": 24, "h": 16 },
+      "labelColor": "#ffb073"
+    },
+    {
+      "id": "dragon",
+      "name": "Green Drake",
+      "atlas": "assets/characters/v23/dragon-v23.svg?v=23.1",
+      "frameSize": 80,
+      "x": 1088,
+      "y": 610,
+      "scale": 1,
+      "hp": 110,
+      "attack": 15,
+      "speed": 38,
+      "coins": 36,
+      "xp": 32,
+      "drop": "Drake Scale",
+      "chance": 0.28,
+      "range": 92,
+      "aggro": 240,
+      "body": { "w": 28, "h": 16 },
+      "labelColor": "#c7f17d"
+    }
+  ]
+}

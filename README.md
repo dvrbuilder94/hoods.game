@@ -1,30 +1,35 @@
-# Project Hoods
+# Hoods V2.4.1
 
-Playable pre-alpha for an ETH-native hooded adventurer world. The project currently contains a zero-dependency browser prototype: move, shoot, survive waves, and preview three original Genesis skins.
+Playable pre-alpha of a top-down browser RPG. **Phaser Town is the current build.**
+Tibia is a structural reference only. No Tibia assets. No token, wallet, or sale is active.
 
-## Run locally
+## Play
 
-Serve the repository with any static web server and open `index.html`.
+Open `phaser.html` (GitHub Pages serves the repo root).
 
 ```bash
 npx serve .
 ```
 
-## Controls
+- Move: WASD / arrows / on-screen pad
+- Attack: Space, F, or the sword button
+- Interact: E (NPCs, shop, stairs)
+- Inventory: I
 
-- Move: WASD or arrow keys
-- Shoot: click/tap the arena or press Space
-- Mobile: on-screen controls
+Canonical world version: **V2.4.1** (floors, stairs, roof reveal).
+Latest character art: Wanderer V2.3 plus Demon / Green Drake combat preview in Town.
 
-## Current scope
+`index.html` is the older canvas prototype. Do not treat it as the live product.
 
-- Playable survival arena
-- Three selectable Genesis Hood previews
-- Responsive desktop/mobile interface
-- No wallet transaction, token, or sale is active
+## Current slice
 
-## Next milestone
+- Data-driven Town V2 map (`maps/town-v2/`)
+- Enterable buildings, cellar / upper floor transitions
+- Full-body outfits (cosmetic) separate from equipment stats
+- Fightable Ash Demon and Green Drake east of the square (`maps/town-v2/enemies-v23.json`)
 
-Add wallet connection and an ERC-1155 skin contract on Robinhood Chain testnet before any mainnet deployment or ETH sale.
+## Agent rules
 
-All character artwork is original and generated for this prototype.
+Read `AGENTS.md` and `docs/ARCHITECTURE.md` before editing.
+`main` is the source of truth. Prefer a branch + PR while another agent is working.
+Do not add multiplayer, blockchain, or a backend while foundations are still settling.
