@@ -97,6 +97,11 @@
     scene.__hoodsEnemyPreview = 'v23';
     const pending = Object.values(ENEMIES).filter(spec => !scene.textures.exists(spec.key));
     if (!pending.length) return install(scene);
+    // The modular Wanderer loader may still be running at scene startup. Queue behind it.
+    if (scene.load.isLoading()) {
+      scene.load.once('complete', () => wait());
+      return;
+    }
     pending.forEach(spec => scene.load.spritesheet(spec.key, spec.url, {
       frameWidth: 80,
       frameHeight: 80
