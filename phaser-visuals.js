@@ -1,4 +1,4 @@
-// Hoods visual layer P6 — static Town exterior comes from Tilemaps when available.
+// Hoods visual layer P9 — Tilemaps own Town static art; runtime keeps only lightweight ambience/fallback.
 (() => {
 let attempts=0;
 function wait(){
@@ -23,12 +23,15 @@ function install(scene){
     [[690,675],[1110,675],[690,825],[1110,825],[800,610],[1000,610]].forEach(p=>lamp(...p));
     const barrel=(x,y)=>{const c=scene.add.container(x,y).setDepth(Math.floor(y/10));c.add(scene.add.ellipse(0,9,22,8,0x3a291f,.35));c.add(scene.add.rectangle(0,0,20,27,0x755036).setStrokeStyle(2,0x36251c));c.add(scene.add.rectangle(0,-6,21,3,0x302a25));c.add(scene.add.rectangle(0,6,21,3,0x302a25))};
     barrel(620,865);barrel(1265,850);barrel(1090,560);
+  }else{
+    // Old world labels were useful during the rectangle prototype but fight the map/HUD hierarchy now.
+    const obsolete=new Set(['THE WILDS — OPEN','ASHWOOD TRAIL — LOCKED','ASHWOOD TRAIL — OPEN']);
+    for(const child of scene.children.list){if(typeof child?.text==='string'&&obsolete.has(child.text))child.setVisible(false)}
   }
-  // Ambient motion remains runtime-driven; static terrain/props are now map data in P6.
-  const leaves=[];for(let i=0;i<24;i++){const l=scene.add.rectangle(Phaser.Math.Between(50,1750),Phaser.Math.Between(300,1150),Phaser.Math.Between(2,4),Phaser.Math.Between(2,4),0x91a862,.35).setDepth(40);leaves.push({o:l,v:Phaser.Math.FloatBetween(4,10),w:Phaser.Math.FloatBetween(.7,1.7)})}
-  let time=0;scene.events.on('update',(_,delta)=>{time+=delta/1000;leaves.forEach((l,i)=>{l.o.x+=Math.sin(time*l.w+i)*.08;l.o.y+=l.v*delta/1000;if(l.o.y>1180){l.o.y=300;l.o.x=Phaser.Math.Between(50,1750)}})});
-  scene.add.text(900,548,'HOODS TOWN',{fontFamily:'Georgia,serif',fontSize:'18px',color:'#ead8aa',fontStyle:'bold',stroke:'#2b241d',strokeThickness:4}).setOrigin(.5).setDepth(3);
-  console.info('[Hoods visuals] static exterior source',mapExterior?'tilemap':'legacy');
+  // Runtime ambience stays deliberately light and below actors; static scenery belongs in map data.
+  const leaves=[];for(let i=0;i<14;i++){const l=scene.add.rectangle(Phaser.Math.Between(50,1750),Phaser.Math.Between(300,1150),Phaser.Math.Between(2,3),Phaser.Math.Between(2,3),0x91a862,.24).setDepth(4);leaves.push({o:l,v:Phaser.Math.FloatBetween(3,7),w:Phaser.Math.FloatBetween(.7,1.5)})}
+  let time=0;scene.events.on('update',(_,delta)=>{time+=delta/1000;leaves.forEach((l,i)=>{l.o.x+=Math.sin(time*l.w+i)*.06;l.o.y+=l.v*delta/1000;if(l.o.y>1180){l.o.y=300;l.o.x=Phaser.Math.Between(50,1750)}})});
+  console.info('[Hoods visuals] P9 static exterior source',mapExterior?'tilemap':'legacy');
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wait,80));else setTimeout(wait,80);
 })();
