@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="720" height="320" viewBox="0 0 720 320" shape-rendering="crispEdges">
+<title>Hoods V2.4.1 Demon enemy atlas</title>
+<desc>Original Hoods pixel-grid enemy art. 80x80 frames; rows down,left,right,up; columns idle, walk 0-3, attack 0-3. One-tile logical footprint.</desc>
+<defs>
+<g id="demon-down">
+  <ellipse cx="40" cy="70" rx="18" ry="5" fill="#090b0a" opacity=".42"/>
+  <path d="M23 34L15 27l3 17 9 8zM57 34l8-7-3 17-9 8z" fill="#541d1c" stroke="#1b1011" stroke-width="2"/>
+  <path d="M27 49h11l-3 17H23l5-8zM42 49h11l5 9-1 8H45z" fill="#70231f" stroke="#1b1011" stroke-width="2"/>
+  <path d="M22 65h14l-3 5H20zM44 65h14l2 5H47z" fill="#241517"/>
+  <path d="M24 29l8-8h16l8 8 4 24-9 8-11-5-11 5-9-8z" fill="#8f2d25" stroke="#1b1011" stroke-width="2"/>
+  <path d="M29 33h22l3 14-7 7-7-4-7 4-7-7z" fill="#b83b29"/>
+  <path d="M25 31l-9 8 3 17 8-2 4-18zM55 31l9 8-3 17-8-2-4-18z" fill="#6c211f" stroke="#1b1011" stroke-width="2"/>
+  <path d="M17 54l7-3 4 5-4 5-8-2zM63 54l-7-3-4 5 4 5 8-2z" fill="#2b1718"/>
+  <path d="M27 15l6-9 3 12zM53 15l-6-9-3 12z" fill="#d2a34d" stroke="#1b1011" stroke-width="2"/>
+  <path d="M27 18l7-7h12l7 7-2 14-7 6h-8l-7-6z" fill="#a93228" stroke="#1b1011" stroke-width="2"/>
+  <path d="M31 20h18l-3 12H34z" fill="#c84a2f"/>
+  <rect x="33" y="24" width="5" height="3" fill="#ffd45a"/><rect x="43" y="24" width="5" height="3" fill="#ffd45a"/>
+  <path d="M36 33h9l-2 3h-6z" fill="#241517"/>
+</g>
+<g id="demon-left">
+  <ellipse cx="40" cy="70" rx="18" ry="5" fill="#090b0a" opacity=".42"/>
+  <path d="M39 31L55 23l-7 22-12 8z" fill="#541d1c" stroke="#1b1011" stroke-width="2"/>
+  <path d="M31 50h12l-2 17H28zM44 50h10l5 16H45z" fill="#77251f" stroke="#1b1011" stroke-width="2"/>
+  <path d="M26 65h16l-4 5H24zM44 65h15l1 5H47z" fill="#241517"/>
+  <path d="M29 28l12-6 14 8 4 22-10 9-16-4-9-12z" fill="#8f2d25" stroke="#1b1011" stroke-width="2"/>
+  <path d="M31 31l17-5 7 8-3 17-12 5-11-8z" fill="#b83b29"/>
+  <path d="M34 31l-12 7-3 17 8 3 8-20z" fill="#6c211f" stroke="#1b1011" stroke-width="2"/>
+  <path d="M18 53l8-2 4 6-6 4-8-3z" fill="#2b1718"/>
+  <path d="M25 16l7-10 3 12zM46 14l4-10 4 15z" fill="#d2a34d" stroke="#1b1011" stroke-width="2"/>
+  <path d="M23 19l10-8 14 4 3 12-9 10-14-2-7-7z" fill="#a93228" stroke="#1b1011" stroke-width="2"/>
+  <path d="M22 22l18-6 5 6-8 10-13-2z" fill="#c84a2f"/>
+  <rect x="23" y="23" width="5" height="3" fill="#ffd45a"/><path d="M19 29h10l-4 5h-7z" fill="#241517"/>
+</g>
+<g id="demon-right" transform="translate(80 0) scale(-1 1)"><use href="#demon-left"/></g>
+<g id="demon-up">
+  <ellipse cx="40" cy="70" rx="18" ry="5" fill="#090b0a" opacity=".42"/>
+  <path d="M28 50h11l-3 17H24l5-9zM41 50h11l5 8-1 9H44z" fill="#70231f" stroke="#1b1011" stroke-width="2"/>
+  <path d="M22 65h15l-4 5H20zM43 65h15l2 5H47z" fill="#241517"/>
+  <path d="M25 29l7-8h16l7 8 5 24-10 9-10-5-10 5-10-9z" fill="#7b2723" stroke="#1b1011" stroke-width="2"/>
+  <path d="M29 31h22l4 17-8 8-7-4-7 4-8-8z" fill="#9f3228"/>
+  <path d="M30 31L13 20l5 28 12 8zM50 31l17-11-5 28-12 8z" fill="#541d1c" stroke="#1b1011" stroke-width="2"/>
+  <path d="M18 24l8 10-5 8zM62 24L54 34l5 8z" fill="#7b2723"/>
+  <path d="M26 14l7-9 3 13zM54 14l-7-9-3 13z" fill="#d2a34d" stroke="#1b1011" stroke-width="2"/>
+  <path d="M27 18l8-7h11l7 7-2 15-7 5h-8l-7-5z" fill="#8f2d25" stroke="#1b1011" stroke-width="2"/>
+  <path d="M31 19h18v14H31z" fill="#77251f"/>
+</g>
+</defs>
+<g transform="translate(0 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 0)"/>
+</g>
+<g transform="translate(80 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 0)"/>
+</g>
+<g transform="translate(160 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 1)"/>
+<path d="M24 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(240 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 0)"/>
+</g>
+<g transform="translate(320 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 1)"/>
+<path d="M54 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(400 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 0)"/>
+
+</g>
+<g transform="translate(480 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 1)"/>
+<path d="M15 42Q40 62 65 42" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(560 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 3)"/>
+<path d="M12 42Q40 66 68 42" fill="none" stroke="#ffb33b" stroke-width="4" opacity=".9"/>
+</g>
+<g transform="translate(640 0)">
+<use href="#demon-down" xlink:href="#demon-down" transform="translate(0 1)"/>
+<path d="M15 42Q40 62 65 42" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(0 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 0)"/>
+</g>
+<g transform="translate(80 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 0)"/>
+</g>
+<g transform="translate(160 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 1)"/>
+<path d="M24 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(240 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 0)"/>
+</g>
+<g transform="translate(320 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 1)"/>
+<path d="M54 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(400 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(0 0)"/>
+
+</g>
+<g transform="translate(480 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(-1 0)"/>
+<path d="M18 31Q5 40 18 52" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(560 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(-3 0)"/>
+<path d="M18 31Q2 40 18 52" fill="none" stroke="#ffb33b" stroke-width="4" opacity=".9"/>
+</g>
+<g transform="translate(640 80)">
+<use href="#demon-left" xlink:href="#demon-left" transform="translate(-1 0)"/>
+<path d="M18 31Q5 40 18 52" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(0 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 0)"/>
+</g>
+<g transform="translate(80 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 0)"/>
+</g>
+<g transform="translate(160 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 1)"/>
+<path d="M24 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(240 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 0)"/>
+</g>
+<g transform="translate(320 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 1)"/>
+<path d="M54 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(400 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(0 0)"/>
+
+</g>
+<g transform="translate(480 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(1 0)"/>
+<path d="M62 31Q75 40 62 52" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(560 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(3 0)"/>
+<path d="M62 31Q78 40 62 52" fill="none" stroke="#ffb33b" stroke-width="4" opacity=".9"/>
+</g>
+<g transform="translate(640 160)">
+<use href="#demon-right" xlink:href="#demon-right" transform="translate(1 0)"/>
+<path d="M62 31Q75 40 62 52" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(0 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 0)"/>
+</g>
+<g transform="translate(80 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 0)"/>
+</g>
+<g transform="translate(160 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 1)"/>
+<path d="M24 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(240 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 0)"/>
+</g>
+<g transform="translate(320 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 1)"/>
+<path d="M54 69h8" stroke="#8d7954" opacity=".38"/>
+</g>
+<g transform="translate(400 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 0)"/>
+
+</g>
+<g transform="translate(480 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 -1)"/>
+<path d="M15 24Q40 5 65 24" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+<g transform="translate(560 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 -3)"/>
+<path d="M12 24Q40 3 68 24" fill="none" stroke="#ffb33b" stroke-width="4" opacity=".9"/>
+</g>
+<g transform="translate(640 240)">
+<use href="#demon-up" xlink:href="#demon-up" transform="translate(0 -1)"/>
+<path d="M15 24Q40 5 65 24" fill="none" stroke="#e75a2b" stroke-width="3" opacity=".9"/>
+</g>
+</svg>
