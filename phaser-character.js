@@ -1,7 +1,7 @@
-// Hoods Character System v1.0 — full-body outfits, shared human anatomy, 4 directions.
+// Hoods Character System v1.1 — improved full-body outfits, shared human anatomy, 4 directions.
 (() => {
 const KEY='hoods-humans-v1';
-const URL='assets/characters/v1/humans-v1.svg?v=outfits-v1';
+const URL='assets/characters/v1/humans-v1.svg?v=outfits-v2';
 const FRAME_W=48,FRAME_H=64,FRAMES=3;
 const DIRS=['down','left','right','up'];
 const WALK=[0,1,2,1];
@@ -39,7 +39,7 @@ function ensureLoaded(scene,done){
 function validOutfit(id,fallback='wanderer'){return OUTFITS[id]?id:fallback}
 function install(scene,target,options={}){
   if(!scene||!target||!scene.textures.exists(KEY))return null;
-  if(typeof options==='function')options={}; // compatibility with v0.7 gear callback
+  if(typeof options==='function')options={};
   let outfit=validOutfit(options.outfit,options.npc?'merchant':'wanderer');
   let dir=DIRS.includes(options.direction)?options.direction:'down';
   let moving=false,clock=0,lastFrame='';
@@ -66,7 +66,7 @@ function install(scene,target,options={}){
     },
     setOutfit(id){outfit=validOutfit(id,outfit);lastFrame='';sync(moving?WALK[Math.floor(clock*9)%WALK.length]:1);return outfit},
     setDirection(next){if(DIRS.includes(next)){dir=next;lastFrame='';sync(1)}},
-    rebuild(){lastFrame='';sync(moving?1:1)},
+    rebuild(){lastFrame='';sync(1)},
     outfit:()=>outfit,
     direction:()=>dir,
     sprite,
