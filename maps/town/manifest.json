@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "zoneId": "town",
   "tileSize": 32,
   "tilesets": {
@@ -38,6 +38,38 @@
       "tilesetName": "hoods-town-v1",
       "sceneAlias": "__hoodsTownCentralArt",
       "depths": { "ground": 0.19, "decor": 3.25, "roofs": 28 }
+    },
+    {
+      "key": "town-wall-north",
+      "url": "maps/town/town-wall-north.json",
+      "tileset": "hoods-town-v1",
+      "tilesetName": "hoods-town-v1",
+      "sceneAlias": "__hoodsTownWallNorth",
+      "depths": { "ground": 0.2, "decor": 8, "roofs": 28 }
+    },
+    {
+      "key": "town-wall-south",
+      "url": "maps/town/town-wall-south.json",
+      "tileset": "hoods-town-v1",
+      "tilesetName": "hoods-town-v1",
+      "sceneAlias": "__hoodsTownWallSouth",
+      "depths": { "ground": 0.2, "decor": 8, "roofs": 28 }
+    },
+    {
+      "key": "town-wall-west",
+      "url": "maps/town/town-wall-west.json",
+      "tileset": "hoods-town-v1",
+      "tilesetName": "hoods-town-v1",
+      "sceneAlias": "__hoodsTownWallWest",
+      "depths": { "ground": 0.2, "decor": 8, "roofs": 28 }
+    },
+    {
+      "key": "town-wall-east",
+      "url": "maps/town/town-wall-east.json",
+      "tileset": "hoods-town-v1",
+      "tilesetName": "hoods-town-v1",
+      "sceneAlias": "__hoodsTownWallEast",
+      "depths": { "ground": 0.2, "decor": 8, "roofs": 28 }
     },
     {
       "key": "town-exterior",
