@@ -1,8 +1,8 @@
-// Hoods map runtime P8.1 — manifest-driven chunks, reusable layers and functional z-level registry.
+// Hoods map runtime P9 — manifest-driven chunks, reusable layers and functional z-level registry.
 (()=>{
 const MANIFEST_KEY='town-manifest-v2';
-const MANIFEST_URL='maps/town/manifest.json?v=map-p8';
-const ASSET_VERSION='map-p8';
+const MANIFEST_URL='maps/town/manifest.json?v=map-p9';
+const ASSET_VERSION='map-p9';
 const props=list=>Object.fromEntries((list||[]).map(p=>[p.name,p.value]));
 const worldObject=(o,ox,oy)=>{const p=props(o.properties);return{...o,props:p,worldX:ox+(o.x||0),worldY:oy+(o.y||0)}};
 function wait(){
@@ -122,7 +122,7 @@ function install(scene,manifest,failedAssets=new Set()){
   window.HoodsMaps=window.HoodsMaps||{zones:{}};window.HoodsMaps.manifests=window.HoodsMaps.manifests||{};window.HoodsMaps.manifests.town=manifest;window.HoodsMaps.zones.town=chunks;window.HoodsMaps.byZ=window.HoodsMaps.byZ||{};window.HoodsMaps.byZ.town=byZ;
   scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;
   scene.events.emit('hoods-map-ready',{zoneId:'town',chunks:ordered,byZ,manifest});
-  console.info('[Hoods map] P8.1 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
+  console.info('[Hoods map] P9 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
  }catch(err){fail(scene,'install',err)}
 }
 function bindLocationHud(scene,chunks){
