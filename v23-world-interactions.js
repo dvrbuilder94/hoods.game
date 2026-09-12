@@ -75,6 +75,12 @@
     const dialogue=document.getElementById('v23Dialogue');
     let current=null;
 
+    const setMovementEnabled=enabled=>{
+      const keys=[scene.keys?.W,scene.keys?.A,scene.keys?.S,scene.keys?.D,scene.cursors?.left,scene.cursors?.right,scene.cursors?.up,scene.cursors?.down].filter(Boolean);
+      keys.forEach(key=>{if(!enabled)key.reset?.();key.enabled=enabled});
+      if(!enabled){scene.stopTouch?.();scene.player?.setVelocity(0)}
+    };
+
     const setPrompt=(html,interactive=false)=>{
       if(!html){prompt.hidden=true;action.disabled=true;return}
       prompt.innerHTML=html;prompt.hidden=false;action.disabled=!interactive;
@@ -113,14 +119,20 @@
     };
 
     const openDialogue=(speaker,body)=>{
-      scene.stopTouch?.();
+      setMovementEnabled(false);
       document.getElementById('v23Speaker').textContent=speaker;
       document.getElementById('v23DialogueBody').textContent=body;
       dialogue.hidden=false;refreshTarget();
     };
 
+    const closeDialogue=()=>{
+      dialogue.hidden=true;
+      setMovementEnabled(true);
+      refreshTarget();
+    };
+
     const interact=()=>{
-      if(!dialogue.hidden){dialogue.hidden=true;return}
+      if(!dialogue.hidden){closeDialogue();return}
       if(!current) return;
       if(current.type==='gear'){
         scene.stopTouch?.();
@@ -131,6 +143,7 @@
       }
     };
 
+    document.getElementById('v23DialogueClose')?.addEventListener('click',()=>setMovementEnabled(true));
     action?.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();interact()});
     scene.input.keyboard?.on('keydown-E',interact);
     scene.events.on(Phaser.Scenes.Events.UPDATE,refreshTarget);
