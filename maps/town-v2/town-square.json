@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "zoneId": "town-v2",
   "zLevel": 0,
   "tileSize": 32,
@@ -22,6 +22,8 @@
       "floor": "wood",
       "roof": "red",
       "roofTint": 16777215,
+      "frontSide": "south",
+      "revealMargin": 3,
       "windows": [[6,5],[9,5]],
       "props": [["table",6,7],["chair",7,7],["table",9,7],["chair",10,7],["barrel",5,9],["rug",8,8],["sign",9,10]]
     },
@@ -33,6 +35,8 @@
       "floor": "wood",
       "roof": "slate",
       "roofTint": 13816530,
+      "frontSide": "south",
+      "revealMargin": 3,
       "windows": [[24,4],[27,4]],
       "props": [["table",24,6],["table",26,6],["crate",24,8],["crate",27,8],["sign",26,9]]
     },
@@ -44,10 +48,43 @@
       "floor": "wood",
       "roof": "brown",
       "roofTint": 15325870,
+      "frontSide": "south",
+      "revealMargin": 3,
       "windows": [[25,17],[28,17]],
       "props": [["table",25,19],["crate",27,19],["barrel",28,20],["rug",26,20],["sign",27,22]]
     }
   ],
+  "vertical": {
+    "surfaceZ": 0,
+    "levels": [
+      {
+        "id": "shop-cellar",
+        "z": -1,
+        "label": "OLD BRAM CELLAR",
+        "rect": [13,8,8,7],
+        "floor": "cobble",
+        "wall": "wall",
+        "ambient": 0.24,
+        "props": [["crate",14,10],["barrel",19,10],["table",16,11],["rug",17,12],["crate",14,13]]
+      },
+      {
+        "id": "inn-upper",
+        "z": 1,
+        "label": "THE INN · UPPER FLOOR",
+        "rect": [13,8,8,7],
+        "floor": "wood",
+        "wall": "wall",
+        "ambient": 0.08,
+        "props": [["table",15,10],["chair",16,10],["table",18,10],["chair",19,10],["rug",17,12],["barrel",14,13]]
+      }
+    ],
+    "transitions": [
+      {"id":"shop-cellar-down","fromZ":0,"toZ":-1,"from":[24,20],"to":[18,12],"label":"CELLAR"},
+      {"id":"shop-cellar-up","fromZ":-1,"toZ":0,"from":[19,13],"to":[24,21],"label":"STREET"},
+      {"id":"inn-upper-up","fromZ":0,"toZ":1,"from":[10,8],"to":[15,12],"label":"UPPER FLOOR"},
+      {"id":"inn-upper-down","fromZ":1,"toZ":0,"from":[14,13],"to":[10,9],"label":"GROUND FLOOR"}
+    ]
+  },
   "decor": [
     ["tree",2,2],["tree",7,2],["tree",12,2],["tree",24,2],["tree",31,2],
     ["tree",2,8],["tree",31,8],["tree",2,19],["tree",8,22],["tree",31,20],["tree",20,24],["tree",29,24],
