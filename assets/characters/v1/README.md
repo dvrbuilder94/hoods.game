@@ -20,6 +20,10 @@ This directory is the visual source for the human character system.
 
 The atlas is original Hoods art. Tibia is a benchmark for readability, camera language and outfit-based identity only; no Tibia sprites are used.
 
+## Preview
+
+`character-preview.html` in the repository root crops one logical frame at a time and animates the walk cycle. Use that view to judge proportions and readability; GitHub's direct SVG preview shows the entire 144×1024 source sheet and is not representative of in-game presentation.
+
 ## Runtime ownership
 
 `phaser-character.js` owns atlas loading, frame registration, 4-direction animation and outfit rendering.
