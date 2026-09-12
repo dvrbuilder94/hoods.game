@@ -34,8 +34,8 @@ function install(scene){
   };
   const buy=id=>{
     const entry=catalog[id];if(!entry?.player||outfitState.owned.has(id))return select(id);
-    const gameSave=read(GAME_SAVE_KEY,{}),coins=Number(gameSave.coins);
-    if(!Number.isFinite(coins)||coins<(entry.price||0)){scene.combat?.say?.(`Need ${entry.price} Coins for ${entry.name}`,1400);return false}
+    const gameSave=read(GAME_SAVE_KEY,{}),stored=Number(gameSave.coins),coins=Number.isFinite(stored)?stored:120;
+    if(coins<(entry.price||0)){scene.combat?.say?.(`Need ${entry.price} Coins for ${entry.name}`,1400);return false}
     gameSave.coins=coins-entry.price;localStorage.setItem(GAME_SAVE_KEY,JSON.stringify(gameSave));
     outfitState.owned.add(id);outfitState.selected=id;saveOutfits();
     // Core game state is closure-scoped, so reload once after purchase to sync its coin cache safely.
