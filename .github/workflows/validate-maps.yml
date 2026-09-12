@@ -1,0 +1,33 @@
+name: Validate map contracts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'maps/**'
+      - 'assets/maps/**'
+      - 'phaser-map-runtime.js'
+      - 'scripts/validate-maps.mjs'
+      - '.github/workflows/validate-maps.yml'
+  pull_request:
+    paths:
+      - 'maps/**'
+      - 'assets/maps/**'
+      - 'phaser-map-runtime.js'
+      - 'scripts/validate-maps.mjs'
+      - '.github/workflows/validate-maps.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate Tilemap and manifest contracts
+        run: node scripts/validate-maps.mjs
