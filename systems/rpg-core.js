@@ -14,8 +14,8 @@
     {id:"leather-armor",name:"Leather Armor",slot:"armor",category:"gear",price:30,rarity:"COMMON",stats:{hp:10,defense:3}},
     {id:"wooden-shield",name:"Wooden Shield",slot:"shield",category:"gear",price:20,rarity:"COMMON",stats:{defense:2}},
     {id:"ranger-boots",name:"Ranger Boots",slot:"boots",category:"gear",price:18,rarity:"RARE",stats:{speed:2,luck:1}},
-    {id:"reinforced-leather",name:"Reinforced Leather Armor",slot:"armor",category:"quest-gear",shop:false,price:0,rarity:"UNCOMMON",stats:{hp:18,defense:5}},
-    {id:"warden-blade",name:"Warden Blade",slot:"weapon",category:"quest-gear",shop:false,price:0,rarity:"RARE",stats:{attack:9,luck:1}}
+    {id:"reinforced-leather",name:"Reinforced Leather Armor",slot:"armor",category:"gear",price:0,shop:false,rarity:"UNCOMMON",stats:{hp:18,defense:5}},
+    {id:"warden-blade",name:"Warden Blade",slot:"weapon",category:"gear",price:0,shop:false,rarity:"RARE",stats:{attack:9,luck:1}}
   ];
 
   function itemById(id){ return catalog.find(item=>item.id===id) || null; }
@@ -94,7 +94,7 @@
       version:VERSION,
       currencies:{coins:Math.max(0,Math.floor(Number(runtime?.coins)||0))},
       inventory,
-      equipment:sanitizeEquipment(runtime?.equipped,owned),
+      equipment:{...createEquipment(),...runtime?.equipped},
       player:sanitizePlayer(runtime?.player),
       savedAt:new Date().toISOString()
     };
