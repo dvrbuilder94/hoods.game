@@ -1,70 +1,122 @@
-// Hoods map migration P6 — Town core + building art + exterior Tilemap chunk.
+// Hoods map runtime P7 — manifest-driven Town chunks, layers and z-level registry.
 (()=>{
-const CORE_KEY='town-core',CORE_URL='maps/town/town-core.json?v=map-p6',TILE_KEY='town-basic',TILE_URL='assets/maps/tiles/town-basic.svg?v=map-p6';
-const ART_TILE_KEY='hoods-town-v1',ART_TILE_URL='assets/maps/tiles/hoods-town-v1.svg?v=map-p6';
-const WEST_KEY='town-west',WEST_URL='maps/town/town-west.json?v=map-p6';
-const CENTRAL_ART_KEY='town-central-art',CENTRAL_ART_URL='maps/town/town-central-art.json?v=map-p6';
-const EXTERIOR_KEY='town-exterior',EXTERIOR_URL='maps/town/town-exterior.json?v=map-p6';
+const MANIFEST_KEY='town-manifest-v2';
+const MANIFEST_URL='maps/town/manifest.json?v=map-p7';
 const props=list=>Object.fromEntries((list||[]).map(p=>[p.name,p.value]));
 const worldObject=(o,ox,oy)=>{const p=props(o.properties);return{...o,props:p,worldX:ox+(o.x||0),worldY:oy+(o.y||0)}};
-function wait(){const game=window.Phaser?.GAMES?.find(Boolean),scene=game?.scene?.getScene('TownScene');if(!scene||!scene.sys?.isActive())return setTimeout(wait,100);loadCore(scene)}
-function installCollisionObjects(scene,map,ox,oy,chunkId){
- const bodies=[];const objects=(map.getObjectLayer('collisions')?.objects||[]).map(o=>worldObject(o,ox,oy));
- if(!scene.solids)return bodies;
- objects.forEach(o=>{if(!o.width||!o.height)return;const z=scene.add.zone(o.worldX+o.width/2,o.worldY+o.height/2,o.width,o.height);scene.physics.add.existing(z,true);z.__mapCollision=true;z.__mapBuilding=o.props.building||null;z.__mapChunk=chunkId;scene.solids.add(z);bodies.push(z)});
+function wait(){
+ const game=window.Phaser?.GAMES?.find(Boolean),scene=game?.scene?.getScene('TownScene');
+ if(!scene||!scene.sys?.isActive())return setTimeout(wait,100);
+ if(scene.__hoodsTownMapReady||scene.__hoodsMapLoading)return;
+ loadManifest(scene);
+}
+function loadManifest(scene){
+ scene.__hoodsMapLoading=true;scene.__hoodsTownMapReady=false;
+ if(scene.cache.json.exists(MANIFEST_KEY))return queueAssets(scene,scene.cache.json.get(MANIFEST_KEY));
+ scene.load.json(MANIFEST_KEY,MANIFEST_URL);
+ scene.load.once('complete',()=>queueAssets(scene,scene.cache.json.get(MANIFEST_KEY)));
+ scene.load.once('loaderror',file=>{if(file?.key===MANIFEST_KEY)fail(scene,'manifest',file?.key)});
+ scene.load.start();
+}
+function validateManifest(manifest){
+ if(!manifest||manifest.zoneId!=='town')throw new Error('Town manifest missing or has the wrong zoneId');
+ if(!Array.isArray(manifest.chunks)||!manifest.chunks.length)throw new Error('Town manifest has no chunks');
+ if(!manifest.tilesets||typeof manifest.tilesets!=='object')throw new Error('Town manifest has no tilesets');
+ const keys=new Set();
+ for(const def of manifest.chunks){
+  if(!def?.key||!def?.url)throw new Error('Every Town chunk requires key + url');
+  if(keys.has(def.key))throw new Error(`Duplicate Town chunk key: ${def.key}`);keys.add(def.key);
+  if(!manifest.tilesets[def.tileset])throw new Error(`Unknown tileset ${def.tileset} for ${def.key}`);
+ }
+ return manifest;
+}
+function queueAssets(scene,rawManifest){
+ let manifest;
+ try{manifest=validateManifest(rawManifest)}catch(err){return fail(scene,'manifest validation',err)}
+ let queued=false;
+ for(const ts of Object.values(manifest.tilesets)){
+  if(!scene.textures.exists(ts.key)){scene.load.svg(ts.key,`${ts.url}?v=map-p7`);queued=true}
+ }
+ for(const def of manifest.chunks){
+  if(def.enabled===false)continue;
+  if(!scene.cache.tilemap.exists(def.key)){scene.load.tilemapTiledJSON(def.key,`${def.url}?v=map-p7`);queued=true}
+ }
+ if(!queued)return install(scene,manifest);
+ const failed=new Set();
+ scene.load.on('loaderror',file=>{if(file?.key)failed.add(file.key)});
+ scene.load.once('complete',()=>install(scene,manifest,failed));
+ scene.load.start();
+}
+function installCollisionObjects(scene,map,ox,oy,chunkId,zLevel){
+ const bodies=[];if(!scene.solids)return bodies;
+ for(const raw of map.getObjectLayer('collisions')?.objects||[]){
+  const o=worldObject(raw,ox,oy);if(!o.width||!o.height)continue;
+  const zone=scene.add.zone(o.worldX+o.width/2,o.worldY+o.height/2,o.width,o.height);
+  scene.physics.add.existing(zone,true);zone.__mapCollision=true;zone.__mapBuilding=o.props.building||null;zone.__mapChunk=chunkId;zone.__mapZLevel=zLevel;
+  scene.solids.add(zone);bodies.push(zone);
+ }
  return bodies;
 }
-function registerLookups(scene){
- scene.mapObject=name=>{for(const c of Object.values(scene.__hoodsTownChunks||{})){if(c?.objects?.[name])return c.objects[name]}return null};
- scene.mapTrigger=name=>{for(const c of Object.values(scene.__hoodsTownChunks||{})){const hit=c?.triggers?.find?.(t=>t.name===name);if(hit)return hit}return null};
+function createLayer(map,name,tiles,ox,oy,depth){
+ if(!map.getLayer(name))return null;
+ return map.createLayer(name,tiles,ox,oy)?.setDepth(depth);
 }
-function registerChunk(scene,chunk){
- scene.__hoodsTownChunks=scene.__hoodsTownChunks||{};scene.__hoodsTownChunks[chunk.meta.chunkId]=chunk;registerLookups(scene);
- window.HoodsMaps=window.HoodsMaps||{zones:{}};window.HoodsMaps.zones.town=scene.__hoodsTownChunks;
-}
-function chunk(scene,map,key,ox,oy,tiles,depths){
- const ground=map.createLayer('ground',tiles,ox,oy)?.setDepth(depths.ground);
- const decor=map.createLayer('decor',tiles,ox,oy)?.setDepth(depths.decor);
- const roofs=map.createLayer('roofs',tiles,ox,oy)?.setDepth(depths.roofs??28);
- const collisionBodies=installCollisionObjects(scene,map,ox,oy,key);
- const objects={};(map.getObjectLayer('objects')?.objects||[]).forEach(o=>{const w=worldObject(o,ox,oy);objects[o.name]=w});
+function installChunk(scene,manifest,def){
+ const map=scene.make.tilemap({key:def.key}),meta=props(map.properties),ox=Number(meta.worldX||0),oy=Number(meta.worldY||0),zLevel=Number(meta.zLevel||0);
+ const ts=manifest.tilesets[def.tileset],tileSize=Number(manifest.tileSize||32);
+ const tiles=map.addTilesetImage(def.tilesetName||def.tileset,ts.key,tileSize,tileSize,0,0);if(!tiles)throw new Error(`Tileset ${def.tileset} unavailable for ${def.key}`);
+ const depths=def.depths||{};
+ const ground=createLayer(map,'ground',tiles,ox,oy,Number(depths.ground??.15));
+ const decor=createLayer(map,'decor',tiles,ox,oy,Number(depths.decor??3));
+ const roofs=createLayer(map,'roofs',tiles,ox,oy,Number(depths.roofs??28));
+ const collisionBodies=installCollisionObjects(scene,map,ox,oy,def.key,zLevel);
+ const objects={};
+ for(const raw of map.getObjectLayer('objects')?.objects||[]){const o=worldObject(raw,ox,oy);if(objects[o.name])console.warn('[Hoods map] duplicate object inside chunk',def.key,o.name);objects[o.name]=o}
  const triggers=(map.getObjectLayer('triggers')?.objects||[]).map(o=>worldObject(o,ox,oy));
- return{ground,decor,roofs,collisionBodies,objects,triggers};
+ const chunk={key:def.key,map,definition:def,meta:{zoneId:meta.zoneId||manifest.zoneId,chunkId:meta.chunkId||def.key,zLevel,worldX:ox,worldY:oy},layers:{ground,decor,roofs},collisionBodies,objects,triggers};
+ if(def.sceneAlias)scene[def.sceneAlias]=chunk;
+ if(def.primary)scene.__hoodsTownMap=chunk;
+ return chunk;
 }
-function loadCore(scene){
- if(scene.__hoodsMapLoading||scene.__hoodsTownMap)return;
- scene.__hoodsMapLoading=true;scene.__hoodsTownMapReady=false;
- const ready=()=>{scene.__hoodsMapLoading=false;installCore(scene);setTimeout(()=>loadWest(scene),0)};
- const haveMap=scene.cache.tilemap.exists(CORE_KEY),haveTiles=scene.textures.exists(TILE_KEY);
- if(haveMap&&haveTiles)return ready();if(!haveMap)scene.load.tilemapTiledJSON(CORE_KEY,CORE_URL);if(!haveTiles)scene.load.svg(TILE_KEY,TILE_URL);
- scene.load.once('complete',ready);scene.load.once('loaderror',file=>{scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Town core asset failed, keeping legacy world',file?.key)});scene.load.start();
-}
-function installCore(scene){
- if(scene.__hoodsTownMap)return;
+function install(scene,manifest,failedAssets=new Set()){
  try{
-  const map=scene.make.tilemap({key:CORE_KEY}),meta=props(map.properties),ox=Number(meta.worldX||0),oy=Number(meta.worldY||0),tiles=map.addTilesetImage('town-basic',TILE_KEY,32,32,0,0);if(!tiles)throw new Error('tileset town-basic not available');
-  const built=chunk(scene,map,'town-core',ox,oy,tiles,{ground:.14,decor:.24});
-  const c={map,meta:{zoneId:meta.zoneId||'town',chunkId:meta.chunkId||'town-core',zLevel:Number(meta.zLevel||0),worldX:ox,worldY:oy},layers:{ground:built.ground,decor:built.decor,roofs:built.roofs},collisionBodies:built.collisionBodies,objects:built.objects,triggers:built.triggers};
-  scene.__hoodsTownMap=c;registerChunk(scene,c);
-  const spawn=built.objects.player_spawn;if(spawn&&scene.player)scene.player.setPosition(spawn.worldX,spawn.worldY);const bram=built.objects.npc_bram;if(bram&&scene.bram)scene.bram.setPosition(bram.worldX,bram.worldY);const mara=built.objects.npc_mara;if(mara&&scene.mara)scene.mara.setPosition(mara.worldX,mara.worldY);
-  const loc=document.getElementById('phaserLocation');scene.events.on('update',()=>{if(!loc||!scene.player)return;for(const cc of Object.values(scene.__hoodsTownChunks||{})){for(const t of cc.triggers||[]){if(t.type!=='zone')continue;const inside=scene.player.x>=t.worldX&&scene.player.x<=t.worldX+(t.width||0)&&scene.player.y>=t.worldY&&scene.player.y<=t.worldY+(t.height||0);if(inside){loc.textContent=t.props.label||t.name.toUpperCase();return}}}});
-  console.info('[Hoods map] P6 core loaded',c.meta);
- }catch(err){scene.__hoodsTownMap=null;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Town core install failed, legacy world kept',err)}
+  const chunks={},ordered=[],byZ={};
+  for(const def of manifest.chunks){
+   if(def.enabled===false)continue;
+   if(failedAssets.has(def.key)){console.warn('[Hoods map] skipped failed chunk asset',def.key);continue}
+   try{
+    const chunk=installChunk(scene,manifest,def);chunks[chunk.meta.chunkId]=chunk;ordered.push(chunk);(byZ[chunk.meta.zLevel]??=[]).push(chunk);
+   }catch(err){console.warn('[Hoods map] chunk install failed; keeping fallback for',def.key,err)}
+  }
+  if(!scene.__hoodsTownMap)throw new Error('Primary Town chunk did not install');
+  scene.__hoodsTownChunks=chunks;scene.__hoodsTownChunkOrder=ordered;scene.__hoodsTownByZ=byZ;
+  scene.mapObject=name=>{for(const c of ordered){if(c.objects?.[name])return c.objects[name]}return null};
+  scene.mapTrigger=name=>{for(const c of ordered){const t=c.triggers?.find?.(x=>x.name===name);if(t)return t}return null};
+  scene.mapChunks=(zLevel=null)=>zLevel===null?[...ordered]:[...(byZ[Number(zLevel)]||[])];
+  const names=new Map();
+  for(const c of ordered)for(const name of Object.keys(c.objects||{})){if(names.has(name))console.warn('[Hoods map] duplicate object name across chunks',name,names.get(name),c.meta.chunkId);else names.set(name,c.meta.chunkId)}
+  for(const def of manifest.chunks.filter(d=>d.applySpawns)){
+   const c=ordered.find(x=>x.key===def.key);if(!c)continue;
+   const spawn=c.objects.player_spawn;if(spawn&&scene.player)scene.player.setPosition(spawn.worldX,spawn.worldY);
+   const bram=c.objects.npc_bram;if(bram&&scene.bram)scene.bram.setPosition(bram.worldX,bram.worldY);
+   const mara=c.objects.npc_mara;if(mara&&scene.mara)scene.mara.setPosition(mara.worldX,mara.worldY);
+  }
+  bindLocationHud(scene,ordered);
+  window.HoodsMaps=window.HoodsMaps||{zones:{}};window.HoodsMaps.manifests=window.HoodsMaps.manifests||{};window.HoodsMaps.manifests.town=manifest;window.HoodsMaps.zones.town=chunks;window.HoodsMaps.byZ=window.HoodsMaps.byZ||{};window.HoodsMaps.byZ.town=byZ;
+  scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;
+  scene.events.emit('hoods-map-ready',{zoneId:'town',chunks:ordered,byZ,manifest});
+  console.info('[Hoods map] P7 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
+ }catch(err){fail(scene,'install',err)}
 }
-function loadWest(scene){if(scene.__hoodsTownWestLoading)return;if(scene.__hoodsTownWest)return setTimeout(()=>loadCentralArt(scene),0);scene.__hoodsTownWestLoading=true;const ready=()=>{scene.__hoodsTownWestLoading=false;installWest(scene)};const haveMap=scene.cache.tilemap.exists(WEST_KEY),haveTiles=scene.textures.exists(ART_TILE_KEY);if(haveMap&&haveTiles)return ready();if(!haveMap)scene.load.tilemapTiledJSON(WEST_KEY,WEST_URL);if(!haveTiles)scene.load.svg(ART_TILE_KEY,ART_TILE_URL);scene.load.once('complete',ready);scene.load.once('loaderror',file=>{scene.__hoodsTownWestLoading=false;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Town west failed, Inn stays legacy',file?.key)});scene.load.start()}
-function installWest(scene){
- try{const map=scene.make.tilemap({key:WEST_KEY}),meta=props(map.properties),ox=Number(meta.worldX||0),oy=Number(meta.worldY||0),tiles=map.addTilesetImage('hoods-town-v1',ART_TILE_KEY,32,32,0,0);if(!tiles)throw new Error('tileset hoods-town-v1 not available');const built=chunk(scene,map,'town-west',ox,oy,tiles,{ground:.18,decor:3.2});const c={map,meta:{zoneId:'town',chunkId:meta.chunkId||'town-west',zLevel:Number(meta.zLevel||0),worldX:ox,worldY:oy},layers:{ground:built.ground,decor:built.decor,roofs:built.roofs},collisionBodies:built.collisionBodies,objects:built.objects,triggers:built.triggers};scene.__hoodsTownWest=c;registerChunk(scene,c);setTimeout(()=>loadCentralArt(scene),0)}catch(err){scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Town west install failed',err)}
+function bindLocationHud(scene,chunks){
+ if(scene.__hoodsLocationBinding)return;scene.__hoodsLocationBinding=true;
+ const loc=document.getElementById('phaserLocation');
+ scene.events.on('update',()=>{
+  if(!loc||!scene.player)return;
+  const currentZ=Number(scene.__hoodsZLevel||0);
+  for(const c of chunks){if(c.meta.zLevel!==currentZ)continue;for(const t of c.triggers||[]){if(t.type!=='zone')continue;const inside=scene.player.x>=t.worldX&&scene.player.x<=t.worldX+(t.width||0)&&scene.player.y>=t.worldY&&scene.player.y<=t.worldY+(t.height||0);if(inside){loc.textContent=t.props.label||t.name.toUpperCase();return}}}
+ });
 }
-function loadCentralArt(scene){if(scene.__hoodsTownCentralArtLoading)return;if(scene.__hoodsTownCentralArt)return setTimeout(()=>loadExterior(scene),0);scene.__hoodsTownCentralArtLoading=true;const ready=()=>{scene.__hoodsTownCentralArtLoading=false;installCentralArt(scene)};const haveMap=scene.cache.tilemap.exists(CENTRAL_ART_KEY),haveTiles=scene.textures.exists(ART_TILE_KEY);if(haveMap&&haveTiles)return ready();if(!haveMap)scene.load.tilemapTiledJSON(CENTRAL_ART_KEY,CENTRAL_ART_URL);if(!haveTiles)scene.load.svg(ART_TILE_KEY,ART_TILE_URL);scene.load.once('complete',ready);scene.load.once('loaderror',file=>{scene.__hoodsTownCentralArtLoading=false;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Central art failed',file?.key)});scene.load.start()}
-function installCentralArt(scene){
- try{const map=scene.make.tilemap({key:CENTRAL_ART_KEY}),meta=props(map.properties),ox=Number(meta.worldX||0),oy=Number(meta.worldY||0),tiles=map.addTilesetImage('hoods-town-v1',ART_TILE_KEY,32,32,0,0);if(!tiles)throw new Error('tileset hoods-town-v1 not available');const built=chunk(scene,map,'town-central-art',ox,oy,tiles,{ground:.19,decor:3.25});const c={map,meta:{zoneId:'town',chunkId:meta.chunkId||'town-central-art',zLevel:Number(meta.zLevel||0),worldX:ox,worldY:oy},layers:{ground:built.ground,decor:built.decor,roofs:built.roofs},collisionBodies:built.collisionBodies,objects:built.objects,triggers:built.triggers};scene.__hoodsTownCentralArt=c;registerChunk(scene,c);setTimeout(()=>loadExterior(scene),0)}catch(err){scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Central art install failed',err)}
-}
-function loadExterior(scene){
- if(scene.__hoodsTownExteriorLoading)return;if(scene.__hoodsTownExterior){scene.__hoodsTownMapReady=true;return}scene.__hoodsTownExteriorLoading=true;
- const ready=()=>{scene.__hoodsTownExteriorLoading=false;installExterior(scene)};const haveMap=scene.cache.tilemap.exists(EXTERIOR_KEY),haveTiles=scene.textures.exists(ART_TILE_KEY);if(haveMap&&haveTiles)return ready();if(!haveMap)scene.load.tilemapTiledJSON(EXTERIOR_KEY,EXTERIOR_URL);if(!haveTiles)scene.load.svg(ART_TILE_KEY,ART_TILE_URL);scene.load.once('complete',ready);scene.load.once('loaderror',file=>{scene.__hoodsTownExteriorLoading=false;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Exterior failed; legacy Town visuals remain',file?.key)});scene.load.start();
-}
-function installExterior(scene){
- try{const map=scene.make.tilemap({key:EXTERIOR_KEY}),meta=props(map.properties),ox=Number(meta.worldX||0),oy=Number(meta.worldY||0),tiles=map.addTilesetImage('hoods-town-v1',ART_TILE_KEY,32,32,0,0);if(!tiles)throw new Error('tileset hoods-town-v1 not available');const built=chunk(scene,map,'town-exterior',ox,oy,tiles,{ground:.16,decor:3.1});const c={map,meta:{zoneId:'town',chunkId:meta.chunkId||'town-exterior',zLevel:Number(meta.zLevel||0),worldX:ox,worldY:oy},layers:{ground:built.ground,decor:built.decor,roofs:built.roofs},collisionBodies:built.collisionBodies,objects:built.objects,triggers:built.triggers};scene.__hoodsTownExterior=c;registerChunk(scene,c);scene.__hoodsTownMapReady=true;console.info('[Hoods map] P6 Town exterior loaded',c.meta)}catch(err){scene.__hoodsTownExterior=null;scene.__hoodsTownMapReady=true;console.warn('[Hoods map] Exterior install failed; legacy Town visuals remain',err)}
-}
+function fail(scene,stage,err){scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;scene.__hoodsMapFailed=true;scene.events?.emit?.('hoods-map-failed',{stage,error:err});console.warn(`[Hoods map] ${stage} failed; legacy world remains active`,err||'')}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wait,50));else setTimeout(wait,50);
 })();
