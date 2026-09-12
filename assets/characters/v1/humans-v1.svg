@@ -1,26 +1,303 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="144" height="1024" viewBox="0 0 144 1024" shape-rendering="crispEdges">
 <defs>
 <style>
-.skin{fill:var(--skin)}.skin2{fill:var(--skin2)}.cloth{fill:var(--cloth)}.cloth2{fill:var(--cloth2)}.cloak{fill:var(--cloak)}.hood{fill:var(--hood)}.trim{fill:var(--trim)}.boot{fill:var(--boot)}.hair{fill:var(--hair)}.accent{fill:var(--accent)}.line{fill:#171715}.shadow{fill:#0b0d0a;opacity:.34}
+.skin{fill:var(--skin)}
+.skin2{fill:var(--skin2)}
+.cloth{fill:var(--cloth)}
+.cloth2{fill:var(--cloth2)}
+.cloak{fill:var(--cloak)}
+.hood{fill:var(--hood)}
+.trim{fill:var(--trim)}
+.boot{fill:var(--boot)}
+.hair{fill:var(--hair)}
+.accent{fill:var(--accent)}
+.line{fill:#171715}
+.shadow{fill:#0b0d0a;opacity:.34}
 </style>
-<symbol id="down-a" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M13 29h22l3 19-9 5-5-10-5 10-9-5z"/><rect class="boot" x="14" y="49" width="10" height="6"/><rect class="boot" x="27" y="47" width="9" height="7"/><rect class="cloth2" x="16" y="39" width="8" height="11"/><rect class="cloth2" x="26" y="38" width="8" height="10"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="9" y="29" width="6" height="14"/><rect class="cloth2" x="34" y="28" width="6" height="14"/><rect class="skin" x="9" y="41" width="6" height="5"/><rect class="skin" x="34" y="40" width="6" height="5"/><path class="hood" d="M13 17l5-9h12l6 9-3 13H16z"/><rect class="skin" x="17" y="17" width="14" height="11"/><rect class="skin2" x="19" y="18" width="10" height="3"/><rect class="line" x="19" y="22" width="3" height="3"/><rect class="line" x="27" y="22" width="3" height="3"/><rect class="hair" x="15" y="16" width="4" height="12"/><rect class="hair" x="30" y="16" width="4" height="12"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="down-i" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M13 29h22l3 19-9 5-5-9-5 9-9-5z"/><rect class="boot" x="14" y="48" width="10" height="7"/><rect class="boot" x="26" y="48" width="10" height="7"/><rect class="cloth2" x="16" y="38" width="8" height="11"/><rect class="cloth2" x="26" y="38" width="8" height="11"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="9" y="29" width="6" height="14"/><rect class="cloth2" x="34" y="29" width="6" height="14"/><rect class="skin" x="9" y="41" width="6" height="5"/><rect class="skin" x="34" y="41" width="6" height="5"/><path class="hood" d="M13 17l5-9h12l6 9-3 13H16z"/><rect class="skin" x="17" y="17" width="14" height="11"/><rect class="skin2" x="19" y="18" width="10" height="3"/><rect class="line" x="19" y="22" width="3" height="3"/><rect class="line" x="27" y="22" width="3" height="3"/><rect class="hair" x="15" y="16" width="4" height="12"/><rect class="hair" x="30" y="16" width="4" height="12"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="down-b" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M13 29h22l3 19-9 5-5-10-5 10-9-5z"/><rect class="boot" x="13" y="47" width="9" height="7"/><rect class="boot" x="25" y="49" width="10" height="6"/><rect class="cloth2" x="15" y="38" width="8" height="10"/><rect class="cloth2" x="25" y="39" width="8" height="11"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="8" y="28" width="6" height="14"/><rect class="cloth2" x="33" y="29" width="6" height="14"/><rect class="skin" x="8" y="40" width="6" height="5"/><rect class="skin" x="33" y="41" width="6" height="5"/><path class="hood" d="M13 17l5-9h12l6 9-3 13H16z"/><rect class="skin" x="17" y="17" width="14" height="11"/><rect class="skin2" x="19" y="18" width="10" height="3"/><rect class="line" x="19" y="22" width="3" height="3"/><rect class="line" x="27" y="22" width="3" height="3"/><rect class="hair" x="15" y="16" width="4" height="12"/><rect class="hair" x="30" y="16" width="4" height="12"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="left-a" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/><path class="cloak" d="M15 29h19l3 19-8 5-6-9-6 7z"/><rect class="boot" x="13" y="48" width="11" height="7"/><rect class="boot" x="27" y="46" width="9" height="7"/><rect class="cloth2" x="16" y="38" width="8" height="11"/><rect class="cloth2" x="27" y="37" width="7" height="10"/><path class="cloth" d="M15 28l7-5h8l6 6-3 15H17z"/><rect class="trim" x="18" y="33" width="12" height="3"/><rect class="line" x="17" y="42" width="16" height="3"/><rect class="cloth2" x="30" y="28" width="6" height="15"/><rect class="skin" x="30" y="41" width="6" height="5"/><path class="hood" d="M15 17l5-9h12l5 9-4 13H18z"/><rect class="skin" x="19" y="17" width="13" height="11"/><rect class="skin2" x="22" y="18" width="9" height="3"/><rect class="line" x="29" y="22" width="3" height="3"/><rect class="hair" x="17" y="16" width="4" height="12"/><rect class="accent" x="22" y="28" width="7" height="3"/></symbol>
-<symbol id="left-i" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/><path class="cloak" d="M15 29h19l3 19-8 5-6-9-6 7z"/><rect class="boot" x="14" y="48" width="10" height="7"/><rect class="boot" x="26" y="48" width="10" height="7"/><rect class="cloth2" x="16" y="38" width="8" height="11"/><rect class="cloth2" x="27" y="38" width="7" height="11"/><path class="cloth" d="M15 28l7-5h8l6 6-3 15H17z"/><rect class="trim" x="18" y="33" width="12" height="3"/><rect class="line" x="17" y="42" width="16" height="3"/><rect class="cloth2" x="30" y="29" width="6" height="14"/><rect class="skin" x="30" y="41" width="6" height="5"/><path class="hood" d="M15 17l5-9h12l5 9-4 13H18z"/><rect class="skin" x="19" y="17" width="13" height="11"/><rect class="skin2" x="22" y="18" width="9" height="3"/><rect class="line" x="29" y="22" width="3" height="3"/><rect class="hair" x="17" y="16" width="4" height="12"/><rect class="accent" x="22" y="28" width="7" height="3"/></symbol>
-<symbol id="left-b" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/><path class="cloak" d="M15 29h19l3 19-8 5-6-9-6 7z"/><rect class="boot" x="14" y="46" width="9" height="7"/><rect class="boot" x="26" y="49" width="11" height="6"/><rect class="cloth2" x="16" y="37" width="8" height="10"/><rect class="cloth2" x="27" y="39" width="7" height="11"/><path class="cloth" d="M15 28l7-5h8l6 6-3 15H17z"/><rect class="trim" x="18" y="33" width="12" height="3"/><rect class="line" x="17" y="42" width="16" height="3"/><rect class="cloth2" x="31" y="30" width="6" height="14"/><rect class="skin" x="31" y="42" width="6" height="5"/><path class="hood" d="M15 17l5-9h12l5 9-4 13H18z"/><rect class="skin" x="19" y="17" width="13" height="11"/><rect class="skin2" x="22" y="18" width="9" height="3"/><rect class="line" x="29" y="22" width="3" height="3"/><rect class="hair" x="17" y="16" width="4" height="12"/><rect class="accent" x="22" y="28" width="7" height="3"/></symbol>
-<symbol id="up-a" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M12 28h24l3 21-10 5-5-10-5 10-10-5z"/><rect class="boot" x="14" y="49" width="10" height="6"/><rect class="boot" x="27" y="47" width="9" height="7"/><rect class="cloth2" x="16" y="39" width="8" height="11"/><rect class="cloth2" x="26" y="38" width="8" height="10"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="9" y="29" width="6" height="15"/><rect class="cloth2" x="34" y="28" width="6" height="15"/><path class="hood" d="M13 17l5-9h12l6 9-2 13H15z"/><rect class="hair" x="17" y="16" width="16" height="12"/><rect class="hood" x="15" y="15" width="4" height="13"/><rect class="hood" x="31" y="15" width="4" height="13"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="up-i" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M12 28h24l3 21-10 5-5-9-5 9-10-5z"/><rect class="boot" x="14" y="48" width="10" height="7"/><rect class="boot" x="26" y="48" width="10" height="7"/><rect class="cloth2" x="16" y="38" width="8" height="11"/><rect class="cloth2" x="26" y="38" width="8" height="11"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="9" y="29" width="6" height="15"/><rect class="cloth2" x="34" y="29" width="6" height="15"/><path class="hood" d="M13 17l5-9h12l6 9-2 13H15z"/><rect class="hair" x="17" y="16" width="16" height="12"/><rect class="hood" x="15" y="15" width="4" height="13"/><rect class="hood" x="31" y="15" width="4" height="13"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="up-b" viewBox="0 0 48 64"><ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/><path class="cloak" d="M12 28h24l3 21-10 5-5-10-5 10-10-5z"/><rect class="boot" x="13" y="47" width="9" height="7"/><rect class="boot" x="25" y="49" width="10" height="6"/><rect class="cloth2" x="15" y="38" width="8" height="10"/><rect class="cloth2" x="25" y="39" width="8" height="11"/><path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/><rect class="cloth2" x="8" y="28" width="6" height="15"/><rect class="cloth2" x="33" y="29" width="6" height="15"/><path class="hood" d="M13 17l5-9h12l6 9-2 13H15z"/><rect class="hair" x="17" y="16" width="16" height="12"/><rect class="hood" x="15" y="15" width="4" height="13"/><rect class="hood" x="31" y="15" width="4" height="13"/><rect class="accent" x="21" y="28" width="7" height="3"/></symbol>
-<symbol id="right-a" viewBox="0 0 48 64"><g transform="translate(48 0) scale(-1 1)"><use href="#left-a"/></g></symbol><symbol id="right-i" viewBox="0 0 48 64"><g transform="translate(48 0) scale(-1 1)"><use href="#left-i"/></g></symbol><symbol id="right-b" viewBox="0 0 48 64"><g transform="translate(48 0) scale(-1 1)"><use href="#left-b"/></g></symbol>
+
+<symbol id="down-a" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="39" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="37" width="5" height="10"/>
+  <rect class="boot" x="14" y="49" width="8" height="5"/>
+  <rect class="boot" x="26" y="46" width="8" height="6"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="31" width="5" height="12"/>
+  <rect class="cloth2" x="34" y="29" width="5" height="13"/>
+  <rect class="skin" x="9" y="41" width="5" height="4"/>
+  <rect class="skin" x="34" y="40" width="5" height="4"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="skin" x="18" y="18" width="12" height="10"/>
+  <rect class="skin2" x="19" y="18" width="10" height="2"/>
+  <rect class="hair" x="15" y="16" width="3" height="12"/>
+  <rect class="hair" x="30" y="16" width="3" height="12"/>
+  <rect class="line" x="21" y="22" width="2" height="2"/>
+  <rect class="line" x="26" y="22" width="2" height="2"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+  <rect class="line" x="22" y="27" width="4" height="1"/>
+</symbol>
+
+<symbol id="down-i" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="38" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="38" width="5" height="11"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="25" y="49" width="8" height="5"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="30" width="5" height="13"/>
+  <rect class="cloth2" x="34" y="30" width="5" height="13"/>
+  <rect class="skin" x="9" y="41" width="5" height="4"/>
+  <rect class="skin" x="34" y="41" width="5" height="4"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="skin" x="18" y="18" width="12" height="10"/>
+  <rect class="skin2" x="19" y="18" width="10" height="2"/>
+  <rect class="hair" x="15" y="16" width="3" height="12"/>
+  <rect class="hair" x="30" y="16" width="3" height="12"/>
+  <rect class="line" x="21" y="22" width="2" height="2"/>
+  <rect class="line" x="26" y="22" width="2" height="2"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+  <rect class="line" x="22" y="27" width="4" height="1"/>
+</symbol>
+
+<symbol id="down-b" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="37" width="5" height="10"/>
+  <rect class="cloth2" x="27" y="39" width="5" height="11"/>
+  <rect class="boot" x="14" y="46" width="8" height="6"/>
+  <rect class="boot" x="26" y="49" width="8" height="5"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="29" width="5" height="13"/>
+  <rect class="cloth2" x="34" y="31" width="5" height="12"/>
+  <rect class="skin" x="9" y="40" width="5" height="4"/>
+  <rect class="skin" x="34" y="41" width="5" height="4"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="skin" x="18" y="18" width="12" height="10"/>
+  <rect class="skin2" x="19" y="18" width="10" height="2"/>
+  <rect class="hair" x="15" y="16" width="3" height="12"/>
+  <rect class="hair" x="30" y="16" width="3" height="12"/>
+  <rect class="line" x="21" y="22" width="2" height="2"/>
+  <rect class="line" x="26" y="22" width="2" height="2"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+  <rect class="line" x="22" y="27" width="4" height="1"/>
+</symbol>
+
+<symbol id="left-a" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M13 31h20l6 17-8 7-8-4-8-1-4-6z"/>
+  <rect class="cloth2" x="17" y="39" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="37" width="5" height="10"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="26" y="46" width="8" height="6"/>
+  <path class="cloth" d="M16 29l6-5h7l6 6-3 15H18z"/>
+  <rect class="trim" x="20" y="34" width="9" height="2"/>
+  <rect class="line" x="19" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="31" y="29" width="5" height="14"/>
+  <rect class="skin" x="31" y="40" width="5" height="4"/>
+  <path class="hood" d="M15 17l4-8h11l5 8-3 14H18z"/>
+  <rect class="skin" x="20" y="18" width="10" height="10"/>
+  <rect class="skin2" x="22" y="18" width="8" height="2"/>
+  <rect class="hair" x="17" y="16" width="3" height="12"/>
+  <rect class="line" x="27" y="22" width="2" height="2"/>
+  <rect class="accent" x="21" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="left-i" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M13 31h20l6 17-8 7-8-4-8-1-4-6z"/>
+  <rect class="cloth2" x="17" y="38" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="38" width="5" height="11"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="25" y="49" width="8" height="5"/>
+  <path class="cloth" d="M16 29l6-5h7l6 6-3 15H18z"/>
+  <rect class="trim" x="20" y="34" width="9" height="2"/>
+  <rect class="line" x="19" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="31" y="30" width="5" height="13"/>
+  <rect class="skin" x="31" y="41" width="5" height="4"/>
+  <path class="hood" d="M15 17l4-8h11l5 8-3 14H18z"/>
+  <rect class="skin" x="20" y="18" width="10" height="10"/>
+  <rect class="skin2" x="22" y="18" width="8" height="2"/>
+  <rect class="hair" x="17" y="16" width="3" height="12"/>
+  <rect class="line" x="27" y="22" width="2" height="2"/>
+  <rect class="accent" x="21" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="left-b" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M13 31h20l6 17-8 7-8-4-8-1-4-6z"/>
+  <rect class="cloth2" x="17" y="37" width="5" height="10"/>
+  <rect class="cloth2" x="27" y="39" width="5" height="11"/>
+  <rect class="boot" x="15" y="46" width="8" height="6"/>
+  <rect class="boot" x="26" y="49" width="8" height="5"/>
+  <path class="cloth" d="M16 29l6-5h7l6 6-3 15H18z"/>
+  <rect class="trim" x="20" y="34" width="9" height="2"/>
+  <rect class="line" x="19" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="31" y="31" width="5" height="12"/>
+  <rect class="skin" x="31" y="41" width="5" height="4"/>
+  <path class="hood" d="M15 17l4-8h11l5 8-3 14H18z"/>
+  <rect class="skin" x="20" y="18" width="10" height="10"/>
+  <rect class="skin2" x="22" y="18" width="8" height="2"/>
+  <rect class="hair" x="17" y="16" width="3" height="12"/>
+  <rect class="line" x="27" y="22" width="2" height="2"/>
+  <rect class="accent" x="21" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="right-a" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M15 31h20l4 13-4 10-8 1-8 4-8-7z"/>
+  <rect class="cloth2" x="16" y="37" width="5" height="10"/>
+  <rect class="cloth2" x="26" y="39" width="5" height="11"/>
+  <rect class="boot" x="14" y="46" width="8" height="6"/>
+  <rect class="boot" x="26" y="49" width="8" height="5"/>
+  <path class="cloth" d="M13 30l6-6h7l6 5 2 15H16z"/>
+  <rect class="trim" x="19" y="34" width="9" height="2"/>
+  <rect class="line" x="18" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="12" y="31" width="5" height="12"/>
+  <rect class="skin" x="12" y="41" width="5" height="4"/>
+  <path class="hood" d="M13 17l5-8h11l4 8 3 14H16z"/>
+  <rect class="skin" x="18" y="18" width="10" height="10"/>
+  <rect class="skin2" x="18" y="18" width="8" height="2"/>
+  <rect class="hair" x="28" y="16" width="3" height="12"/>
+  <rect class="line" x="19" y="22" width="2" height="2"/>
+  <rect class="accent" x="19" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="right-i" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M15 31h20l4 13-4 10-8 1-8 4-8-7z"/>
+  <rect class="cloth2" x="16" y="38" width="5" height="11"/>
+  <rect class="cloth2" x="26" y="38" width="5" height="11"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="25" y="49" width="8" height="5"/>
+  <path class="cloth" d="M13 30l6-6h7l6 5 2 15H16z"/>
+  <rect class="trim" x="19" y="34" width="9" height="2"/>
+  <rect class="line" x="18" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="12" y="30" width="5" height="13"/>
+  <rect class="skin" x="12" y="41" width="5" height="4"/>
+  <path class="hood" d="M13 17l5-8h11l4 8 3 14H16z"/>
+  <rect class="skin" x="18" y="18" width="10" height="10"/>
+  <rect class="skin2" x="18" y="18" width="8" height="2"/>
+  <rect class="hair" x="28" y="16" width="3" height="12"/>
+  <rect class="line" x="19" y="22" width="2" height="2"/>
+  <rect class="accent" x="19" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="right-b" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="12" ry="4"/>
+  <path class="cloak" d="M15 31h20l4 13-4 10-8 1-8 4-8-7z"/>
+  <rect class="cloth2" x="16" y="39" width="5" height="11"/>
+  <rect class="cloth2" x="26" y="37" width="5" height="10"/>
+  <rect class="boot" x="14" y="49" width="8" height="5"/>
+  <rect class="boot" x="26" y="46" width="8" height="6"/>
+  <path class="cloth" d="M13 30l6-6h7l6 5 2 15H16z"/>
+  <rect class="trim" x="19" y="34" width="9" height="2"/>
+  <rect class="line" x="18" y="42" width="12" height="2"/>
+  <rect class="cloth2" x="12" y="29" width="5" height="12"/>
+  <rect class="skin" x="12" y="40" width="5" height="4"/>
+  <path class="hood" d="M13 17l5-8h11l4 8 3 14H16z"/>
+  <rect class="skin" x="18" y="18" width="10" height="10"/>
+  <rect class="skin2" x="18" y="18" width="8" height="2"/>
+  <rect class="hair" x="28" y="16" width="3" height="12"/>
+  <rect class="line" x="19" y="22" width="2" height="2"/>
+  <rect class="accent" x="19" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="up-a" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="39" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="37" width="5" height="10"/>
+  <rect class="boot" x="14" y="49" width="8" height="5"/>
+  <rect class="boot" x="26" y="46" width="8" height="6"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="29" width="5" height="14"/>
+  <rect class="cloth2" x="34" y="31" width="5" height="12"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="hair" x="17" y="17" width="14" height="11"/>
+  <rect class="hood" x="14" y="17" width="3" height="11"/>
+  <rect class="hood" x="31" y="17" width="3" height="11"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="up-i" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="38" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="38" width="5" height="11"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="25" y="49" width="8" height="5"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="30" width="5" height="13"/>
+  <rect class="cloth2" x="34" y="30" width="5" height="13"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="hair" x="17" y="17" width="14" height="11"/>
+  <rect class="hood" x="14" y="17" width="3" height="11"/>
+  <rect class="hood" x="31" y="17" width="3" height="11"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+</symbol>
+
+<symbol id="up-b" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="37" width="5" height="10"/>
+  <rect class="cloth2" x="27" y="39" width="5" height="11"/>
+  <rect class="boot" x="14" y="46" width="8" height="6"/>
+  <rect class="boot" x="26" y="49" width="8" height="5"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="31" width="5" height="12"/>
+  <rect class="cloth2" x="34" y="29" width="5" height="14"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="hair" x="17" y="17" width="14" height="11"/>
+  <rect class="hood" x="14" y="17" width="3" height="11"/>
+  <rect class="hood" x="31" y="17" width="3" height="11"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+</symbol>
 </defs>
 <rect width="144" height="1024" fill="none"/>
+
 <!-- wanderer -->
-<g style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#5d4636;--cloth2:#3f332b;--cloak:#332b26;--hood:#282522;--trim:#8b6a4d;--boot:#272522;--hair:#3a2a23;--accent:#b58a58"><use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/><use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/><use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/><use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/></g>
+<g style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#70523e;--cloth2:#4a392f;--cloak:#342b26;--hood:#262220;--trim:#a17e58;--boot:#272420;--hair:#3c2b23;--accent:#b6905e">
+  <use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/>
+  <use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/>
+  <use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/>
+  <use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/>
+</g>
+
 <!-- ranger -->
-<g transform="translate(0 256)" style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#536342;--cloth2:#33402f;--cloak:#27362b;--hood:#2d3a2d;--trim:#8e734b;--boot:#25251f;--hair:#2c241f;--accent:#b7a15f"><use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/><use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/><use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/><use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/></g>
+<g transform="translate(0 256)" style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#5a6a48;--cloth2:#3b4733;--cloak:#26362b;--hood:#2d3c2f;--trim:#a89460;--boot:#25251f;--hair:#2c241f;--accent:#c0a969">
+  <use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/>
+  <use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/>
+  <use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/>
+  <use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/>
+</g>
+
 <!-- warden -->
-<g transform="translate(0 512)" style="--skin:#b97e5f;--skin2:#ca9270;--cloth:#40564c;--cloth2:#293a34;--cloak:#24352f;--hood:#31443b;--trim:#a48c62;--boot:#202624;--hair:#30251f;--accent:#d0b66f"><use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/><use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/><use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/><use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/></g>
+<g transform="translate(0 512)" style="--skin:#b97e5f;--skin2:#ca9270;--cloth:#486159;--cloth2:#31443f;--cloak:#263732;--hood:#314740;--trim:#b39a68;--boot:#202624;--hair:#30251f;--accent:#d4ba76">
+  <use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/>
+  <use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/>
+  <use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/>
+  <use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/>
+</g>
+
 <!-- merchant -->
-<g transform="translate(0 768)" style="--skin:#c58a66;--skin2:#d59b76;--cloth:#73523b;--cloth2:#4d382d;--cloak:#3d2b25;--hood:#5a342f;--trim:#c29a62;--boot:#2a2420;--hair:#6b4a32;--accent:#d3b073"><use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/><use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/><use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/><use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/></g>
+<g transform="translate(0 768)" style="--skin:#c58a66;--skin2:#d59b76;--cloth:#7a5a40;--cloth2:#563d30;--cloak:#432d27;--hood:#633b33;--trim:#d0ab70;--boot:#2b2420;--hair:#6b4a32;--accent:#dbbb7a">
+  <use href="#down-a" x="0" y="0"/><use href="#down-i" x="48" y="0"/><use href="#down-b" x="96" y="0"/>
+  <use href="#left-a" x="0" y="64"/><use href="#left-i" x="48" y="64"/><use href="#left-b" x="96" y="64"/>
+  <use href="#right-a" x="0" y="128"/><use href="#right-i" x="48" y="128"/><use href="#right-b" x="96" y="128"/>
+  <use href="#up-a" x="0" y="192"/><use href="#up-i" x="48" y="192"/><use href="#up-b" x="96" y="192"/>
+</g>
 </svg>
