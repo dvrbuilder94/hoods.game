@@ -5,6 +5,7 @@
   if(!panel||!root.hoodsInventory||!root.HoodsRPG)return;
 
   // Tibia-style rule: equipment changes stats, not the world sprite.
+  // Full-body outfits/skins live in HoodsOutfits, outside this equipment set.
   if(typeof drawEquipment==="function") drawEquipment=function(){};
 
   panel.classList.add("tibia-set");
@@ -18,12 +19,12 @@
           <button class="tibia-slot slot-weapon empty" data-slot="weapon" type="button"></button>
           <button class="tibia-slot slot-armor empty" data-slot="armor" type="button"></button>
           <button class="tibia-slot slot-shield empty" data-slot="shield" type="button"></button>
-          <button class="tibia-slot slot-outfit empty" data-slot="outfit" type="button"></button>
+          <div class="tibia-slot tibia-future-slot empty" tabindex="-1"><span class="slot-hint">CHARM</span></div>
           <button class="tibia-slot slot-legs empty" data-slot="legs" type="button"></button>
           <button class="tibia-slot tibia-future-slot slot-ring empty" type="button" tabindex="-1"><span class="slot-hint">RING</span></button>
           <button class="tibia-slot slot-boots empty" data-slot="boots" type="button"></button>
         </div>
-        <p class="tibia-set-note"><strong>SET</strong> · Gear affects stats. Only outfits/skins change the character look.</p>
+        <p class="tibia-set-note"><strong>SET</strong> · Helmet, armor, weapon, shield, legs and boots affect stats. Outfits are separate full-body skins.</p>
       </div>
       <div class="tibia-backpack">
         <div class="tibia-backpack-head"><span>BACKPACK</span><b id="tibiaBagCount">0</b></div>
@@ -31,7 +32,7 @@
       </div>
     </div>`;
 
-  const slotLabels={helmet:"HELM",armor:"ARM",weapon:"WPN",shield:"SHLD",legs:"LEGS",boots:"BOOTS",outfit:"OUTFIT"};
+  const slotLabels={helmet:"HELM",armor:"ARM",weapon:"WPN",shield:"SHLD",legs:"LEGS",boots:"BOOTS"};
   const bagGrid=document.getElementById("tibiaBagGrid");
   const bagCount=document.getElementById("tibiaBagCount");
 
@@ -66,7 +67,7 @@
 
     owned.slice(0,12).forEach(item=>{
       const cell=document.createElement("button");
-      const isEquipped=equipped[item.slot]===item.id;
+      const isEquipped=!!item.slot&&equipped[item.slot]===item.id;
       cell.type="button";
       cell.className=`tibia-bag-cell${isEquipped?" equipped":""}`;
       cell.dataset.rarity=item.rarity||"";
