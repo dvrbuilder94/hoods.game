@@ -33,6 +33,15 @@ const items = [
   {id:"ranger-boots",name:"Ranger Boots",slot:"boots",price:18,rarity:"RARE",stats:{speed:2,luck:1}}
 ];
 
+const demonAtlas = new Image();
+demonAtlas.src = "assets/characters/v23/demon-v23.svg?v=23.1";
+const dragonAtlas = new Image();
+dragonAtlas.src = "assets/characters/v23/dragon-v23.svg?v=23.1";
+const previewEnemies = [
+  {kind:"demon",name:"DEMON",x:1008,y:610,offset:0,atlas:demonAtlas,color:"#ffb073"},
+  {kind:"dragon",name:"DRAGON",x:1088,y:610,offset:530,atlas:dragonAtlas,color:"#c7f17d"}
+];
+
 const state = {
   player:{x:900,y:760,dir:"down",moving:false,walkTime:0}, camera:{x:0,y:0},
   coins:120, owned:new Set(), equipped:{helmet:null,armor:null,weapon:null,shield:null,boots:null},
@@ -147,9 +156,26 @@ function drawEquipment(X,Y,dir,moving,time){
   if(state.equipped.shield){let x=side?-14:-22;px(x,-6,12,18,"#4d351f");px(x+2,-4,8,14,"#8a6038");}
   if(state.equipped.boots){let st=moving?Math.round(Math.sin(time)*3):0;px(-10+st,18,10,7,"#32281f");px(0-st,18,10,7,"#32281f");}ctx.restore();
 }
+function drawEnemy(enemy,now){
+  if(!enemy.atlas.complete || !enemy.atlas.naturalWidth) return;
+  const loop=(now+enemy.offset)%2120;
+  let column=0,action="idle";
+  if(loop>=900 && loop<1780){
+    action="walk"; column=1+Math.floor((loop-900)/220)%4;
+  } else if(loop>=1780){
+    action="attack"; column=5+Math.min(3,Math.floor((loop-1780)/85));
+  }
+  const row=0, frameX=column*80, frameY=row*80;
+  const X=sx(enemy.x),Y=sy(enemy.y);
+  ctx.drawImage(enemy.atlas,frameX,frameY,80,80,X-40,Y-70,80,80);
+  ctx.textAlign="center";ctx.font="700 11px monospace";ctx.fillStyle=enemy.color;ctx.strokeStyle="#10140d";ctx.lineWidth=3;
+  ctx.strokeText(enemy.name,X,Y-84);ctx.fillText(enemy.name,X,Y-84);
+}
+function drawEnemies(now){previewEnemies.forEach(enemy=>drawEnemy(enemy,now));}
+
 function drawPlayer(){let X=sx(state.player.x),Y=sy(state.player.y),p=state.player;drawBaseCharacter(X,Y,p.dir,p.moving,p.walkTime);drawEquipment(X,Y,p.dir,p.moving,p.walkTime);ctx.textAlign="center";ctx.font="700 12px monospace";ctx.fillStyle="#f4ead2";ctx.fillText("Hood",X,Y-40);}
 function drawNpc(){let x=sx(shop.x+shop.w/2),y=sy(shop.y+shop.h+42);px(x-7,y-17,14,16,"#c4875e");px(x-10,y-1,20,17,"#5c4733");px(x-8,y+16,6,12,"#3e3c37");px(x+2,y+16,6,12,"#3e3c37");ctx.fillStyle="#f3e4bf";ctx.font="700 11px monospace";ctx.textAlign="center";ctx.fillText("OLD BRAM",x,y-24);if(distanceToShop()<190&&!modalOpen()){px(x-76,y-66,152,24,"rgba(18,18,14,.88)");ctx.fillStyle="#f3e4bf";ctx.fillText("Press E to trade",x,y-50);}}
-function render(){drawGround();trees.forEach(t=>drawTree(...t));buildings.forEach(drawBuilding);drawGate();drawNpc();drawPlayer();}
+function render(){drawGround();trees.forEach(t=>drawTree(...t));buildings.forEach(drawBuilding);drawGate();drawNpc();drawEnemies(performance.now());drawPlayer();}
 
 function renderShop(){
   if(!ui.shopItems)return; ui.shopItems.innerHTML="";
