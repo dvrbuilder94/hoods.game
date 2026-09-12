@@ -5,53 +5,223 @@
   "tileSize": 32,
   "width": 34,
   "height": 26,
-  "stack": ["ground", "groundBorders", "walls", "items", "creatures", "decorTop", "roofs"],
+  "stack": [
+    "ground",
+    "groundBorders",
+    "walls",
+    "items",
+    "creatures",
+    "decorTop",
+    "roofs"
+  ],
   "terrain": {
     "base": "grass",
     "variants": true,
-    "roads": [[16,0,3,26],[0,12,34,3]],
-    "plaza": [12,9,10,9],
-    "water": [16,12,2,2]
+    "roads": [
+      [
+        16,
+        0,
+        3,
+        26
+      ],
+      [
+        0,
+        12,
+        34,
+        3
+      ]
+    ],
+    "plaza": [
+      12,
+      9,
+      10,
+      9
+    ],
+    "water": [
+      16,
+      12,
+      2,
+      2
+    ]
   },
   "buildings": [
     {
       "id": "inn",
       "label": "THE INN",
-      "rect": [4,5,8,6],
-      "door": [8,10],
+      "rect": [
+        4,
+        5,
+        8,
+        6
+      ],
+      "door": [
+        8,
+        10
+      ],
       "floor": "wood",
       "roof": "red",
       "roofTint": 16777215,
       "frontSide": "south",
       "revealMargin": 3,
-      "windows": [[6,5],[9,5]],
-      "props": [["table",6,7],["chair",7,7],["table",9,7],["chair",10,7],["barrel",5,9],["rug",8,8],["sign",9,10]]
+      "windows": [
+        [
+          6,
+          5
+        ],
+        [
+          9,
+          5
+        ]
+      ],
+      "props": [
+        [
+          "table",
+          6,
+          7
+        ],
+        [
+          "chair",
+          7,
+          7
+        ],
+        [
+          "table",
+          9,
+          7
+        ],
+        [
+          "chair",
+          10,
+          7
+        ],
+        [
+          "barrel",
+          5,
+          9
+        ],
+        [
+          "rug",
+          8,
+          8
+        ],
+        [
+          "sign",
+          9,
+          10
+        ]
+      ]
     },
     {
       "id": "bank",
       "label": "BANK",
-      "rect": [22,4,7,6],
-      "door": [25,9],
+      "rect": [
+        22,
+        4,
+        7,
+        6
+      ],
+      "door": [
+        25,
+        9
+      ],
       "floor": "wood",
       "roof": "slate",
       "roofTint": 13816530,
       "frontSide": "south",
       "revealMargin": 3,
-      "windows": [[24,4],[27,4]],
-      "props": [["table",24,6],["table",26,6],["crate",24,8],["crate",27,8],["sign",26,9]]
+      "windows": [
+        [
+          24,
+          4
+        ],
+        [
+          27,
+          4
+        ]
+      ],
+      "props": [
+        [
+          "table",
+          24,
+          6
+        ],
+        [
+          "table",
+          26,
+          6
+        ],
+        [
+          "crate",
+          24,
+          8
+        ],
+        [
+          "crate",
+          27,
+          8
+        ],
+        [
+          "sign",
+          26,
+          9
+        ]
+      ]
     },
     {
       "id": "shop",
       "label": "OLD BRAM",
-      "rect": [23,17,7,6],
-      "door": [26,22],
+      "rect": [
+        23,
+        17,
+        7,
+        6
+      ],
+      "door": [
+        26,
+        22
+      ],
       "floor": "wood",
       "roof": "brown",
       "roofTint": 15325870,
       "frontSide": "south",
       "revealMargin": 3,
-      "windows": [[25,17],[28,17]],
-      "props": [["table",25,19],["crate",27,19],["barrel",28,20],["rug",26,20],["sign",27,22]]
+      "windows": [
+        [
+          25,
+          17
+        ],
+        [
+          28,
+          17
+        ]
+      ],
+      "props": [
+        [
+          "table",
+          25,
+          19
+        ],
+        [
+          "crate",
+          27,
+          19
+        ],
+        [
+          "barrel",
+          28,
+          20
+        ],
+        [
+          "rug",
+          26,
+          20
+        ],
+        [
+          "sign",
+          27,
+          22
+        ]
+      ]
     }
   ],
   "vertical": {
@@ -61,42 +231,348 @@
         "id": "shop-cellar",
         "z": -1,
         "label": "OLD BRAM CELLAR",
-        "rect": [13,8,8,7],
+        "rect": [
+          13,
+          8,
+          8,
+          7
+        ],
         "floor": "cobble",
         "wall": "wall",
         "ambient": 0.24,
-        "props": [["crate",14,10],["barrel",19,10],["table",16,11],["rug",17,12],["crate",14,13]]
+        "props": [
+          [
+            "crate",
+            14,
+            10
+          ],
+          [
+            "barrel",
+            19,
+            10
+          ],
+          [
+            "table",
+            16,
+            11
+          ],
+          [
+            "rug",
+            17,
+            12
+          ],
+          [
+            "crate",
+            14,
+            13
+          ]
+        ]
       },
       {
         "id": "inn-upper",
         "z": 1,
         "label": "THE INN · UPPER FLOOR",
-        "rect": [13,8,8,7],
+        "rect": [
+          13,
+          8,
+          8,
+          7
+        ],
         "floor": "wood",
         "wall": "wall",
         "ambient": 0.08,
-        "props": [["table",15,10],["chair",16,10],["table",18,10],["chair",19,10],["rug",17,12],["barrel",14,13]]
+        "props": [
+          [
+            "table",
+            15,
+            10
+          ],
+          [
+            "chair",
+            16,
+            10
+          ],
+          [
+            "table",
+            18,
+            10
+          ],
+          [
+            "chair",
+            19,
+            10
+          ],
+          [
+            "rug",
+            17,
+            12
+          ],
+          [
+            "barrel",
+            14,
+            13
+          ]
+        ]
       }
     ],
     "transitions": [
-      {"id":"shop-cellar-down","fromZ":0,"toZ":-1,"from":[24,20],"to":[18,12],"label":"CELLAR"},
-      {"id":"shop-cellar-up","fromZ":-1,"toZ":0,"from":[19,13],"to":[24,21],"label":"STREET"},
-      {"id":"inn-upper-up","fromZ":0,"toZ":1,"from":[10,8],"to":[15,12],"label":"UPPER FLOOR"},
-      {"id":"inn-upper-down","fromZ":1,"toZ":0,"from":[14,13],"to":[10,9],"label":"GROUND FLOOR"}
+      {
+        "id": "shop-cellar-down",
+        "fromZ": 0,
+        "toZ": -1,
+        "from": [
+          24,
+          20
+        ],
+        "to": [
+          18,
+          12
+        ],
+        "label": "CELLAR"
+      },
+      {
+        "id": "shop-cellar-up",
+        "fromZ": -1,
+        "toZ": 0,
+        "from": [
+          19,
+          13
+        ],
+        "to": [
+          24,
+          21
+        ],
+        "label": "STREET"
+      },
+      {
+        "id": "inn-upper-up",
+        "fromZ": 0,
+        "toZ": 1,
+        "from": [
+          10,
+          8
+        ],
+        "to": [
+          15,
+          12
+        ],
+        "label": "UPPER FLOOR"
+      },
+      {
+        "id": "inn-upper-down",
+        "fromZ": 1,
+        "toZ": 0,
+        "from": [
+          14,
+          13
+        ],
+        "to": [
+          10,
+          9
+        ],
+        "label": "GROUND FLOOR"
+      }
     ]
   },
   "decor": [
-    ["tree",2,2],["tree",7,2],["tree",12,2],["tree",24,2],["tree",31,2],
-    ["tree",2,8],["tree",31,8],["tree",2,19],["tree",8,22],["tree",31,20],["tree",20,24],["tree",29,24],
-    ["lamp",12,9],["lamp",21,9],["lamp",12,17],["lamp",21,17],
-    ["flower",11,10],["flower",22,10],["flower",11,16],["flower",22,16],
-    ["flower",14,7],["flower",20,7],["flower",13,20],["flower",20,20],
-    ["barrel",3,13],["crate",5,13],["barrel",30,13],["crate",32,13],
-    ["sign",15,11],["sign",19,15]
+    [
+      "tree",
+      2,
+      2
+    ],
+    [
+      "tree",
+      7,
+      2
+    ],
+    [
+      "tree",
+      12,
+      2
+    ],
+    [
+      "tree",
+      24,
+      2
+    ],
+    [
+      "tree",
+      31,
+      2
+    ],
+    [
+      "tree",
+      2,
+      8
+    ],
+    [
+      "tree",
+      31,
+      8
+    ],
+    [
+      "tree",
+      2,
+      19
+    ],
+    [
+      "tree",
+      8,
+      22
+    ],
+    [
+      "tree",
+      31,
+      20
+    ],
+    [
+      "tree",
+      20,
+      24
+    ],
+    [
+      "tree",
+      29,
+      24
+    ],
+    [
+      "lamp",
+      12,
+      9
+    ],
+    [
+      "lamp",
+      21,
+      9
+    ],
+    [
+      "lamp",
+      12,
+      17
+    ],
+    [
+      "lamp",
+      21,
+      17
+    ],
+    [
+      "flower",
+      11,
+      10
+    ],
+    [
+      "flower",
+      22,
+      10
+    ],
+    [
+      "flower",
+      11,
+      16
+    ],
+    [
+      "flower",
+      22,
+      16
+    ],
+    [
+      "flower",
+      14,
+      7
+    ],
+    [
+      "flower",
+      20,
+      7
+    ],
+    [
+      "flower",
+      13,
+      20
+    ],
+    [
+      "flower",
+      20,
+      20
+    ],
+    [
+      "barrel",
+      3,
+      13
+    ],
+    [
+      "crate",
+      5,
+      13
+    ],
+    [
+      "barrel",
+      30,
+      13
+    ],
+    [
+      "crate",
+      32,
+      13
+    ],
+    [
+      "sign",
+      15,
+      11
+    ],
+    [
+      "sign",
+      19,
+      15
+    ]
   ],
-  "spawn": {"x":17,"y":19,"outfit":"wanderer"},
+  "spawn": {
+    "x": 17,
+    "y": 19,
+    "outfit": "wanderer"
+  },
   "npcs": [
-    {"name":"Mara","x":14,"y":11,"outfit":"warden"},
-    {"name":"Old Bram","x":26,"y":20,"outfit":"merchant"}
+    {
+      "name": "Mara",
+      "x": 14,
+      "y": 11,
+      "outfit": "warden"
+    },
+    {
+      "name": "Old Bram",
+      "x": 26,
+      "y": 20,
+      "outfit": "merchant"
+    }
+  ],
+  "enemies": [
+    {
+      "id": "demon",
+      "name": "Demon",
+      "x": 14,
+      "y": 13,
+      "worldFootprint": {
+        "tilesW": 1,
+        "tilesH": 1
+      },
+      "body": {
+        "w": 24,
+        "h": 16
+      }
+    },
+    {
+      "id": "dragon",
+      "name": "Dragon",
+      "x": 20,
+      "y": 13,
+      "worldFootprint": {
+        "tilesW": 1,
+        "tilesH": 1
+      },
+      "body": {
+        "w": 28,
+        "h": 16
+      }
+    }
   ]
 }
