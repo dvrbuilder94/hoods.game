@@ -1,24 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="760" viewBox="0 0 360 760" shape-rendering="crispEdges">
-<rect width="360" height="760" fill="#0b0e0a"/>
-<style>
-.t{font:700 16px system-ui,sans-serif;fill:#efe8d2}.s{font:600 11px system-ui,sans-serif;fill:#9aa394}.skin{fill:var(--skin)}.skin2{fill:var(--skin2)}.cloth{fill:var(--cloth)}.cloth2{fill:var(--cloth2)}.cloak{fill:var(--cloak)}.hood{fill:var(--hood)}.trim{fill:var(--trim)}.boot{fill:var(--boot)}.hair{fill:var(--hair)}.accent{fill:var(--accent)}.line{fill:#171715}.shadow{fill:#0b0d0a;opacity:.34}.card{fill:#151b14;stroke:#344033;stroke-width:1}
-</style>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" shape-rendering="crispEdges">
+<rect width="320" height="180" fill="#0b0e0a"/>
+<rect x="10" y="10" width="300" height="160" rx="14" fill="#151c14" stroke="#334032"/>
 <defs>
-<g id="human-down">
-<ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
-<path class="cloak" d="M13 29h22l3 19-9 5-5-9-5 9-9-5z"/>
-<rect class="boot" x="14" y="48" width="10" height="7"/><rect class="boot" x="26" y="48" width="10" height="7"/>
-<rect class="cloth2" x="16" y="38" width="8" height="11"/><rect class="cloth2" x="26" y="38" width="8" height="11"/>
-<path class="cloth" d="M14 28l7-5h7l7 5-2 16H16z"/><rect class="trim" x="17" y="33" width="14" height="3"/><rect class="line" x="16" y="42" width="17" height="3"/>
-<rect class="cloth2" x="9" y="29" width="6" height="14"/><rect class="cloth2" x="34" y="29" width="6" height="14"/>
-<rect class="skin" x="9" y="41" width="6" height="5"/><rect class="skin" x="34" y="41" width="6" height="5"/>
-<path class="hood" d="M13 17l5-9h12l6 9-3 13H16z"/><rect class="skin" x="17" y="17" width="14" height="11"/><rect class="skin2" x="19" y="18" width="10" height="3"/>
-<rect class="line" x="19" y="22" width="3" height="3"/><rect class="line" x="27" y="22" width="3" height="3"/><rect class="hair" x="15" y="16" width="4" height="12"/><rect class="hair" x="30" y="16" width="4" height="12"/><rect class="accent" x="21" y="28" width="7" height="3"/>
-</g>
+<style>
+.label{font:700 10px monospace;fill:#efe8d2}.skin{fill:var(--skin)}.skin2{fill:var(--skin2)}.cloth{fill:var(--cloth)}.cloth2{fill:var(--cloth2)}.cloak{fill:var(--cloak)}.hood{fill:var(--hood)}.trim{fill:var(--trim)}.boot{fill:var(--boot)}.hair{fill:var(--hair)}.accent{fill:var(--accent)}.line{fill:#171715}.shadow{fill:#0b0d0a;opacity:.34}
+</style>
+<symbol id="down-i" viewBox="0 0 48 64">
+  <ellipse class="shadow" cx="24" cy="57" rx="13" ry="4"/>
+  <path class="cloak" d="M11 31h26l4 17-9 7-8-4-8 4-9-7z"/>
+  <rect class="cloth2" x="16" y="38" width="5" height="11"/>
+  <rect class="cloth2" x="27" y="38" width="5" height="11"/>
+  <rect class="boot" x="15" y="49" width="8" height="5"/>
+  <rect class="boot" x="25" y="49" width="8" height="5"/>
+  <path class="cloth" d="M15 29l6-5h6l6 5-2 16H17z"/>
+  <rect class="trim" x="19" y="34" width="10" height="2"/>
+  <rect class="line" x="18" y="42" width="13" height="2"/>
+  <rect class="cloth2" x="9" y="30" width="5" height="13"/>
+  <rect class="cloth2" x="34" y="30" width="5" height="13"/>
+  <rect class="skin" x="9" y="41" width="5" height="4"/>
+  <rect class="skin" x="34" y="41" width="5" height="4"/>
+  <path class="hood" d="M14 17l4-8h12l4 8-2 14H16z"/>
+  <rect class="skin" x="18" y="18" width="12" height="10"/>
+  <rect class="skin2" x="19" y="18" width="10" height="2"/>
+  <rect class="hair" x="15" y="16" width="3" height="12"/>
+  <rect class="hair" x="30" y="16" width="3" height="12"/>
+  <rect class="line" x="21" y="22" width="2" height="2"/>
+  <rect class="line" x="26" y="22" width="2" height="2"/>
+  <rect class="accent" x="20" y="28" width="8" height="2"/>
+  <rect class="line" x="22" y="27" width="4" height="1"/>
+</symbol>
 </defs>
-<text x="24" y="34" class="t">HOODS · Characters v1</text><text x="24" y="54" class="s">Front idle frame · 4× scale · same anatomy</text>
-<g transform="translate(18 80)"><rect class="card" width="324" height="150" rx="16"/><g transform="translate(34 9) scale(2)" style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#5d4636;--cloth2:#3f332b;--cloak:#332b26;--hood:#282522;--trim:#8b6a4d;--boot:#272522;--hair:#3a2a23;--accent:#b58a58"><use href="#human-down"/></g><text x="150" y="62" class="t">WANDERER</text><text x="150" y="84" class="s">Player default outfit</text></g>
-<g transform="translate(18 244)"><rect class="card" width="324" height="150" rx="16"/><g transform="translate(34 9) scale(2)" style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#536342;--cloth2:#33402f;--cloak:#27362b;--hood:#2d3a2d;--trim:#8e734b;--boot:#25251f;--hair:#2c241f;--accent:#b7a15f"><use href="#human-down"/></g><text x="150" y="62" class="t">RANGER</text><text x="150" y="84" class="s">Purchasable player outfit</text></g>
-<g transform="translate(18 408)"><rect class="card" width="324" height="150" rx="16"/><g transform="translate(34 9) scale(2)" style="--skin:#b97e5f;--skin2:#ca9270;--cloth:#40564c;--cloth2:#293a34;--cloak:#24352f;--hood:#31443b;--trim:#a48c62;--boot:#202624;--hair:#30251f;--accent:#d0b66f"><use href="#human-down"/></g><text x="150" y="62" class="t">WARDEN</text><text x="150" y="84" class="s">Mara NPC language</text></g>
-<g transform="translate(18 572)"><rect class="card" width="324" height="150" rx="16"/><g transform="translate(34 9) scale(2)" style="--skin:#c58a66;--skin2:#d59b76;--cloth:#73523b;--cloth2:#4d382d;--cloak:#3d2b25;--hood:#5a342f;--trim:#c29a62;--boot:#2a2420;--hair:#6b4a32;--accent:#d3b073"><use href="#human-down"/></g><text x="150" y="62" class="t">MERCHANT</text><text x="150" y="84" class="s">Old Bram NPC language</text></g>
+<g transform="translate(28 24) scale(2)"><g style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#70523e;--cloth2:#4a392f;--cloak:#342b26;--hood:#262220;--trim:#a17e58;--boot:#272420;--hair:#3c2b23;--accent:#b6905e"><use href="#down-i"/></g></g>
+<text x="52" y="146" class="label">WANDERER</text>
+<g transform="translate(104 24) scale(2)"><g style="--skin:#c88f68;--skin2:#d9a17c;--cloth:#5a6a48;--cloth2:#3b4733;--cloak:#26362b;--hood:#2d3c2f;--trim:#a89460;--boot:#25251f;--hair:#2c241f;--accent:#c0a969"><use href="#down-i"/></g></g>
+<text x="132" y="146" class="label">RANGER</text>
+<g transform="translate(180 24) scale(2)"><g style="--skin:#b97e5f;--skin2:#ca9270;--cloth:#486159;--cloth2:#31443f;--cloak:#263732;--hood:#314740;--trim:#b39a68;--boot:#202624;--hair:#30251f;--accent:#d4ba76"><use href="#down-i"/></g></g>
+<text x="210" y="146" class="label">WARDEN</text>
+<g transform="translate(256 24) scale(2)"><g style="--skin:#c58a66;--skin2:#d59b76;--cloth:#7a5a40;--cloth2:#563d30;--cloak:#432d27;--hood:#633b33;--trim:#d0ab70;--boot:#2b2420;--hair:#6b4a32;--accent:#dbbb7a"><use href="#down-i"/></g></g>
+<text x="279" y="146" class="label" text-anchor="middle">MERCHANT</text>
+<text x="160" y="162" class="label" text-anchor="middle" fill="#9aa394">Down idle preview — not the full sheet</text>
 </svg>
