@@ -93,13 +93,13 @@
     const game = window.Phaser?.GAMES?.find(Boolean);
     const scene = game?.scene?.getScene('TownScene');
     if (!scene || !scene.sys?.isActive()) return setTimeout(wait, 120);
-    if (scene.__hoodsEnemyPreview) return;
-    scene.__hoodsEnemyPreview = 'v23';
+    if (scene.__hoodsEnemyPreview === 'v23' || scene.__hoodsEnemyPreview === 'loading') return;
+    scene.__hoodsEnemyPreview = 'loading';
     const pending = Object.values(ENEMIES).filter(spec => !scene.textures.exists(spec.key));
     if (!pending.length) return install(scene);
     // The modular Wanderer loader may still be running at scene startup. Queue behind it.
     if (scene.load.isLoading()) {
-      scene.load.once('complete', () => wait());
+      scene.load.once('complete', () => { scene.__hoodsEnemyPreview = null; wait(); });
       return;
     }
     pending.forEach(spec => scene.load.spritesheet(spec.key, spec.url, {
