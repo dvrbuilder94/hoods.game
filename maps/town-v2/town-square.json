@@ -1,1 +1,65 @@
-{"version":1,"zoneId":"town-v2","zLevel":0,"tileSize":32,"width":40,"height":30,"stack":["ground","groundBorders","walls","items","creatures","decorTop","roofs"],"terrain":{"base":"grass","variants":true,"roads":[[18,0,4,30],[0,14,40,4]],"plaza":[14,11,12,10],"water":[19,14,2,2]},"buildings":[{"id":"inn","label":"THE INN","rect":[5,5,10,8],"door":[9,12],"floor":"wood","roof":"red","windows":[[7,5],[12,5]],"props":[["table",7,8],["chair",8,8],["table",11,8],["chair",12,8],["barrel",7,10],["barrel",12,10],["rug",9,7]]},{"id":"bank","label":"BANK","rect":[26,4,9,8],"door":[30,11],"floor":"wood","roof":"red","windows":[[28,4],[32,4]],"props":[["table",28,7],["table",29,7],["table",31,7],["table",32,7],["crate",29,9],["crate",31,9]]},{"id":"shop","label":"OLD BRAM","rect":[27,20,9,8],"door":[31,27],"floor":"wood","roof":"red","windows":[[29,20],[33,20]],"props":[["table",29,23],["table",30,23],["crate",32,23],["barrel",33,23],["rug",30,25]]}],"decor":[["tree",3,3],["tree",37,3],["tree",3,26],["tree",37,26],["tree",10,2],["tree",30,2],["tree",5,17],["tree",35,15],["tree",12,24],["tree",23,27],["lamp",14,11],["lamp",25,11],["lamp",14,20],["lamp",25,20],["flower",12,12],["flower",27,12],["flower",12,19],["flower",27,19],["flower",16,9],["flower",23,9]],"spawn":{"x":20,"y":22,"outfit":"wanderer"},"npcs":[{"name":"Mara","x":16,"y":13,"outfit":"warden"},{"name":"Old Bram","x":31,"y":25,"outfit":"merchant"}]}
+{
+  "version": 2,
+  "zoneId": "town-v2",
+  "zLevel": 0,
+  "tileSize": 32,
+  "width": 34,
+  "height": 26,
+  "stack": ["ground", "groundBorders", "walls", "items", "creatures", "decorTop", "roofs"],
+  "terrain": {
+    "base": "grass",
+    "variants": true,
+    "roads": [[16,0,3,26],[0,12,34,3]],
+    "plaza": [12,9,10,9],
+    "water": [16,12,2,2]
+  },
+  "buildings": [
+    {
+      "id": "inn",
+      "label": "THE INN",
+      "rect": [4,5,8,6],
+      "door": [8,10],
+      "floor": "wood",
+      "roof": "red",
+      "roofTint": 16777215,
+      "windows": [[6,5],[9,5]],
+      "props": [["table",6,7],["chair",7,7],["table",9,7],["chair",10,7],["barrel",5,9],["rug",8,8],["sign",9,10]]
+    },
+    {
+      "id": "bank",
+      "label": "BANK",
+      "rect": [22,4,7,6],
+      "door": [25,9],
+      "floor": "wood",
+      "roof": "slate",
+      "roofTint": 13816530,
+      "windows": [[24,4],[27,4]],
+      "props": [["table",24,6],["table",26,6],["crate",24,8],["crate",27,8],["sign",26,9]]
+    },
+    {
+      "id": "shop",
+      "label": "OLD BRAM",
+      "rect": [23,17,7,6],
+      "door": [26,22],
+      "floor": "wood",
+      "roof": "brown",
+      "roofTint": 15325870,
+      "windows": [[25,17],[28,17]],
+      "props": [["table",25,19],["crate",27,19],["barrel",28,20],["rug",26,20],["sign",27,22]]
+    }
+  ],
+  "decor": [
+    ["tree",2,2],["tree",7,2],["tree",12,2],["tree",24,2],["tree",31,2],
+    ["tree",2,8],["tree",31,8],["tree",2,19],["tree",8,22],["tree",31,20],["tree",20,24],["tree",29,24],
+    ["lamp",12,9],["lamp",21,9],["lamp",12,17],["lamp",21,17],
+    ["flower",11,10],["flower",22,10],["flower",11,16],["flower",22,16],
+    ["flower",14,7],["flower",20,7],["flower",13,20],["flower",20,20],
+    ["barrel",3,13],["crate",5,13],["barrel",30,13],["crate",32,13],
+    ["sign",15,11],["sign",19,15]
+  ],
+  "spawn": {"x":17,"y":19,"outfit":"wanderer"},
+  "npcs": [
+    {"name":"Mara","x":14,"y":11,"outfit":"warden"},
+    {"name":"Old Bram","x":26,"y":20,"outfit":"merchant"}
+  ]
+}
