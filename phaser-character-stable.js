@@ -10,7 +10,7 @@ function wait(){
 }
 function hasRealAtlas(scene){
  const a=scene.hoodsAvatar,s=a?.sprite;
- return !!(s&&s.active!==false&&s.texture?.key==='hoods-humans-v1');
+ return !!(s&&s.active!==false&&(s.texture?.key==='hoods-humans-v1'||s.texture?.key==='hoods-v23-body'));
 }
 function ensure(scene){
  if(scene.__hoodsStableFallback||hasRealAtlas(scene))return;
