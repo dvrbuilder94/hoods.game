@@ -1,4 +1,4 @@
-// Hoods Phaser buildings v0.7 — Bank/Shop geometry can come from Town map data.
+// Hoods Phaser buildings v0.8 — Town buildings read geometry from map chunks with legacy fallback.
 (()=>{
 const LEGACY=[
  {id:'inn',name:'THE INN',x:345,y:360,w:290,h:190,doorX:490,doorY:550,floor:0x725f48,roof:0x743a31},
@@ -7,7 +7,6 @@ const LEGACY=[
 ];
 const color=(v,f)=>{if(typeof v==='number')return v;if(typeof v==='string'){const n=Number(v);if(Number.isFinite(n))return n;const h=parseInt(v.replace('#',''),16);if(Number.isFinite(h))return h}return f};
 function mapDef(scene,base){
- if(base.id==='inn')return{...base,source:'legacy'};
  const o=scene.mapObject?.(`building_${base.id}`),door=scene.mapObject?.(`door_${base.id}`),trigger=scene.mapTrigger?.(`door_${base.id}_trigger`);
  if(!o||!door)return{...base,source:'legacy'};
  return{...base,name:o.props.label||base.name,x:o.worldX,y:o.worldY,w:o.width||base.w,h:o.height||base.h,doorX:door.worldX,doorY:door.worldY,floor:color(o.props.floorColor,base.floor),roof:color(o.props.roofColor,base.roof),doorTrigger:trigger||null,source:'map'};
@@ -16,7 +15,7 @@ let attempts=0;
 function wait(){
  const game=window.Phaser?.GAMES?.find(Boolean),scene=game?.scene?.getScene('TownScene');
  if(!scene||!scene.sys?.isActive())return setTimeout(wait,120);
- if(!scene.__hoodsTownMap&&attempts++<30)return setTimeout(wait,100);
+ if(!scene.__hoodsTownMapReady&&attempts++<40)return setTimeout(wait,100);
  install(scene);
 }
 function install(scene){
