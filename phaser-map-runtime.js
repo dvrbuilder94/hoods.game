@@ -1,4 +1,4 @@
-// Hoods map runtime P8 — manifest-driven chunks, reusable layers and z-level registry.
+// Hoods map runtime P8.1 — manifest-driven chunks, reusable layers and functional z-level registry.
 (()=>{
 const MANIFEST_KEY='town-manifest-v2';
 const MANIFEST_URL='maps/town/manifest.json?v=map-p8';
@@ -79,6 +79,21 @@ function installChunk(scene,manifest,def){
  if(def.primary)scene.__hoodsTownMap=chunk;
  return chunk;
 }
+function installZLevelController(scene,ordered,byZ){
+ scene.__hoodsZLevel=Number(scene.__hoodsZLevel||0);
+ scene.setMapZLevel=level=>{
+  const next=Number(level);if(!Number.isFinite(next))return false;
+  scene.__hoodsZLevel=next;
+  for(const c of ordered){
+   const active=c.meta.zLevel===next;
+   for(const layer of Object.values(c.layers||{}))layer?.setVisible?.(active);
+   for(const zone of c.collisionBodies||[])if(zone.body)zone.body.enable=active;
+  }
+  scene.events.emit('hoods-zlevel-changed',{zoneId:'town',zLevel:next,chunks:[...(byZ[next]||[])]});
+  return true;
+ };
+ scene.setMapZLevel(scene.__hoodsZLevel);
+}
 function install(scene,manifest,failedAssets=new Set()){
  try{
   const chunks={},ordered=[],byZ={};
@@ -96,6 +111,7 @@ function install(scene,manifest,failedAssets=new Set()){
   scene.mapChunks=(zLevel=null)=>zLevel===null?[...ordered]:[...(byZ[Number(zLevel)]||[])];
   const names=new Map();
   for(const c of ordered)for(const name of Object.keys(c.objects||{})){if(names.has(name))console.warn('[Hoods map] duplicate object name across chunks',name,names.get(name),c.meta.chunkId);else names.set(name,c.meta.chunkId)}
+  installZLevelController(scene,ordered,byZ);
   for(const def of manifest.chunks.filter(d=>d.applySpawns)){
    const c=ordered.find(x=>x.key===def.key);if(!c)continue;
    const spawn=c.objects.player_spawn;if(spawn&&scene.player)scene.player.setPosition(spawn.worldX,spawn.worldY);
@@ -106,13 +122,14 @@ function install(scene,manifest,failedAssets=new Set()){
   window.HoodsMaps=window.HoodsMaps||{zones:{}};window.HoodsMaps.manifests=window.HoodsMaps.manifests||{};window.HoodsMaps.manifests.town=manifest;window.HoodsMaps.zones.town=chunks;window.HoodsMaps.byZ=window.HoodsMaps.byZ||{};window.HoodsMaps.byZ.town=byZ;
   scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;
   scene.events.emit('hoods-map-ready',{zoneId:'town',chunks:ordered,byZ,manifest});
-  console.info('[Hoods map] P8 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
+  console.info('[Hoods map] P8.1 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
  }catch(err){fail(scene,'install',err)}
 }
 function bindLocationHud(scene,chunks){
  if(scene.__hoodsLocationBinding)return;scene.__hoodsLocationBinding=true;
  const loc=document.getElementById('phaserLocation');
- scene.events.on('update',()=>{
+ // TownScene still has a legacy location fallback in update(); postupdate lets map triggers win without rewriting gameplay yet.
+ scene.events.on('postupdate',()=>{
   if(!loc||!scene.player)return;
   const currentZ=Number(scene.__hoodsZLevel||0);
   for(const c of chunks){if(c.meta.zLevel!==currentZ)continue;for(const t of c.triggers||[]){if(t.type!=='zone')continue;const inside=scene.player.x>=t.worldX&&scene.player.x<=t.worldX+(t.width||0)&&scene.player.y>=t.worldY&&scene.player.y<=t.worldY+(t.height||0);if(inside){loc.textContent=t.props.label||t.name.toUpperCase();return}}}
