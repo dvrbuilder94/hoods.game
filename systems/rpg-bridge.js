@@ -4,8 +4,10 @@
   if(!root.HoodsRPG) throw new Error("HoodsRPG core must load before rpg-bridge.js");
 
   // Keep the current pre-alpha APIs working while moving ownership of item rules
-  // and persistence into a reusable RPG layer.
-  items.splice(0,items.length,...root.HoodsRPG.catalog);
+  // and persistence into a reusable RPG layer. Quest rewards remain registered in
+  // the core for save validation, but are only added to the legacy item list by
+  // their quest/crafting scripts.
+  items.splice(0,items.length,...root.HoodsRPG.catalog.filter(item=>item.shop!==false));
   const nativePush=items.push.bind(items);
   items.push=(...newItems)=>{
     newItems.forEach(item=>root.HoodsRPG.registerItem(item));
