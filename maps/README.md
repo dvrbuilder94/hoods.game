@@ -4,9 +4,10 @@ This folder is the incremental migration path from hardcoded Phaser world drawin
 
 ## Active now
 
-- `town/town-core.json`: first migrated Town chunk. It overlays the existing Phaser world and keeps legacy gameplay as fallback.
-- Bank and Old Bram's Shop now read their building bounds, doors, door trigger zones and perimeter collisions from this map data.
-- The Inn is intentionally still legacy/hardcoded for the next migration step.
+- `town/town-core.json`: Town core chunk for the central area.
+- `town/town-west.json`: west Town chunk; currently owns The Inn building bounds, door, door trigger and perimeter collisions.
+- Bank, Old Bram's Shop and The Inn now read their geometry from map data. Legacy coordinates remain only as runtime fallback if a chunk fails to load.
+- `town/town-east-gate.json`: temporary data-driven locked boundary until Ashwood itself is migrated.
 - Reusable tileset: `assets/maps/tiles/town-basic.svg`.
 
 ## Map contract
@@ -23,7 +24,7 @@ Every zone/chunk JSON should keep these layers:
 Map properties:
 
 - `zoneId`: logical zone, for example `town`.
-- `chunkId`: chunk identifier, for example `town-core`.
+- `chunkId`: chunk identifier, for example `town-core` or `town-west`.
 - `worldX`, `worldY`: position inside the current world coordinate system during migration.
 - `zLevel`: floor/z-level. `0` is the current outdoor floor.
 
@@ -32,8 +33,8 @@ Objects can include a `z` property so later floors can reuse the same loader wit
 ## Migration order
 
 1. Town core.
-2. Town buildings/collisions: Bank + Shop migrated; Inn next.
-3. Remaining Town geometry/spawns/triggers.
+2. Town buildings/collisions: Bank + Shop + Inn migrated.
+3. Remaining Town geometry, decor, spawns and triggers.
 4. Wilds.
 5. Ashwood.
 6. Cinder.
