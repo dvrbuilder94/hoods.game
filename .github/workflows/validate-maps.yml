@@ -8,6 +8,7 @@ on:
       - 'assets/**'
       - 'phaser-*.js'
       - 'v23-*.js'
+      - 'v24-*.js'
       - 'phaser-*.css'
       - 'phaser.html'
       - 'hoods-v2.js'
@@ -21,6 +22,7 @@ on:
       - 'assets/**'
       - 'phaser-*.js'
       - 'v23-*.js'
+      - 'v24-*.js'
       - 'phaser-*.css'
       - 'phaser.html'
       - 'hoods-v2.js'
@@ -47,7 +49,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          while IFS= read -r -d '' file; do node --check "$file"; done < <(find . -maxdepth 1 \( -name 'phaser-*.js' -o -name 'v23-*.js' \) -print0)
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find . -maxdepth 1 \( -name 'phaser-*.js' -o -name 'v23-*.js' -o -name 'v24-*.js' \) -print0)
           node --check hoods-v2.js
           while IFS= read -r -d '' file; do node --check "$file"; done < <(find systems -name '*.js' -print0)
       - name: Validate Phaser build references and runtime order
