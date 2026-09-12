@@ -125,7 +125,7 @@ class HoodsV2 extends Phaser.Scene {
      const sprite=this.physics.add.sprite(x,y,def.key,'0').setOrigin(.5,.875).setDepth(20+y/1000);
      sprite.body.setSize(def.bodyW,def.bodyH).setOffset((ENEMY_FRAME-def.bodyW)/2,ENEMY_FRAME-def.bodyH-10).setAllowGravity(false).setImmovable(true);
      const shadow=this.add.ellipse(x,y+12,def.shadowW,7,0x081006,.28).setDepth(sprite.depth-.02);
-     const label=this.add.text(x,y-49,def.label,{fontFamily:'monospace',fontSize:'8px',fontStyle:'bold',color:n.id==='dragon'?'#d6ef9b':'#ffb073',stroke:'#171a14',strokeThickness:3}).setOrigin(.5).setDepth(sprite.depth+2);
+     const label=this.add.text(x,y-84,def.label,{fontFamily:'monospace',fontSize:'8px',fontStyle:'bold',color:n.id==='dragon'?'#d6ef9b':'#ffb073',stroke:'#171a14',strokeThickness:3}).setOrigin(.5).setDepth(sprite.depth+2);
      this.enemyActors.push({id:n.id,sprite,shadow,label,index,cycleOffset:index*520});
    });
  }
@@ -137,7 +137,7 @@ class HoodsV2 extends Phaser.Scene {
      const dir=Object.keys(DIR_ROW)[Math.floor((time+actor.index*700)/3200)%4];
      actor.sprite.anims.play(`${actor.id}-${action}-${dir}`,true);
      actor.sprite.setDepth(20+actor.sprite.y/1000);
-     actor.label.setPosition(actor.sprite.x,actor.sprite.y-49).setDepth(actor.sprite.depth+2);
+     actor.label.setPosition(actor.sprite.x,actor.sprite.y-84).setDepth(actor.sprite.depth+2);
      actor.shadow.setPosition(actor.sprite.x,actor.sprite.y+12).setDepth(actor.sprite.depth-.02);
    });
  }
