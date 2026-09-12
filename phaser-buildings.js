@@ -1,4 +1,4 @@
-// Hoods Phaser buildings v1.0 — Town geometry + art sources resolve from map chunks with legacy fallback.
+// Hoods Phaser buildings v1.1 — data-driven geometry with compact top-down roofs and legacy fallback.
 (()=>{
 const LEGACY=[
  {id:'inn',name:'THE INN',x:345,y:360,w:290,h:190,doorX:490,doorY:550,floor:0x725f48,roof:0x743a31},
@@ -6,6 +6,7 @@ const LEGACY=[
  {id:'shop',name:"OLD BRAM'S SHOP",x:1110,y:610,w:250,h:170,doorX:1235,doorY:780,floor:0x66513d,roof:0x6f392f}
 ];
 const color=(v,f)=>{if(typeof v==='number')return v;if(typeof v==='string'){const n=Number(v);if(Number.isFinite(n))return n;const h=parseInt(v.replace('#',''),16);if(Number.isFinite(h))return h}return f};
+const shade=(hex,amount)=>{const r=Math.max(0,Math.min(255,((hex>>16)&255)+amount)),g=Math.max(0,Math.min(255,((hex>>8)&255)+amount)),b=Math.max(0,Math.min(255,(hex&255)+amount));return(r<<16)|(g<<8)|b};
 function mapDef(scene,base){
  const o=scene.mapObject?.(`building_${base.id}`),door=scene.mapObject?.(`door_${base.id}`),trigger=scene.mapTrigger?.(`door_${base.id}_trigger`),art=scene.mapObject?.(`art_${base.id}`);
  if(!o||!door)return{...base,source:'legacy',artSource:'legacy'};
@@ -17,6 +18,25 @@ function wait(){
  if(!scene||!scene.sys?.isActive())return setTimeout(wait,120);
  if(!scene.__hoodsTownMapReady&&attempts++<60)return setTimeout(wait,100);
  install(scene);
+}
+function addTopDownRoof(scene,b){
+ const roof=scene.add.container(0,0).setDepth(900);
+ const g=scene.add.graphics(),dark=shade(b.roof,-28),light=shade(b.roof,18),ridge=shade(b.roof,-42);
+ const x=b.x-7,y=b.y+6,w=b.w+14,h=Math.max(96,b.h-30),mid=b.x+b.w/2;
+ // Compact gabled roof seen from above: two planes, a ridge and pixel-like shingle rows.
+ g.fillStyle(dark,1).fillRect(x,y,w,h);
+ g.fillStyle(b.roof,1).fillRect(b.x+1,y+4,Math.max(1,b.w/2-1),h-8);
+ g.fillStyle(light,.88).fillRect(mid,y+4,Math.max(1,b.w/2-1),h-8);
+ g.fillStyle(ridge,1).fillRect(mid-2,y,4,h);
+ g.lineStyle(3,ridge,.95).strokeRect(x,y,w,h);
+ g.lineStyle(1,dark,.6);
+ for(let yy=y+16;yy<y+h-5;yy+=16)g.lineBetween(x+3,yy,x+w-3,yy);
+ // Short eave keeps the doorway readable instead of drawing a tall front-facing facade.
+ g.fillStyle(ridge,.95).fillRect(x-3,y+h-5,w+6,8);
+ roof.add(g);
+ const sign=scene.add.text(b.x+b.w/2,b.y+b.h-19,b.name,{fontFamily:'monospace',fontSize:'11px',color:'#f2dfb4',fontStyle:'bold',stroke:'#241f1a',strokeThickness:3}).setOrigin(.5,1);
+ roof.add(sign);
+ return roof;
 }
 function install(scene){
  if(scene.__hoodsBuildings)return;scene.__hoodsBuildings=true;
@@ -40,18 +60,18 @@ function install(scene){
   if(b.source!=='map'){
    const t=18,gap=62;wall(b.x+b.w/2,b.y+48,b.w-28,t);wall(b.x+14,b.y+b.h/2+18,t,b.h-76);wall(b.x+b.w-14,b.y+b.h/2+18,t,b.h-76);wall(b.x+(b.w-gap)/4,b.y+b.h-14,(b.w-gap)/2,t);wall(b.x+b.w-(b.w-gap)/4,b.y+b.h-14,(b.w-gap)/2,t);
   }
-  const roof=scene.add.container(0,0).setDepth(30),g=scene.add.graphics();g.fillStyle(b.roof,1);g.fillTriangle(b.x-12,b.y+46,b.x+b.w/2,b.y-18,b.x+b.w+12,b.y+46);g.fillStyle(0x302923,.94).fillRect(b.x-8,b.y+42,b.w+16,25);g.fillStyle(0x5f4935,.96).fillRect(b.x,b.y+57,b.w,42);roof.add(g);roof.add(scene.add.text(b.x+b.w/2,b.y+63,b.name,{fontFamily:'monospace',fontSize:'12px',color:'#f2dfb4',fontStyle:'bold'}).setOrigin(.5,0));roofs.push({b,roof,inside:false});
+  const roof=addTopDownRoof(scene,b);roofs.push({b,roof,inside:false});
  });
- const hint=scene.add.text(0,0,'',{fontFamily:'monospace',fontSize:'10px',color:'#dfeeaa',backgroundColor:'#0a0c08cc',padding:{x:7,y:4}}).setDepth(45).setOrigin(.5).setVisible(false);
+ const hint=scene.add.text(0,0,'',{fontFamily:'monospace',fontSize:'10px',color:'#dfeeaa',backgroundColor:'#0a0c08e8',padding:{x:7,y:4}}).setDepth(1100).setOrigin(.5).setVisible(false);
  scene.events.on('update',()=>{
   const p=scene.player;if(!p)return;let any=false;
-  roofs.forEach(r=>{const b=r.b,inside=p.x>b.x+18&&p.x<b.x+b.w-18&&p.y>b.y+52&&p.y<b.y+b.h-12;if(inside!==r.inside){r.inside=inside;scene.tweens.killTweensOf(r.roof);scene.tweens.add({targets:r.roof,alpha:inside?.1:1,duration:180})}
+  roofs.forEach(r=>{const b=r.b,inside=p.x>b.x+18&&p.x<b.x+b.w-18&&p.y>b.y+52&&p.y<b.y+b.h-12;if(inside!==r.inside){r.inside=inside;scene.tweens.killTweensOf(r.roof);scene.tweens.add({targets:r.roof,alpha:inside?.08:1,duration:140})}
    const t=b.doorTrigger,nearDoor=t?(p.x>=t.worldX&&p.x<=t.worldX+(t.width||0)&&p.y>=t.worldY&&p.y<=t.worldY+(t.height||0)):(Math.abs(p.x-b.doorX)<52&&Math.abs(p.y-b.doorY)<62);
-   if(nearDoor&&!inside){hint.setText(`${b.name} · WALK THROUGH THE DOOR`).setPosition(b.doorX,b.doorY+22).setVisible(true);any=true}
+   if(nearDoor&&!inside){hint.setText(`${b.name} · ENTER`).setPosition(b.doorX,b.doorY+20).setVisible(true);any=true}
   });
   if(!any)hint.setVisible(false);p.setDepth(Math.max(10,Math.floor(p.y/10)));if(scene.bram)scene.bram.setDepth(Math.floor(scene.bram.y/10));if(scene.mara)scene.mara.setDepth(Math.floor(scene.mara.y/10));
  });
- scene.__hoodsBuildingDefs=defs;console.info('[Hoods buildings] sources',defs.map(b=>`${b.id}:${b.source}/${b.artSource}`).join(', '));
+ scene.__hoodsBuildingDefs=defs;console.info('[Hoods buildings] v1.1 sources',defs.map(b=>`${b.id}:${b.source}/${b.artSource}`).join(', '));
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wait,50));else setTimeout(wait,50);
 })();
