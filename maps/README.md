@@ -4,12 +4,12 @@ This folder is the incremental migration path from hardcoded Phaser world drawin
 
 ## Active now
 
-- `town/town-core.json`: Town core chunk for the central area.
-- `town/town-west.json`: west Town chunk; owns The Inn building bounds, door, door trigger, perimeter collisions and the first map-driven interior art.
-- Bank, Old Bram's Shop and The Inn read their geometry from map data. Legacy coordinates remain only as runtime fallback if a chunk fails to load.
+- `town/town-core.json`: Town core chunk; owns Bank + Old Bram's Shop geometry, doors, triggers, collisions, player spawn and NPC spawns.
+- `town/town-west.json`: west Town chunk; owns The Inn geometry, collisions and map-driven interior art.
+- `town/town-central-art.json`: P5 art chunk for Bank + Old Bram's Shop. It contains their tile floors, walls and interior props while geometry remains owned by `town-core.json`.
 - `town/town-east-gate.json`: temporary data-driven locked boundary until Ashwood itself is migrated.
 - `assets/maps/tiles/town-basic.svg`: migration/base terrain tiles.
-- `assets/maps/tiles/hoods-town-v1.svg`: original 32×32 production-oriented Town tileset with floors, walls, doors, windows, furniture and props. The Inn is the first pilot using it.
+- `assets/maps/tiles/hoods-town-v1.svg`: original 32×32 production-oriented Town tileset with floors, walls, doors, windows, furniture and props. Inn, Bank and Shop now use it.
 
 ## Map contract
 
@@ -19,25 +19,25 @@ Every zone/chunk JSON should keep these layers:
 - `decor`: non-blocking scenery tiles and interior props.
 - `collisions`: invisible blocking geometry. Precise object rectangles are supported during migration; tile collisions can be used where the grid fits.
 - `roofs`: tiles rendered above actors.
-- `objects`: data objects such as player/NPC spawns, buildings and doors.
+- `objects`: data objects such as player/NPC spawns, buildings, doors and temporary art-source markers during migration.
 - `triggers`: rectangular gameplay/location/door zones.
 
 Map properties:
 
 - `zoneId`: logical zone, for example `town`.
-- `chunkId`: chunk identifier, for example `town-core` or `town-west`.
+- `chunkId`: chunk identifier, for example `town-core`, `town-west` or `town-central-art`.
 - `worldX`, `worldY`: position inside the current world coordinate system during migration.
 - `zLevel`: floor/z-level. `0` is the current outdoor floor.
 
-Objects can include a `z` property so later floors can reuse the same loader without changing the existing gameplay model. A building can set `artSource=tilemap` when its legacy rectangle/furniture drawing has been fully replaced by map layers.
+Objects can include a `z` property so later floors can reuse the same loader without changing the existing gameplay model. A building uses `artSource=tilemap` once its legacy rectangle/furniture drawing has been replaced by map layers. Geometry and art may live in separate migration chunks temporarily, but should be consolidated when Town is finalized.
 
 ## Migration order
 
 1. Town core.
 2. Town buildings/collisions: Bank + Shop + Inn migrated.
 3. The Inn art pilot using `hoods-town-v1`.
-4. Expand the production tileset and move Bank + Shop art into Tilemaps.
-5. Split and fill remaining Town geometry, decor, spawns and triggers.
+4. Bank + Shop art using `hoods-town-v1`.
+5. Fill remaining Town geometry, decor, paths, spawns and triggers; consolidate temporary art chunks where useful.
 6. Wilds.
 7. Ashwood.
 8. Cinder.
