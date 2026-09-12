@@ -51,6 +51,18 @@
   // The original game loads before this bridge, so apply v1/migrated state once now.
   applyStoredState();
 
+  // Keep non-shop drops and quest rewards out of Bram's list while still allowing
+  // them to live in the shared legacy item array for inventory/equipment rendering.
+  const baseRenderShop=renderShop;
+  renderShop=function(){
+    const hidden=[];
+    for(let i=items.length-1;i>=0;i--){
+      if(items[i]?.shop===false) hidden.unshift(items.splice(i,1)[0]);
+    }
+    try{ baseRenderShop(); }
+    finally{ if(hidden.length) nativePush(...hidden); }
+  };
+
   const inventoryApi={
     slots:root.HoodsRPG.EQUIPMENT_SLOTS,
     getItem:id=>root.HoodsRPG.itemById(id),
