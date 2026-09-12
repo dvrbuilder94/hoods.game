@@ -9,6 +9,8 @@ on:
       - 'phaser-*.js'
       - 'phaser-*.css'
       - 'phaser.html'
+      - 'hoods-v2.js'
+      - 'play.html'
       - 'systems/**'
       - 'scripts/**'
       - '.github/workflows/validate-maps.yml'
@@ -19,6 +21,8 @@ on:
       - 'phaser-*.js'
       - 'phaser-*.css'
       - 'phaser.html'
+      - 'hoods-v2.js'
+      - 'play.html'
       - 'systems/**'
       - 'scripts/**'
       - '.github/workflows/validate-maps.yml'
@@ -42,6 +46,7 @@ jobs:
         run: |
           set -euo pipefail
           while IFS= read -r -d '' file; do node --check "$file"; done < <(find . -maxdepth 1 -name 'phaser-*.js' -print0)
+          node --check hoods-v2.js
           while IFS= read -r -d '' file; do node --check "$file"; done < <(find systems -name '*.js' -print0)
       - name: Validate Phaser build references and runtime order
         run: node scripts/validate-build.mjs
