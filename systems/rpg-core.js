@@ -4,7 +4,9 @@
   const VERSION = 1;
   const SAVE_KEY = "hoods-player-v1";
   const LEGACY_SAVE_KEY = "hoods-town-v02";
-  const EQUIPMENT_SLOTS = Object.freeze(["helmet","armor","weapon","shield","legs","boots","outfit"]);
+  // Tibia-style rule: equipment owns gameplay stats. Outfits are full-body skins
+  // managed by HoodsOutfits and never occupy an equipment slot.
+  const EQUIPMENT_SLOTS = Object.freeze(["helmet","armor","weapon","shield","legs","boots"]);
   const RARITIES = Object.freeze(["COMMON","UNCOMMON","RARE","EPIC","LEGENDARY"]);
   const BASE_STATS = Object.freeze({ hp:100, attack:5, defense:3, speed:5, luck:1 });
 
@@ -94,7 +96,7 @@
       version:VERSION,
       currencies:{coins:Math.max(0,Math.floor(Number(runtime?.coins)||0))},
       inventory,
-      equipment:{...createEquipment(),...runtime?.equipped},
+      equipment:{...createEquipment(),...sanitizeEquipment(runtime?.equipped,owned)},
       player:sanitizePlayer(runtime?.player),
       savedAt:new Date().toISOString()
     };
