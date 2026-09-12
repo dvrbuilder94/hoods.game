@@ -1,10 +1,12 @@
-// Hoods V2.4 — Tibia-like building reveal + playable z-level proof.
+// Hoods V2.4.1 — Tibia-like building reveal + playable z-levels.
 // Reads vertical/reveal data from the Town JSON and extends the existing HoodsV2 scene.
 (() => {
-  const CONFIG_URL='maps/town-v2/town-square.json?v=v24';
+  const CONFIG_URL='maps/town-v2/town-square.json?v=v241';
   const TEX='hoods-classic-v1';
   const TILE={grass:0,cobble:2,plaza:3,wood:4,wall:5,barrel:11,table:12,chair:13,rug:14,crate:18};
   const MAX_TRIES=140;
+  const STEP_TRIGGER_RADIUS=24;
+  const STEP_HINT_RADIUS=72;
   let tries=0;
 
   function getScene(){
@@ -43,8 +45,6 @@
         const inside=insideRect(tx,ty,r.b.rect,-.35);
         const margin=Number.isFinite(r.b.revealMargin)?r.b.revealMargin:2.25;
         let near=insideRect(tx,ty,r.b.rect,margin);
-        // The facade side gets one extra tile of reveal reach, but proximity on every side
-        // still works so a player standing beside a house can see the interior like Tibia.
         if(!near&&r.b.frontSide==='south') near=tx>x-1&&tx<x+w+1&&ty>y+h-.2&&ty<y+h+margin+1;
         if(!near&&r.b.frontSide==='north') near=tx>x-1&&tx<x+w+1&&ty<y+.2&&ty>y-margin-1;
         if(!near&&r.b.frontSide==='east') near=ty>y-1&&ty<y+h+1&&tx>x+w-.2&&tx<x+w+margin+1;
@@ -65,24 +65,57 @@
     };
   }
 
-  function makeStair(scene,p,kind,depth=18){
+  function transitionLabel(t){
+    if(t.label)return String(t.label).toUpperCase();
+    if(t.toZ<t.fromZ)return 'DOWN';
+    if(t.toZ>t.fromZ)return 'UP';
+    return 'STAIRS';
+  }
+
+  function makeStair(scene,p,kind,depth=18,label='STAIRS'){
     const {x,y}=tileCenter(scene,p),ts=scene.tileSize;
     const c=scene.add.container(x,y).setDepth(depth);
-    const base=scene.add.rectangle(0,0,ts*.72,ts*.64,kind==='down'?0x40382f:0x736548,.96).setStrokeStyle(2,0x211d19,.9);
-    c.add(base);
-    for(let i=-2;i<=2;i++) c.add(scene.add.rectangle(0,i*4,ts*.52,2,kind==='down'?0xb79a6c:0xe0c88a,.88));
-    c.add(scene.add.text(0,0,kind==='down'?'▼':'▲',{fontFamily:'monospace',fontSize:'9px',fontStyle:'bold',color:'#f1dfaa',stroke:'#17130f',strokeThickness:2}).setOrigin(.5));
+    const glow=scene.add.circle(0,0,ts*.48,kind==='down'?0xb58a54:0xe1cf8f,.12);
+    const base=scene.add.rectangle(0,0,ts*.86,ts*.78,kind==='down'?0x332b25:0x6f6248,.98).setStrokeStyle(2,kind==='down'?0xd0a367:0xf0dda2,1);
+    c.add([glow,base]);
+    for(let i=-2;i<=2;i++)c.add(scene.add.rectangle(0,i*4,ts*.60,2,kind==='down'?0xc09b6d:0xead59a,.95));
+    c.add(scene.add.text(0,-1,kind==='down'?'▼':'▲',{fontFamily:'monospace',fontSize:'12px',fontStyle:'bold',color:'#fff0b9',stroke:'#17130f',strokeThickness:3}).setOrigin(.5));
+    c.add(scene.add.text(0,ts*.60,label,{fontFamily:'monospace',fontSize:'6px',fontStyle:'bold',color:'#fff0bd',backgroundColor:'#17130fdd',padding:{x:3,y:2},stroke:'#17130f',strokeThickness:1}).setOrigin(.5,0));
+    scene.tweens.add({targets:glow,alpha:{from:.08,to:.24},scale:{from:.9,to:1.12},duration:850,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
     return c;
+  }
+
+  function buildingForPoint(config,p){
+    const tx=p[0]+.5,ty=p[1]+.5;
+    return (config.buildings||[]).find(b=>insideRect(tx,ty,b.rect,0))||null;
   }
 
   function createSurfaceStairs(scene,config){
     const markers=[];
     (config.vertical?.transitions||[]).filter(t=>t.fromZ===0).forEach(t=>{
       const kind=t.toZ<0?'down':'up';
-      const marker=makeStair(scene,t.from,kind,19.2);
-      marker.__transitionId=t.id;markers.push(marker);
+      const marker=makeStair(scene,t.from,kind,31.25,transitionLabel(t));
+      marker.__transition=t;
+      marker.__building=buildingForPoint(config,t.from);
+      marker.setVisible(false);
+      markers.push(marker);
     });
     scene.__v24SurfaceStairs=markers;
+  }
+
+  function updateSurfaceMarkers(scene){
+    if((scene.currentZ??0)!==0)return;
+    const ts=scene.tileSize;
+    (scene.__v24SurfaceStairs||[]).forEach(marker=>{
+      const t=marker.__transition,p=tileCenter(scene,t.from);
+      const dist=Phaser.Math.Distance.Between(scene.player.x,scene.player.y,p.x,p.y);
+      let visible=dist<=STEP_HINT_RADIUS*1.55;
+      if(marker.__building){
+        const roof=scene.roofZones.find(r=>r.b.id===marker.__building.id);
+        visible=visible||!!roof?.__v24Revealed||!!roof?.inside;
+      }
+      marker.setVisible(visible);
+    });
   }
 
   function addLevelCollision(scene,rect){
@@ -108,7 +141,6 @@
   function drawLevel(scene,level,config){
     clearLevel(scene);
     const ts=scene.tileSize,[x,y,w,h]=level.rect,objects=[];
-    // Opaque plane hides the surface world while underground/upstairs, exactly one z-level at a time.
     objects.push(scene.add.rectangle(scene.worldW/2,scene.worldH/2,scene.worldW+96,scene.worldH+96,level.z<0?0x151714:0x25241e,1).setDepth(160));
     objects.push(scene.add.rectangle((x+w/2)*ts,(y+h/2)*ts,(w+1)*ts,(h+1)*ts,0x050605,.82).setDepth(164));
     for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++){
@@ -116,10 +148,8 @@
       const kind=edge?(level.wall||'wall'):(level.floor||'cobble');
       objects.push(scene.add.image((xx+.5)*ts,(yy+.5)*ts,TEX,frameFor(kind)).setDepth(edge?181:170));
     }
-    (level.props||[]).forEach(([kind,px,py])=>{
-      objects.push(scene.add.image((px+.5)*ts,(py+1)*ts,TEX,frameFor(kind)).setOrigin(.5,1).setDepth(190+(py*ts)/1000));
-    });
-    (config.vertical?.transitions||[]).filter(t=>t.fromZ===level.z).forEach(t=>objects.push(makeStair(scene,t.from,t.toZ<level.z?'down':'up',196)));
+    (level.props||[]).forEach(([kind,px,py])=>objects.push(scene.add.image((px+.5)*ts,(py+1)*ts,TEX,frameFor(kind)).setOrigin(.5,1).setDepth(190+(py*ts)/1000)));
+    (config.vertical?.transitions||[]).filter(t=>t.fromZ===level.z).forEach(t=>objects.push(makeStair(scene,t.from,t.toZ<level.z?'down':'up',196,transitionLabel(t))));
     const ambient=Number.isFinite(level.ambient)?level.ambient:(level.z<0?.2:.06);
     if(ambient>0)objects.push(scene.add.rectangle((x+w/2)*ts,(y+h/2)*ts,(w-2)*ts,(h-2)*ts,level.z<0?0x1a2519:0xf3d991,ambient).setDepth(185));
     objects.push(scene.add.text((x+w/2)*ts,(y+.42)*ts,`${level.label}  Z${level.z>0?'+':''}${level.z}`,{fontFamily:'monospace',fontSize:'8px',fontStyle:'bold',color:'#e9dfbf',stroke:'#11140f',strokeThickness:3}).setOrigin(.5).setDepth(199));
@@ -128,19 +158,36 @@
   }
 
   function surfaceUi(scene,visible){
-    (scene.__v24SurfaceStairs||[]).forEach(o=>o.setVisible(visible));
     if(!visible){
-      const prompt=document.getElementById('v23Prompt');if(prompt)prompt.hidden=true;
-      const action=document.getElementById('v23Interact');if(action)action.disabled=true;
+      (scene.__v24SurfaceStairs||[]).forEach(o=>o.setVisible(false));
       const dialogue=document.getElementById('v23Dialogue');if(dialogue)dialogue.hidden=true;
     }
   }
 
+  function setTransitionHint(scene,t,dist){
+    const prompt=document.getElementById('v23Prompt');
+    if(!prompt||!t||dist>STEP_HINT_RADIUS)return false;
+    const arrow=t.toZ<t.fromZ?'▼':'▲';
+    prompt.innerHTML=`<span class="v23-key">${arrow}</span> ${transitionLabel(t)} · STEP ON STAIRS`;
+    prompt.hidden=false;
+    const action=document.getElementById('v23Interact');if(action)action.disabled=true;
+    return true;
+  }
+
+  function nearestTransition(scene,config,z){
+    let best=null,bestDist=Infinity;
+    for(const t of (config.vertical?.transitions||[]).filter(t=>t.fromZ===z)){
+      const p=tileCenter(scene,t.from);
+      const dist=Phaser.Math.Distance.Between(scene.player.x,scene.player.y,p.x,p.y);
+      if(dist<bestDist){best=t;bestDist=dist}
+    }
+    return best?{t:best,dist:bestDist}:null;
+  }
+
   function setZ(scene,z,target,config){
-    const ts=scene.tileSize;
-    scene.stopTouch?.();scene.currentZ=z;scene.__v24TransitionLock=performance.now()+720;
+    scene.stopTouch?.();scene.currentZ=z;scene.__v24TransitionLock=performance.now()+820;
     if(z===0){
-      clearLevel(scene);surfaceUi(scene,true);
+      clearLevel(scene);
       scene.player.setDepth(20+scene.player.y/1000);
       scene.setLocation?.('TOWN SQUARE');
     }else{
@@ -160,20 +207,16 @@
     scene.events.on(Phaser.Scenes.Events.UPDATE,()=>{
       const z=scene.currentZ??0,now=performance.now();
       if(z!==0){
-        // Core scene recalculates world depths every frame; put the active-floor actor back above the occlusion plane.
         scene.player.setDepth(220+scene.player.y/1000);
         scene.playerShadow?.setDepth(218+scene.player.y/1000);
         scene.playerName?.setDepth(222+scene.player.y/1000);
         surfaceUi(scene,false);
-      }
-      if(now<scene.__v24TransitionLock)return;
-      const transitions=(config.vertical?.transitions||[]).filter(t=>t.fromZ===z);
-      for(const t of transitions){
-        const p=tileCenter(scene,t.from);
-        if(Phaser.Math.Distance.Between(scene.player.x,scene.player.y,p.x,p.y)<=13){
-          setZ(scene,t.toZ,t.to,config);break;
-        }
-      }
+      }else updateSurfaceMarkers(scene);
+
+      const nearest=nearestTransition(scene,config,z);
+      if(nearest)setTransitionHint(scene,nearest.t,nearest.dist);
+      if(now<scene.__v24TransitionLock||!nearest)return;
+      if(nearest.dist<=STEP_TRIGGER_RADIUS)setZ(scene,nearest.t.toZ,nearest.t.to,config);
     });
   }
 
@@ -182,10 +225,10 @@
     let config=scene.dataMap;
     try{
       const res=await fetch(CONFIG_URL,{cache:'no-store'});if(res.ok)config=await res.json();
-    }catch(err){console.warn('[Hoods V2.4] fresh floor config unavailable, using loaded map',err)}
+    }catch(err){console.warn('[Hoods V2.4.1] fresh floor config unavailable, using loaded map',err)}
     mergeConfig(scene,config);installReveal(scene);installVertical(scene,config);
-    const title=document.querySelector('.v2-hud b');if(title)title.textContent='HOODS V2.4';
-    document.title='Hoods V2.4';
+    const title=document.querySelector('.v2-hud b');if(title)title.textContent='HOODS V2.4.1';
+    document.title='Hoods V2.4.1';
   }
 
   function boot(){
