@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "zoneId": "town",
+  "tileSize": 32,
+  "tilesets": [
+    {
+      "key": "hoods-town-v1",
+      "url": "assets/maps/tiles/hoods-town-v1.svg"
+    }
+  ],
+  "chunks": [
+    {
+      "key": "town-inn-pilot",
+      "url": "maps/town/inn-pilot.json",
+      "enabled": true
+    }
+  ]
+}
