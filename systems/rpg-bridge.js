@@ -6,7 +6,8 @@
   // Keep the current pre-alpha APIs working while moving ownership of item rules
   // and persistence into a reusable RPG layer. Quest rewards remain registered in
   // the core for save validation, but are only added to the legacy item list by
-  // their quest/crafting scripts.
+  // their quest/crafting scripts. Outfits are intentionally not represented here:
+  // HoodsOutfits owns full-body skin selection separately from equipment/stats.
   items.splice(0,items.length,...root.HoodsRPG.catalog.filter(item=>item.shop!==false));
   const nativePush=items.push.bind(items);
   items.push=(...newItems)=>{
@@ -14,7 +15,7 @@
     return nativePush(...newItems);
   };
 
-  state.equipped={...root.HoodsRPG.createEquipment(),...state.equipped};
+  state.equipped={...root.HoodsRPG.createEquipment(),...root.HoodsRPG.sanitizeEquipment(state.equipped,state.owned)};
   state.inventory=state.inventory&&typeof state.inventory==="object"?state.inventory:{};
 
   getStats=function(){
@@ -37,7 +38,7 @@
     if(Number.isFinite(saved.coins)) state.coins=Math.max(0,saved.coins);
     state.owned=new Set(saved.owned||[]);
     state.inventory=saved.inventory&&typeof saved.inventory==="object"?{...saved.inventory}:{};
-    state.equipped={...root.HoodsRPG.createEquipment(),...saved.equipped};
+    state.equipped=root.HoodsRPG.sanitizeEquipment(saved.equipped,state.owned);
     if(saved.player && typeof saved.player==="object") Object.assign(state.player,saved.player);
     return true;
   }
@@ -93,7 +94,7 @@
     },
     equip(id){
       const item=root.HoodsRPG.itemById(id);
-      if(!item?.slot || !state.owned.has(id)) return false;
+      if(!item?.slot || !root.HoodsRPG.EQUIPMENT_SLOTS.includes(item.slot) || !state.owned.has(id)) return false;
       state.equipped[item.slot]=id;
       saveGame();updateUI();renderInventory();renderShop();
       return true;
