@@ -1,7 +1,8 @@
-// Hoods map runtime P7 — manifest-driven Town chunks, layers and z-level registry.
+// Hoods map runtime P8 — manifest-driven chunks, reusable layers and z-level registry.
 (()=>{
 const MANIFEST_KEY='town-manifest-v2';
-const MANIFEST_URL='maps/town/manifest.json?v=map-p7';
+const MANIFEST_URL='maps/town/manifest.json?v=map-p8';
+const ASSET_VERSION='map-p8';
 const props=list=>Object.fromEntries((list||[]).map(p=>[p.name,p.value]));
 const worldObject=(o,ox,oy)=>{const p=props(o.properties);return{...o,props:p,worldX:ox+(o.x||0),worldY:oy+(o.y||0)}};
 function wait(){
@@ -35,16 +36,16 @@ function queueAssets(scene,rawManifest){
  try{manifest=validateManifest(rawManifest)}catch(err){return fail(scene,'manifest validation',err)}
  let queued=false;
  for(const ts of Object.values(manifest.tilesets)){
-  if(!scene.textures.exists(ts.key)){scene.load.svg(ts.key,`${ts.url}?v=map-p7`);queued=true}
+  if(!scene.textures.exists(ts.key)){scene.load.svg(ts.key,`${ts.url}?v=${ASSET_VERSION}`);queued=true}
  }
  for(const def of manifest.chunks){
   if(def.enabled===false)continue;
-  if(!scene.cache.tilemap.exists(def.key)){scene.load.tilemapTiledJSON(def.key,`${def.url}?v=map-p7`);queued=true}
+  if(!scene.cache.tilemap.exists(def.key)){scene.load.tilemapTiledJSON(def.key,`${def.url}?v=${ASSET_VERSION}`);queued=true}
  }
  if(!queued)return install(scene,manifest);
- const failed=new Set();
- scene.load.on('loaderror',file=>{if(file?.key)failed.add(file.key)});
- scene.load.once('complete',()=>install(scene,manifest,failed));
+ const failed=new Set(),onError=file=>{if(file?.key)failed.add(file.key)};
+ scene.load.on('loaderror',onError);
+ scene.load.once('complete',()=>{scene.load.off('loaderror',onError);install(scene,manifest,failed)});
  scene.load.start();
 }
 function installCollisionObjects(scene,map,ox,oy,chunkId,zLevel){
@@ -105,7 +106,7 @@ function install(scene,manifest,failedAssets=new Set()){
   window.HoodsMaps=window.HoodsMaps||{zones:{}};window.HoodsMaps.manifests=window.HoodsMaps.manifests||{};window.HoodsMaps.manifests.town=manifest;window.HoodsMaps.zones.town=chunks;window.HoodsMaps.byZ=window.HoodsMaps.byZ||{};window.HoodsMaps.byZ.town=byZ;
   scene.__hoodsMapLoading=false;scene.__hoodsTownMapReady=true;
   scene.events.emit('hoods-map-ready',{zoneId:'town',chunks:ordered,byZ,manifest});
-  console.info('[Hoods map] P7 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
+  console.info('[Hoods map] P8 manifest loaded',ordered.map(c=>`${c.meta.chunkId}@z${c.meta.zLevel}`).join(', '));
  }catch(err){fail(scene,'install',err)}
 }
 function bindLocationHud(scene,chunks){
