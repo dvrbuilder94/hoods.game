@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "zoneId": "town",
   "tileSize": 32,
   "tilesets": {
@@ -45,6 +45,14 @@
       "tileset": "hoods-town-v1",
       "tilesetName": "hoods-town-v1",
       "sceneAlias": "__hoodsTownExterior",
+      "depths": { "ground": 0.16, "decor": 3.1, "roofs": 28 }
+    },
+    {
+      "key": "town-west-green",
+      "url": "maps/town/town-west-green.json",
+      "tileset": "hoods-town-v1",
+      "tilesetName": "hoods-town-v1",
+      "sceneAlias": "__hoodsTownWestGreen",
       "depths": { "ground": 0.16, "decor": 3.1, "roofs": 28 }
     }
   ]
