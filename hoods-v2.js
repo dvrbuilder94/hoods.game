@@ -1,10 +1,17 @@
-// Hoods V2.3 — responsive town slice with depth-sorted props and enterable buildings.
+// Hoods V2.4.1 — responsive town slice with depth-sorted props, enterable buildings, and scaled enemies.
 (() => {
-const VERSION='v2.3';
+const VERSION='v241';
 const MAP_URL=`maps/town-v2/town-square.json?v=${VERSION}`;
 const MAP_KEY='hoods-town-v2';
 const TILESET_KEY='hoods-classic-v1';
 const CHAR_KEY='hoods-humans-v2';
+const ENEMY_FRAME=80;
+const ENEMY_COLS=9;
+const ENEMY_ROWS=4;
+const ENEMY_DEFS={
+ demon:{key:'hoods-demon-v241',url:'assets/characters/v2/demon-v241.svg',label:'DEMON',bodyW:24,bodyH:16,shadowW:30},
+ dragon:{key:'hoods-dragon-v241',url:'assets/characters/v2/dragon-v241.svg',label:'DRAGON',bodyW:28,bodyH:16,shadowW:40}
+};
 const SAVE_KEY='hoods-town-v02';
 const OUTFIT_KEY='hoods-outfit-v2';
 const GID={grass:0,grass2:1,cobble:2,plaza:3,wood:4,wall:5,door:6,window:7,roof:8,roofEdge:9,tree:10,barrel:11,table:12,chair:13,rug:14,water:15,lamp:16,sign:17,crate:18,flower:19};
@@ -36,16 +43,19 @@ class HoodsV2 extends Phaser.Scene {
    this.depthProps=[];
    this.direction='down';
    this.activeBuilding=null;
+   this.enemyActors=[];
  }
  preload(){
    this.load.json(MAP_KEY,MAP_URL);
    this.load.svg(TILESET_KEY,`assets/maps/tiles/hoods-classic-v1.svg?v=${VERSION}`,{width:256,height:128});
    this.load.svg(CHAR_KEY,`assets/characters/v2/humans-v2.svg?v=${VERSION}`,{width:96,height:384});
+   for(const def of Object.values(ENEMY_DEFS))this.load.svg(def.key,`${def.url}?${VERSION}`,{width:ENEMY_FRAME*ENEMY_COLS,height:ENEMY_FRAME*ENEMY_ROWS});
  }
  create(){
    const d=this.cache.json.get(MAP_KEY);if(!d)throw new Error('Town V2 map missing');
    const ts=d.tileSize||32;this.dataMap=d;this.tileSize=ts;
    this.installCharacterFrames();
+   this.installEnemyFrames();
    this.installTileFrames();
    this.map=this.make.tilemap({tileWidth:ts,tileHeight:ts,width:d.width,height:d.height});
    const tiles=this.map.addTilesetImage(TILESET_KEY,TILESET_KEY,32,32,0,0);
@@ -58,8 +68,10 @@ class HoodsV2 extends Phaser.Scene {
    this.cameras.main.setBounds(0,0,this.worldW,this.worldH).setRoundPixels(true).setBackgroundColor('#708e4a');
    this.installCollisions(d);
    this.makeAnimations();
+   this.makeEnemyAnimations();
    this.createPlayer(d);
    this.makeNpcs(d);
+   this.createEnemies(d);
    this.installCamera();
    this.keys=this.input.keyboard.addKeys('W,A,S,D,I,ESC');this.cursors=this.input.keyboard.createCursorKeys();
    this.keys.I.on('down',()=>this.toggleBag());this.keys.ESC.on('down',()=>this.closeBag());
@@ -70,6 +82,14 @@ class HoodsV2 extends Phaser.Scene {
    const tex=this.textures.get(CHAR_KEY);if(!tex||tex.key==='__MISSING')throw new Error('Character atlas failed to load');
    for(let row=0;row<8;row++)for(let col=0;col<3;col++){
      const idx=row*3+col,key=String(idx);if(!tex.has(key))tex.add(key,0,col*32,row*48,32,48);
+   }
+ }
+ installEnemyFrames(){
+   for(const def of Object.values(ENEMY_DEFS)){
+     const tex=this.textures.get(def.key);if(!tex||tex.key==='__MISSING')throw new Error(`${def.label} atlas failed to load`);
+     for(let row=0;row<ENEMY_ROWS;row++)for(let col=0;col<ENEMY_COLS;col++){
+       const idx=row*ENEMY_COLS+col,key=String(idx);if(!tex.has(key))tex.add(key,0,col*ENEMY_FRAME,row*ENEMY_FRAME,ENEMY_FRAME,ENEMY_FRAME);
+     }
    }
  }
  installTileFrames(){
@@ -84,6 +104,42 @@ class HoodsV2 extends Phaser.Scene {
      const key=`${outfit}-${dir}`,start=cfg.base+row*3;
      if(!this.anims.exists(key))this.anims.create({key,frames:[0,1,2,1].map(i=>({key:CHAR_KEY,frame:String(start+i)})),frameRate:7,repeat:-1});
    }
+ }
+ makeEnemyAnimations(){
+   for(const [kind,def] of Object.entries(ENEMY_DEFS))for(const [dir,row] of Object.entries(DIR_ROW)){
+     const frame=col=>String(row*ENEMY_COLS+col),base=`${kind}-`;
+     if(!this.anims.exists(`${base}idle-${dir}`))this.anims.create({key:`${base}idle-${dir}`,frames:[{key:def.key,frame:frame(0)}],frameRate:1,repeat:-1});
+     if(!this.anims.exists(`${base}walk-${dir}`))this.anims.create({key:`${base}walk-${dir}`,frames:[1,2,3,4,3,2].map(col=>({key:def.key,frame:frame(col)})),frameRate:8,repeat:-1});
+     if(!this.anims.exists(`${base}attack-${dir}`))this.anims.create({key:`${base}attack-${dir}`,frames:[5,6,7,8].map(col=>({key:def.key,frame:frame(col)})),frameRate:12,repeat:0});
+   }
+ }
+ createEnemies(d){
+   const ts=this.tileSize,spawns=d.enemies||[
+     {id:'demon',name:'Demon',x:14,y:13},
+     {id:'dragon',name:'Dragon',x:20,y:13}
+   ];
+   this.enemyActors=[];
+   spawns.forEach((n,index)=>{
+     const def=ENEMY_DEFS[n.id];if(!def)return;
+     const x=n.x*ts+ts/2,y=n.y*ts+ts/2;
+     const sprite=this.physics.add.sprite(x,y,def.key,'0').setOrigin(.5,.875).setDepth(20+y/1000);
+     sprite.body.setSize(def.bodyW,def.bodyH).setOffset((ENEMY_FRAME-def.bodyW)/2,ENEMY_FRAME-def.bodyH-10).setAllowGravity(false).setImmovable(true);
+     const shadow=this.add.ellipse(x,y+12,def.shadowW,7,0x081006,.28).setDepth(sprite.depth-.02);
+     const label=this.add.text(x,y-49,def.label,{fontFamily:'monospace',fontSize:'8px',fontStyle:'bold',color:n.id==='dragon'?'#d6ef9b':'#ffb073',stroke:'#171a14',strokeThickness:3}).setOrigin(.5).setDepth(sprite.depth+2);
+     this.enemyActors.push({id:n.id,sprite,shadow,label,index,cycleOffset:index*520});
+   });
+ }
+ updateEnemies(time){
+   const actions=[['idle',900],['walk',1000],['attack',420]],cycleTotal=2320;
+   this.enemyActors.forEach(actor=>{
+     const t=(time+actor.cycleOffset)%cycleTotal;let elapsed=0,action='idle';
+     for(const [name,duration] of actions){if(t<elapsed+duration){action=name;break}elapsed+=duration;}
+     const dir=Object.keys(DIR_ROW)[Math.floor((time+actor.index*700)/3200)%4];
+     actor.sprite.anims.play(`${actor.id}-${action}-${dir}`,true);
+     actor.sprite.setDepth(20+actor.sprite.y/1000);
+     actor.label.setPosition(actor.sprite.x,actor.sprite.y-49).setDepth(actor.sprite.depth+2);
+     actor.shadow.setPosition(actor.sprite.x,actor.sprite.y+12).setDepth(actor.sprite.depth-.02);
+   });
  }
  installCamera(){
    this.cameras.main.startFollow(this.player,true,.14,.14);
@@ -206,6 +262,7 @@ class HoodsV2 extends Phaser.Scene {
    const bagOpen=!document.getElementById('v2Bag').hidden;let dx=0,dy=0;if(!bagOpen){if(this.cursors.left.isDown||this.keys.A.isDown||this.touch.left)dx--;if(this.cursors.right.isDown||this.keys.D.isDown||this.touch.right)dx++;if(this.cursors.up.isDown||this.keys.W.isDown||this.touch.up)dy--;if(this.cursors.down.isDown||this.keys.S.isDown||this.touch.down)dy++}
    const v=new Phaser.Math.Vector2(dx,dy),moving=v.lengthSq()>0;if(moving){v.normalize().scale(132);this.player.setVelocity(v.x,v.y);this.direction=Math.abs(dx)>Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down');this.player.anims.play(`${state.outfit}-${this.direction}`,true)}else{this.player.setVelocity(0);this.player.anims.stop();this.player.setFrame(String(this.frameFor(state.outfit,this.direction,1)))}
    this.player.setDepth(20+this.player.y/1000);this.playerName.setPosition(this.player.x,this.player.y-31).setDepth(this.player.depth+2);this.playerShadow.setPosition(this.player.x,this.player.y+10).setDepth(this.player.depth-.02).setScale(moving?1+.03*Math.sin(time/90):1,1);
+   this.updateEnemies(time);
    this.updateBuildingState();
  }
 }
