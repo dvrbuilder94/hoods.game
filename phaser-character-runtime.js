@@ -1,4 +1,4 @@
-// Live bridge for Hoods Character System v1.0 — outfits are visual identity; gear stays stats-only.
+// Live bridge for Hoods Character System v1.2 — outfits are visual identity; gear stays stats-only.
 (() => {
 const OUTFIT_KEY='hoods-outfit-v1',GAME_SAVE_KEY='hoods-town-v02';
 const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')||fallback}catch{return fallback}};
@@ -18,11 +18,14 @@ function install(scene){
   const mountPlayer=()=>{
     scene.player.removeAll(true);scene.bodyShape=null;scene.head=null;scene.legs=null;
     scene.hoodsAvatar=window.HoodsCharacter.install(scene,scene.player,{outfit:outfitState.selected,label:'Hood'});
-    scene.player.setSize(32,48);scene.player.body?.setSize(30,42).setOffset(-15,-21);
+    scene.hoodsAvatar?.sprite?.setScale(1.2);
+    scene.hoodsAvatar?.root?.setY(-3);
+    scene.player.setSize(34,50);scene.player.body?.setSize(30,42).setOffset(-15,-21);
   };
   const mountNpc=(container,outfit,label)=>{
     if(!container)return null;container.removeAll(true);
-    return window.HoodsCharacter.install(scene,container,{outfit,label,npc:true,direction:'down'});
+    const avatar=window.HoodsCharacter.install(scene,container,{outfit,label,npc:true,direction:'down'});
+    avatar?.sprite?.setScale(1.1);avatar?.root?.setY(-2);return avatar;
   };
   mountPlayer();
   scene.hoodsNpcAvatars={bram:mountNpc(scene.bram,'merchant','OLD BRAM'),mara:mountNpc(scene.mara,'warden','MARA THE WARDEN')};
@@ -64,7 +67,7 @@ function install(scene){
   document.getElementById('mobileAttack')?.addEventListener('pointerdown',attackVisual,{passive:true});
   scene.input.keyboard.on('keydown-SPACE',attackVisual);scene.input.keyboard.on('keydown-F',attackVisual);
   window.HoodsOutfits={state:outfitState,catalog,select,buy,unlock(id){if(!catalog[id]?.player)return false;outfitState.owned.add(id);saveOutfits();return true},selected:()=>outfitState.selected,owned:id=>outfitState.owned.has(id)};
-  console.info('[Hoods outfits] v1 mounted',outfitState.selected,'NPCs share human atlas');
+  console.info('[Hoods outfits] v1.2 mounted',outfitState.selected,'NPCs share human atlas');
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wait,60));else setTimeout(wait,60);
 })();
