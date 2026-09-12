@@ -45,5 +45,8 @@ function install(scene){
   console.info('[Hoods map] P2 loaded',scene.__hoodsTownMap.meta,'collision objects',collisionBodies.length);
  }catch(err){scene.__hoodsTownMap=null;console.warn('[Hoods map] Town install failed, legacy world kept',err)}
 }
+if(new URLSearchParams(location.search).get('chunks')==='v1'){
+ const script=document.createElement('script');script.src='phaser-chunks-runtime.js?v=town-v1';script.async=true;document.head.appendChild(script);
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wait,50));else setTimeout(wait,50);
 })();
