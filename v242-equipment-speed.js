@@ -1,14 +1,14 @@
-// Hoods V2.4.3 — derive equipped gameplay stats in one place.
+// Hoods V2.4.4 — derive equipped gameplay stats safely in one place.
 (() => {
   const SAVE_KEY='hoods-town-v02';
   const MAX_TRIES=120;
   const BASE={hp:100,attack:5,defense:3,speed:0,luck:0};
   const ITEM_STATS={
-    'iron-sword':{attack:5},
-    'iron-helmet':{defense:2},
-    'leather-armor':{hp:10,defense:3},
-    'wooden-shield':{defense:2},
-    'ranger-boots':{speed:2,luck:1}
+    'iron-sword':{slot:'weapon',stats:{attack:5}},
+    'iron-helmet':{slot:'helmet',stats:{defense:2}},
+    'leather-armor':{slot:'armor',stats:{hp:10,defense:3}},
+    'wooden-shield':{slot:'shield',stats:{defense:2}},
+    'ranger-boots':{slot:'boots',stats:{speed:2,luck:1}}
   };
   let tries=0;
 
@@ -16,8 +16,11 @@
     const out={...BASE};
     try{
       const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
-      for(const id of Object.values(raw?.equipped||{})){
-        for(const [stat,value] of Object.entries(ITEM_STATS[id]||{})) out[stat]=(out[stat]||0)+value;
+      const owned=new Set(Array.isArray(raw?.owned)?raw.owned:[]);
+      for(const [slot,id] of Object.entries(raw?.equipped||{})){
+        const item=ITEM_STATS[id];
+        if(!item||item.slot!==slot||!owned.has(id)) continue;
+        for(const [stat,value] of Object.entries(item.stats)) out[stat]=(out[stat]||0)+value;
       }
     }catch{}
     return out;
@@ -37,8 +40,8 @@
   };
 
   const mount=scene=>{
-    if(scene.__v243StatsMounted) return;
-    scene.__v243StatsMounted=true;
+    if(scene.__v244StatsMounted) return;
+    scene.__v244StatsMounted=true;
     const player=scene.player;
     const originalVelocity=player.setVelocity.bind(player);
     player.setVelocity=(x=0,y=x)=>{
