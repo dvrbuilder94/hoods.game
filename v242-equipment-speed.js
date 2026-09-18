@@ -1,6 +1,7 @@
-// Hoods V2.4.5 — derive equipped gameplay stats safely and sanitize persisted equipment.
+// Hoods V2.4.6 — derive equipped gameplay stats safely and sanitize persisted equipment.
 (() => {
   const SAVE_KEY='hoods-town-v02';
+  const RELOAD_GUARD='hoods-v246-sanitized';
   const MAX_TRIES=120;
   const BASE={hp:100,attack:5,defense:3,speed:0,luck:0};
   const ITEM_STATS={
@@ -23,8 +24,9 @@
       equipped[slot]=item&&item.slot===slot&&owned.has(id)?id:null;
     }
     const next={...raw,owned:[...owned],equipped};
+    const changed=JSON.stringify(raw)!==JSON.stringify(next);
     try{localStorage.setItem(SAVE_KEY,JSON.stringify(next))}catch{}
-    return next;
+    return {next,changed};
   };
 
   const derivedStats=()=>{
@@ -51,9 +53,15 @@
   };
 
   const mount=scene=>{
-    if(scene.__v245StatsMounted) return;
-    scene.__v245StatsMounted=true;
-    sanitizeSave();
+    if(scene.__v246StatsMounted) return;
+    scene.__v246StatsMounted=true;
+    const sanitized=sanitizeSave();
+    if(sanitized.changed&&sessionStorage.getItem(RELOAD_GUARD)!=='1'){
+      sessionStorage.setItem(RELOAD_GUARD,'1');
+      location.reload();
+      return;
+    }
+    sessionStorage.removeItem(RELOAD_GUARD);
     const player=scene.player;
     const originalVelocity=player.setVelocity.bind(player);
     player.setVelocity=(x=0,y=x)=>{
