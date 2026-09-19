@@ -1,4 +1,4 @@
-// Hoods V2.4.6 — derive equipped gameplay stats safely and sanitize persisted equipment.
+// Hoods V2.4.7 — derive equipped gameplay stats safely and sanitize persisted equipment.
 (() => {
   const SAVE_KEY='hoods-town-v02';
   const RELOAD_GUARD='hoods-v246-sanitized';
@@ -17,7 +17,10 @@
   const readSave=()=>{try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'{}')}catch{return {}}};
   const sanitizeSave=()=>{
     const raw=readSave();
-    const owned=new Set(Array.isArray(raw?.owned)?raw.owned.filter(id=>ITEM_STATS[id]):[]);
+    // Match the core game's fresh-save behavior: absent legacy `owned` means the starter set,
+    // while an explicit array (including an empty one) remains authoritative.
+    const ownedSource=Array.isArray(raw?.owned)?raw.owned:Object.keys(ITEM_STATS);
+    const owned=new Set(ownedSource.filter(id=>ITEM_STATS[id]));
     const equipped={};
     for(const slot of VALID_SLOTS){
       const id=raw?.equipped?.[slot],item=ITEM_STATS[id];
