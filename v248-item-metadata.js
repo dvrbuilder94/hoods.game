@@ -1,4 +1,4 @@
-// Hoods V2.4.8 — lightweight item rarity and coin-price metadata for the playable beta.
+// Hoods V2.4.9 — item metadata plus equipment-bag movement safety.
 (() => {
   const META={
     'Iron Sword':{rarity:'COMMON',price:55},
@@ -23,4 +23,16 @@
   const bag=document.getElementById('v2BagItems');
   if(bag) new MutationObserver(decorate).observe(bag,{childList:true,subtree:true});
   decorate();
+
+  const panel=document.getElementById('v2Bag');
+  const findScene=()=>((window.Phaser&&Phaser.GAMES)||[]).map(g=>g?.scene?.getScene('HoodsV2')).find(s=>s?.sys?.isActive()&&s.player);
+  const syncMovement=()=>{
+    const scene=findScene();if(!scene||!panel)return;
+    const enabled=panel.hidden;
+    const keys=[scene.keys?.W,scene.keys?.A,scene.keys?.S,scene.keys?.D,scene.cursors?.left,scene.cursors?.right,scene.cursors?.up,scene.cursors?.down].filter(Boolean);
+    keys.forEach(key=>{if(!enabled)key.reset?.();key.enabled=enabled});
+    if(!enabled){scene.stopTouch?.();scene.player.setVelocity(0)}
+  };
+  if(panel)new MutationObserver(syncMovement).observe(panel,{attributes:true,attributeFilter:['hidden']});
+  setTimeout(syncMovement,0);
 })();
