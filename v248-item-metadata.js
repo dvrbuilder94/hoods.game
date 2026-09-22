@@ -9,6 +9,11 @@
   };
   window.HOODS_ITEM_META=Object.freeze(META);
 
+  // Keep the visible build label aligned with the runtime patch actually loaded by play.html.
+  document.title='Hoods V2.4.9';
+  const hudVersion=document.querySelector('.v2-hud b');
+  if(hudVersion) hudVersion.textContent='HOODS V2.4.9';
+
   const decorate=()=>{
     document.querySelectorAll('#v2BagItems .v2-item').forEach(row=>{
       if(row.dataset.meta==='1') return;
