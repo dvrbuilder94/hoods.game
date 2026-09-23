@@ -1,4 +1,4 @@
-// Hoods V2.4.7 — derive equipped gameplay stats safely and sanitize persisted equipment.
+// Hoods V2.4.10 — equipment stats and save validation.
 (() => {
   const SAVE_KEY='hoods-town-v02';
   const RELOAD_GUARD='hoods-v246-sanitized';
@@ -13,12 +13,9 @@
   };
   const VALID_SLOTS=['helmet','weapon','armor','shield','legs','boots'];
   let tries=0;
-
   const readSave=()=>{try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'{}')}catch{return {}}};
   const sanitizeSave=()=>{
     const raw=readSave();
-    // Match the core game's fresh-save behavior: absent legacy `owned` means the starter set,
-    // while an explicit array (including an empty one) remains authoritative.
     const ownedSource=Array.isArray(raw?.owned)?raw.owned:Object.keys(ITEM_STATS);
     const owned=new Set(ownedSource.filter(id=>ITEM_STATS[id]));
     const equipped={};
@@ -26,12 +23,12 @@
       const id=raw?.equipped?.[slot],item=ITEM_STATS[id];
       equipped[slot]=item&&item.slot===slot&&owned.has(id)?id:null;
     }
-    const next={...raw,owned:[...owned],equipped};
+    const coins=Number.isFinite(raw?.coins)?Math.max(0,Math.floor(raw.coins)):120;
+    const next={...raw,coins,owned:[...owned],equipped};
     const changed=JSON.stringify(raw)!==JSON.stringify(next);
     try{localStorage.setItem(SAVE_KEY,JSON.stringify(next))}catch{}
     return {next,changed};
   };
-
   const derivedStats=()=>{
     const out={...BASE},raw=readSave(),owned=new Set(Array.isArray(raw?.owned)?raw.owned:[]);
     for(const [slot,id] of Object.entries(raw?.equipped||{})){
@@ -41,7 +38,6 @@
     }
     return out;
   };
-
   const getScene=()=>{
     for(const game of (window.Phaser&&Phaser.GAMES)||[]){
       const scene=game?.scene?.getScene?.('HoodsV2');
@@ -49,12 +45,10 @@
     }
     return null;
   };
-
   const refreshStatsHud=()=>{
     const s=derivedStats(),el=document.getElementById('v2Stats');
     if(el) el.textContent=`HP ${s.hp} · ATK ${s.attack} · DEF ${s.defense} · SPD ${s.speed} · LCK ${s.luck}`;
   };
-
   const mount=scene=>{
     if(scene.__v246StatsMounted) return;
     scene.__v246StatsMounted=true;
@@ -77,13 +71,11 @@
     scene.refreshHud?.();
     refreshStatsHud();
   };
-
   const boot=()=>{
     const scene=getScene();
     if(scene){mount(scene);return}
     if(++tries<MAX_TRIES) setTimeout(boot,100);
   };
-
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,0));
   else boot();
 })();
