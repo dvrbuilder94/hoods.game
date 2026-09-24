@@ -1,4 +1,4 @@
-// Hoods V2.4.9 — item metadata plus equipment-bag movement safety.
+// Hoods V2.4.10 — item metadata plus equipment-bag movement safety.
 (() => {
   const META={
     'Iron Sword':{rarity:'COMMON',price:55},
@@ -10,9 +10,9 @@
   window.HOODS_ITEM_META=Object.freeze(META);
 
   // Keep the visible build label aligned with the runtime patch actually loaded by play.html.
-  document.title='Hoods V2.4.9';
+  document.title='Hoods V2.4.10';
   const hudVersion=document.querySelector('.v2-hud b');
-  if(hudVersion) hudVersion.textContent='HOODS V2.4.9';
+  if(hudVersion) hudVersion.textContent='HOODS V2.4.10';
 
   const decorate=()=>{
     document.querySelectorAll('#v2BagItems .v2-item').forEach(row=>{
